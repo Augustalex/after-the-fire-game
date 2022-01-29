@@ -10,16 +10,14 @@ public class PlayerGrower : MonoBehaviour
     private bool _maxSizeReached;
     private Vector3 _originalSize;
 
-    // Start is called before the first frame update
     void Start()
     {
-        _rigidbody = GetComponent<Rigidbody>();
-        _controller = GetComponent<PlayerController>();
+        _rigidbody = GetComponent<SphereCollider>().attachedRigidbody;
+        _controller = GetComponentInParent<PlayerController>();
 
         _originalSize = transform.localScale;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (_controller.Stunned()) return;

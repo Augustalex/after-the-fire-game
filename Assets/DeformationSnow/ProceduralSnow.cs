@@ -24,6 +24,8 @@ public class ProceduralSnow : MonoBehaviour
     private MeshCollider _meshCollider;
     private bool _doneGenerating;
     private PlayerGrower _playerGrower;
+    private bool _setup;
+    private PlayerModeController _playerModeController;
 
     private const int VectorRowCount = 42;
 
@@ -39,14 +41,20 @@ public class ProceduralSnow : MonoBehaviour
 
     private void Start()
     {
-        _player = FindObjectOfType<PlayerController>();
-        _playerGrower = FindObjectOfType<PlayerGrower>();
-        _playerRigidbody = _player.GetComponent<Rigidbody>();
+        _playerModeController = FindObjectOfType<PlayerModeController>();
     }
 
     private void FixedUpdate()
     {
         if (!_doneGenerating) return;
+        if (!_playerModeController.IsSnowBall()) return;
+        if (!_setup)
+        {
+            _player = FindObjectOfType<PlayerController>();
+            _playerGrower = _player.GetComponentInChildren<PlayerGrower>();
+            _playerRigidbody = _playerGrower.GetComponent<SphereCollider>().attachedRigidbody;
+            _setup = true;
+        }
 
         if (Vector3.Distance(_player.transform.position, transform.position) >
             ProceduralLandscapeGenerator.GridSize + GridCullingMargin) return;
