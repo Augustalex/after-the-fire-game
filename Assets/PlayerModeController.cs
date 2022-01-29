@@ -38,20 +38,25 @@ public class PlayerModeController : MonoBehaviour
         {
             Debug.Log($"OnIsland(): {OnIsland()}");
         }
-        
-        if (OnIsland())
-        {
-            SetToWalkingMode();
-        }
-        else
-        {
-            SetToBallMode();
-        }
+
+        // if (OnIsland())
+        // {
+        //     SetToWalkingMode();
+        // }
+        // else
+        // {
+        //     SetToBallMode();
+        // }
 
         if (_isBall)
         {
             hogRoot.transform.position = ballRoot.transform.position;
             hogRoot.transform.rotation = ballRoot.transform.rotation;
+        }
+        else
+        {
+            ballRoot.transform.position = hogRoot.transform.position;
+            ballRoot.transform.rotation = hogRoot.transform.rotation;
         }
 
         // if (Input.GetKeyDown(KeyCode.X))
@@ -71,8 +76,11 @@ public class PlayerModeController : MonoBehaviour
         // }
     }
 
-    private void SetToBallMode()
+    public void SetToBallMode()
     {
+        Debug.Log("SET TO BALL MODE");
+
+        hogRoot.GetComponent<Animator>().SetBool("IsWalking", false);
         hogRoot.GetComponent<Animator>().SetBool("IsBall", true);
         _hogCharacterController.enabled = false;
         _hogThirdPersonController.enabled = false;
@@ -88,25 +96,33 @@ public class PlayerModeController : MonoBehaviour
         _isBall = true;
     }
 
-    private void SetToWalkingMode()
+    public void SetToWalkingMode()
     {
+        Debug.Log("SET TO WALKING MODE");
         _ballInput.enabled = false;
         _ballRigidbody.isKinematic = true;
         _ballCollider.enabled = false;
         ballRoot.SetActive(false);
 
-        hogRoot.GetComponent<Animator>().SetBool("IsBall", false);
+        var zeroRotation = Quaternion.identity;
+        var currentRotation = hogRoot.transform.rotation.eulerAngles;
+        hogRoot.transform.rotation = Quaternion.Euler(
+            zeroRotation.x,
+            currentRotation.y - 180f,
+            zeroRotation.z
+        );
         _hogCharacterController.enabled = true;
         _hogThirdPersonController.enabled = true;
         _hogInput.enabled = true;
         _hogCollider.enabled = true;
+        hogRoot.GetComponent<Animator>().SetBool("IsBall", false);
 
         _isBall = false;
     }
 
     private bool OnIsland()
     {
-        return Physics.OverlapSphere(ballRoot.transform.position, 5f).Any(hit => hit.CompareTag("Island"));
+        return Physics.OverlapSphere(ballRoot.transform.position, 3f).Any(hit => hit.CompareTag("Island"));
     }
 
     public bool IsSnowBall()
