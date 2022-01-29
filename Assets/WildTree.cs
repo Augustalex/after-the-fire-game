@@ -31,7 +31,7 @@ public class WildTree : MonoBehaviour
             _swingTimeLeft -= Time.deltaTime;
 
             var progress = Mathf.Clamp((_swingTimeLeft) / SwingTime, 0f, 1f);
-            transform.rotation = Quaternion.Slerp(_originalRotation, _swings[0], 1f - progress);
+            transform.rotation = KeepY(Quaternion.Lerp(_originalRotation, _swings[0], 1f - progress));
 
             if (progress <= 0)
             {
@@ -96,12 +96,17 @@ public class WildTree : MonoBehaviour
     private Quaternion GenerateRandomShakeOffset(float scale)
     {
         var offset = RandomShakeOffset();
-        var offsetYAligned = new Vector3(
-            offset.x,
-            transform.rotation.eulerAngles.y,
-            offset.z
-        );
-        return Quaternion.Euler(offsetYAligned * scale);
+        return KeepY(Quaternion.Euler(offset * scale));
+    }
+
+    private Quaternion KeepY(Quaternion other)
+    {
+        return new Quaternion(
+            other.x,
+            _zeroRotation.y,
+            other.z,
+            _zeroRotation.w
+            );
     }
 
     private Vector3 RandomShakeOffset()
