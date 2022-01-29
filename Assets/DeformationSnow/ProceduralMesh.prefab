@@ -126,4 +126,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   treeTemplates:
   - {fileID: 1008090094371036101, guid: 8607b48bcbf9fb244a719d97516e7437, type: 3}
-  - {fileID: 6195188182773106849, guid: 496d9c0fd9bf582418601665497e6b2e, type: 3}
+  - {fileID: 1008090094371036101, guid: 45a2140219dd0714fa2303388044c453, type: 3}
