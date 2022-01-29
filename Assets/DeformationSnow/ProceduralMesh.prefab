@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3969557427684817584}
   - component: {fileID: 2366402817860052529}
   - component: {fileID: 1341791774985040071}
+  - component: {fileID: 5766340276581437026}
   m_Layer: 0
   m_Name: ProceduralMesh
   m_TagString: Untagged
@@ -111,3 +112,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   recalculateNormals: 1
   snowHeight: 6
+--- !u!114 &5766340276581437026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3176813460889869157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecd90909e304a4e48b63d982da300c55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  treeTemplate: {fileID: 1008090094371036101, guid: 8607b48bcbf9fb244a719d97516e7437, type: 3}
