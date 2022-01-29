@@ -124,4 +124,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecd90909e304a4e48b63d982da300c55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  treeTemplate: {fileID: 1008090094371036101, guid: 8607b48bcbf9fb244a719d97516e7437, type: 3}
+  treeTemplates:
+  - {fileID: 1008090094371036101, guid: 8607b48bcbf9fb244a719d97516e7437, type: 3}
