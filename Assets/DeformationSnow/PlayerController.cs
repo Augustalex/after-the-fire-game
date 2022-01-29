@@ -9,7 +9,10 @@ public class PlayerController : MonoBehaviour
     private double _cooldown;
     private float _boostMeter;
 
+    private const float JumpForce = 12f;
+
     private Vector2 _move;
+    private bool _inAir;
 
     void Start()
     {
@@ -28,6 +31,15 @@ public class PlayerController : MonoBehaviour
     
     void Update()
     {
+        if (_inAir)
+        {
+            var hitGround = Physics.Raycast(transform.position, Vector3.down, 1f);
+            if (hitGround) _inAir = false;
+            return;
+        }
+        
+        Debug.Log(_inAir);
+        
         if (_rigidbody.velocity.magnitude > 10f)
         {
             _rigidbody.drag = 1f;
@@ -49,7 +61,8 @@ public class PlayerController : MonoBehaviour
         {
             if (Physics.OverlapSphere(transform.position, transform.localScale.x * .5f).Length > 1)
             {
-                _rigidbody.AddForce(Vector3.up * 8f, ForceMode.Impulse);
+                _inAir = true;
+                _rigidbody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
             }
         }
 
@@ -78,10 +91,9 @@ public class PlayerController : MonoBehaviour
         {
             _moving = true;
 
-            var xScale = .5f;
-            var xShiftBoost = 1400f * xScale;
-            var xSpeed = 900f * xScale;
-            var xBoost = 5000f * xScale;
+            var xShiftBoost = 1000f;
+            var xSpeed = 1000f;
+            var xBoost = 2500f;
 
             var shiftBoost = Boosting() ? xShiftBoost : 0f;
             var minSpeed = 3f;
