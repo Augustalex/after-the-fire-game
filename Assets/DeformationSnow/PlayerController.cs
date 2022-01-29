@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Numerics;
 using DeformationSnow;
@@ -39,7 +40,7 @@ public class PlayerController : MonoBehaviour
     {
         _jump = value.isPressed;
     }
-    
+
     public void OnSprint(InputValue value)
     {
         _sprint = value.isPressed;
@@ -92,11 +93,11 @@ public class PlayerController : MonoBehaviour
         }
 
         var direction = new Vector3(_move.x, 0, _move.y);
-        
+
         if (_jump)
         {
             var grounded = Physics.OverlapSphere(transform.position, transform.localScale.x * .6f).Length > 1;
-            
+
             if (grounded)
             {
                 _inAirCooldown = 1f;
@@ -104,7 +105,7 @@ public class PlayerController : MonoBehaviour
                 _rigidbody.AddForce(Vector3.up * data.jumpForce + direction * 8f, ForceMode.Impulse);
             }
         }
-        
+
         if (direction != Vector3.zero)
         {
             _moving = true;
@@ -171,7 +172,7 @@ public class PlayerController : MonoBehaviour
     public void HitTree()
     {
         _stunnedCooldown = data.treeHitStunTime;
-        
+
         _rigidbody.AddForce(-_rigidbody.velocity * 1.5f, ForceMode.Impulse);
     }
 
