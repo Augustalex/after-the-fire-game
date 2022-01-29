@@ -46,6 +46,14 @@ public class PlayerController : MonoBehaviour
         _sprint = value.isPressed;
     }
 
+    public void OnSwitchMode(InputValue value)
+    {
+        if (value.isPressed)
+        {
+            GetComponentInParent<PlayerModeController>().SetToWalkingMode();
+        }
+    }
+
     void Update()
     {
         AddExtraGravityIfOnIsland();

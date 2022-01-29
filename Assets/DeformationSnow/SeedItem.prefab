@@ -74,15 +74,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c88c06fe6bb5a504484ca2b7caa8831f, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.1064944
+      value: 0.23604484
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c88c06fe6bb5a504484ca2b7caa8831f, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.080361
+      value: 0.17812017
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c88c06fe6bb5a504484ca2b7caa8831f, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.09975211
+      value: 0.22110057
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c88c06fe6bb5a504484ca2b7caa8831f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -128,6 +128,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 5ebf02fca4c663b4aa16796aee552f65, type: 2}
+    - target: {fileID: -5754084199372789682, guid: c88c06fe6bb5a504484ca2b7caa8831f, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 2804762351221276474, guid: aee4c5692e1770641909cc2cc7e92c89, type: 3}
     - target: {fileID: 919132149155446097, guid: c88c06fe6bb5a504484ca2b7caa8831f, type: 3}
       propertyPath: m_Name
       value: pinecone
@@ -155,5 +159,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.1259542, y: 4.246764, z: 2.087872}
-  m_Center: {x: -0.000000059604645, y: 1.0102481, z: -0.000000059604645}
+  m_Size: {x: 2.1259542, y: 4.5921025, z: 2.087872}
+  m_Center: {x: 0, y: 1.9470791, z: -0.0000000673954}
