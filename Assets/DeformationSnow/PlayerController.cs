@@ -1,5 +1,7 @@
+using System.Linq;
 using System.Numerics;
 using DeformationSnow;
+using TMPro;
 using UnityEditor.Timeline.Actions;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -21,6 +23,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 _previousPosition;
     private bool _jump;
     private bool _sprint;
+    private float _stunnedCooldown;
 
     void Start()
     {
@@ -42,8 +45,16 @@ public class PlayerController : MonoBehaviour
         _sprint = value.isPressed;
     }
 
-    void FixedUpdate()
+    void Update()
     {
+        AddExtraGravityIfOnIsland();
+
+        if (Stunned())
+        {
+            _stunnedCooldown -= Time.deltaTime;
+            return;
+        }
+
         if (_inAir)
         {
             _rigidbody.drag = 1f;
@@ -124,6 +135,14 @@ public class PlayerController : MonoBehaviour
         _jump = false;
     }
 
+    private void AddExtraGravityIfOnIsland()
+    {
+        if (Physics.OverlapSphere(transform.position, 2f).Any(hit => hit.CompareTag("Island")))
+        {
+            _rigidbody.AddForce(Vector3.down * 200f * Time.deltaTime, ForceMode.Acceleration);
+        }
+    }
+
     public Vector3 GetPreviousPosition()
     {
         return _previousPosition;
@@ -147,5 +166,17 @@ public class PlayerController : MonoBehaviour
     public float BoostJuice()
     {
         return _boostMeter;
+    }
+
+    public void HitTree()
+    {
+        _stunnedCooldown = data.treeHitStunTime;
+        
+        _rigidbody.AddForce(-_rigidbody.velocity * 1.5f, ForceMode.Impulse);
+    }
+
+    public bool Stunned()
+    {
+        return _stunnedCooldown > 0f;
     }
 }

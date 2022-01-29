@@ -10,5 +10,6 @@ namespace DeformationSnow
         public float startBoost = 2500f;
 
         public float jumpForce = 8f;
+        public float treeHitStunTime = 2f;
     }
 }
