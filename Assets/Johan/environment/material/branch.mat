@@ -53,8 +53,8 @@ Material:
     - _Anisotropy: 0
     - _ColorizedShadowsAddA: 1
     - _ColorizedShadowsMainA: 1
-    - _DiffuseFallOff: 0.01
-    - _DiffuseStep: 0
+    - _DiffuseFallOff: 0
+    - _DiffuseStep: -0.06
     - _EnableNormalMap: 0
     - _EnableRamp: 0
     - _EnableSpecular: 1
@@ -70,7 +70,7 @@ Material:
     - _Smoothness: 0.5
     - _SpecularFallOff: 0.01
     - _SpecularStep: 0.45
-    - _Steps: 3
+    - _Steps: 4
     - _ToonRimAttenuation: 0
     - _ToonRimFallOff: 1
     - _ToonRimPower: 0.5
