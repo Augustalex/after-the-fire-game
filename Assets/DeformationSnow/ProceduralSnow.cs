@@ -45,7 +45,7 @@ public class ProceduralSnow : MonoBehaviour
     private void FixedUpdate()
     {
         if (!_doneGenerating) return;
-        
+
         if (Vector3.Distance(_player.transform.position, transform.position) >
             ProceduralLandscapeGenerator.GridSize + GridCullingMargin) return;
 
@@ -86,6 +86,62 @@ public class ProceduralSnow : MonoBehaviour
         _meshCollider.sharedMesh = _mesh;
     }
 
+    private float InterpolatedDeform(Vector3 previousPosition, Vector3 currentPosition, Vector3 originalVertex,
+        Vector3 vertex, Vector3 worldVertex, float staticDigSpeed, float playerScaleX, bool playerBoosting,
+        bool playerFalling, float boostFactor)
+    {
+        var steps = 10f;
+
+        var direction = (currentPosition - previousPosition).normalized;
+        var length = Vector3.Distance(previousPosition, currentPosition);
+        var stepSize = length / steps;
+
+        var vertexY = vertex.y;
+        for (int i = 0; i < steps; i++)
+        {
+            var morphPoint = previousPosition + direction * ((i + 1) * stepSize);
+            vertexY = DeformAtPoint(
+                originalVertex, vertex, worldVertex, staticDigSpeed, morphPoint, playerScaleX, playerBoosting,
+                playerFalling, boostFactor
+            );
+        }
+
+        return vertexY;
+    }
+
+    private float DeformAtPoint(Vector3 originalVertex, Vector3 vertex, Vector3 worldVertex, float staticDigSpeed,
+        Vector3 playerMorphPoint, float playerScaleX, bool playerBoosting, bool playerFalling, float boostFactor)
+    {
+        var playerVertexAlignedPoint = new Vector3(playerMorphPoint.x, worldVertex.y, playerMorphPoint.z);
+        var pointDistance = Vector3.Distance(
+            playerVertexAlignedPoint,
+            worldVertex);
+
+        // if (pointDistance < LocalCullingDistance &&
+        //     (playerMorphPoint.y - worldVertex.y) < playerScaleX * .8f)
+        // {
+            var baseHoleSize = .45f; //.55f
+            var boostHoleSize = baseHoleSize + (boostFactor * .1f);
+            var holeSize = playerScaleX *
+                           (playerFalling ? .7f : playerBoosting ? boostHoleSize : baseHoleSize);
+            var t = Mathf.Clamp(pointDistance, 0f, holeSize);
+            var distanceFactorFromHoleCenter = Mathf.Clamp(t / holeSize, 0f, 1f);
+            var height = Mathf.Clamp(OutCirc(1 - distanceFactorFromHoleCenter), 0f, 1f);
+
+            var originalHeight = originalVertex.y;
+
+            var currentDepth = originalHeight - vertex.y;
+            var progress = ((currentDepth) / snowHeight);
+            var digSpeed = Mathf.Max(0, staticDigSpeed * InExpo(1 - progress)) * height;
+
+            var maxDepth = originalHeight - snowHeight;
+
+            vertex.y = Mathf.Clamp(vertex.y - (digSpeed * Time.fixedDeltaTime), maxDepth, originalHeight);
+
+            return vertex.y;
+            // }
+    }
+
     public void DeformVerticies()
     {
         var velocityVector = _playerRigidbody.velocity;
@@ -95,6 +151,7 @@ public class ProceduralSnow : MonoBehaviour
         var playerBoosting = _player.Boosting();
         var boostFactor = Mathf.Clamp(_player.BoostJuice() / 3f, 0f, 1f);
         var playerFalling = velocityVector.y < -4f;
+        var playerPreviousPosition = _player.GetPreviousPosition();
 
         Matrix4x4 localToWorld = transform.localToWorldMatrix;
 
@@ -107,10 +164,12 @@ public class ProceduralSnow : MonoBehaviour
         var playerTransform = _player.transform;
         var playerPosition = playerTransform.position;
         var playerScaleX = playerTransform.localScale.x;
-        
-        var treePoints = Physics.OverlapSphere(playerPosition, playerScaleX * .6f).Where(c => c.CompareTag("Tree")).ToArray();
+
+        var treePoints = Physics.OverlapSphere(playerPosition, playerScaleX * .6f).Where(c => c.CompareTag("Tree"))
+            .ToArray();
         if (treePoints.Length > 0) return;
-        
+        if (velocity == 0) return;
+
         for (var i = 0; i < currentVerticies.Length; i++)
         {
             var vertex = currentVerticies[i];
@@ -118,73 +177,97 @@ public class ProceduralSnow : MonoBehaviour
 
             if (passUntil <= i)
             {
-                if (velocity > 0f)
+                float staticSpeed;
+                Vector3 playerMorphPoint;
+
+                if (playerFalling)
                 {
-                    float staticSpeed;
-                    Vector3 playerMorphPoint;
+                    playerMorphPoint = playerPosition + velocityVector.normalized * -.15f;
+                    staticSpeed = playerScaleX * velocity * .7f;
+                }
+                else if (!playerMoving)
+                {
+                    playerMorphPoint = playerPosition + velocityVector.normalized * -.05f;
+                    staticSpeed = playerScaleX * velocity * .2f;
+                }
+                else if (playerBoosting)
+                {
+                    playerMorphPoint = playerPosition + velocityVector * Time.fixedDeltaTime * 3f;
+                
+                    var boostSpeed = .4f + (boostFactor * .4f);
+                    staticSpeed = playerScaleX * velocity * boostSpeed;
+                }
+                else
+                {
+                    playerMorphPoint = playerPosition + velocityVector * (Time.fixedDeltaTime * 2f);
+                    staticSpeed = playerScaleX * velocity * .4f;
+                }
+                
+                // if (playerFalling)
+                // {
+                //     playerMorphPoint = playerPosition + velocityVector.normalized * -.15f;
+                //     staticSpeed = playerScaleX * velocity * .7f;
+                // }
+                // else if (!playerMoving)
+                // {
+                //     playerMorphPoint = playerPosition + velocityVector.normalized * -.05f;
+                //     staticSpeed = playerScaleX * velocity * .2f;
+                // }
+                // else if (playerBoosting)
+                // {
+                //     playerMorphPoint = playerPosition + velocityVector.normalized * .05f;
+                //
+                //     var boostSpeed = .4f + (boostFactor * .4f);
+                //     staticSpeed = playerScaleX * velocity * boostSpeed;
+                // }
+                // else
+                // {
+                //     playerMorphPoint = playerPosition + velocityVector.normalized * -.1f;
+                //     staticSpeed = playerScaleX * velocity * .4f;
+                // }
+                
+                
 
-                    if (playerFalling)
-                    {
-                        playerMorphPoint = playerPosition + velocityVector.normalized * -.15f;
-                        staticSpeed = playerScaleX * velocity * .7f;
-                    }
-                    else if (!playerMoving)
-                    {
-                        playerMorphPoint = playerPosition + velocityVector.normalized * -.05f;
-                        staticSpeed = playerScaleX * velocity * .2f;
-                    }
-                    else if (playerBoosting)
-                    {
-                        playerMorphPoint = playerPosition + velocityVector.normalized * .05f;
+                var playerVertexAlignedPoint = new Vector3(playerMorphPoint.x, worldVertex.y, playerMorphPoint.z);
+                var pointDistance = Vector3.Distance(
+                    playerVertexAlignedPoint,
+                    worldVertex);
 
-                        var boostSpeed = .4f + (boostFactor * .4f);
-                        staticSpeed = playerScaleX * velocity * boostSpeed;
-                    }
-                    else
-                    {
-                        playerMorphPoint = playerPosition + velocityVector.normalized * -.1f;
-                        staticSpeed = playerScaleX * velocity * .4f;
-                    }
+                var rowDistance = playerMorphPoint.x - worldVertex.x;
+                if (rowDistance < 0 && Mathf.Abs(rowDistance) > LocalCullingDistance)
+                {
+                    passUntil = i + VectorRowCount - (i % VectorRowCount) + 1;
+                }
 
-                    var playerVertexAlignedPoint = new Vector3(playerMorphPoint.x, worldVertex.y, playerMorphPoint.z);
-                    var pointDistance = Vector3.Distance(
-                        playerVertexAlignedPoint,
-                        worldVertex);
+                if (Mathf.Abs(rowDistance) > LocalCullingDistance)
+                {
+                    var edgeSize = ProceduralLandscapeGenerator.GridSize / (VectorRowCount - 1);
+                    var left = pointDistance - LocalCullingDistance;
+                    var edges = (int) Mathf.Floor(left / edgeSize);
+                    passUntil = i + edges;
+                }
 
-                    var rowDistance = playerMorphPoint.x - worldVertex.x;
-                    if (rowDistance < 0 && Mathf.Abs(rowDistance) > LocalCullingDistance)
-                    {
-                        passUntil = i + VectorRowCount - (i % VectorRowCount) + 1;
-                    }
-
-                    if (Mathf.Abs(rowDistance) > LocalCullingDistance)
-                    {
-                        var edgeSize = ProceduralLandscapeGenerator.GridSize / (VectorRowCount - 1);
-                        var left = pointDistance - LocalCullingDistance;
-                        var edges = (int) Mathf.Floor(left / edgeSize);
-                        passUntil = i + edges;
-                    }
-
-                    if (pointDistance < LocalCullingDistance &&
-                        (playerMorphPoint.y - worldVertex.y) < playerScaleX * .8f)
-                    {
-                        var baseHoleSize = .45f; //.55f
-                        var boostHoleSize = baseHoleSize + (boostFactor * .1f);
-                        var holeSize = playerScaleX *
-                                       (playerFalling ? .7f : playerBoosting ? boostHoleSize : baseHoleSize);
-                        var t = Mathf.Clamp(pointDistance, 0f, holeSize);
-                        var distanceFactorFromHoleCenter = Mathf.Clamp(t / holeSize, 0f, 1f);
-                        var height = Mathf.Clamp(OutCirc(1 - distanceFactorFromHoleCenter), 0f, 1f);
-
-                        var originalHeight = _originalVertices[i].y;
-
-                        var currentDepth = originalHeight - vertex.y;
-                        var progress = ((currentDepth) / snowHeight);
-                        var digSpeed = Mathf.Max(0, staticSpeed * InExpo(1 - progress)) * height;
-
-                        var maxDepth = originalHeight - snowHeight;
-                        vertex.y = Mathf.Clamp(vertex.y - (digSpeed * Time.fixedDeltaTime), maxDepth, originalHeight);
-                    }
+                if (pointDistance < LocalCullingDistance &&
+                    (playerMorphPoint.y - worldVertex.y) < playerScaleX * .8f)
+                {
+                    vertex.y = InterpolatedDeform(playerPreviousPosition, playerMorphPoint, _originalVertices[i], vertex, worldVertex, staticSpeed, playerScaleX, playerBoosting, playerFalling, boostFactor);
+                    // var baseHoleSize = .45f; //.55f
+                    // var boostHoleSize = baseHoleSize + (boostFactor * .1f);
+                    // var holeSize = playerScaleX *
+                    //                (playerFalling ? .7f : playerBoosting ? boostHoleSize : baseHoleSize);
+                    // var t = Mathf.Clamp(pointDistance, 0f, holeSize);
+                    // var distanceFactorFromHoleCenter = Mathf.Clamp(t / holeSize, 0f, 1f);
+                    // var height = Mathf.Clamp(OutCirc(1 - distanceFactorFromHoleCenter), 0f, 1f);
+                    //
+                    // var originalHeight = _originalVertices[i].y;
+                    //
+                    // var currentDepth = originalHeight - vertex.y;
+                    // var progress = ((currentDepth) / snowHeight);
+                    // var digSpeed = Mathf.Max(0, staticSpeed * InExpo(1 - progress)) * height;
+                    //
+                    // var maxDepth = originalHeight - snowHeight;
+                    //
+                    // vertex.y = Mathf.Clamp(vertex.y - (digSpeed * Time.fixedDeltaTime), maxDepth, originalHeight);
                 }
             }
 
@@ -293,10 +376,10 @@ public class ProceduralSnow : MonoBehaviour
                 triangles[ti + 4] = ((d + 1) * (width + 1)) + w + 1;
                 triangles[ti + 5] = (d * (width + 1)) + w + 1;
             }
-
         }
+
         yield return new WaitForEndOfFrame();
-        
+
         var gridRadius = ProceduralLandscapeGenerator.GridSize * .5f;
 
         // Defining vertices.
@@ -313,6 +396,7 @@ public class ProceduralSnow : MonoBehaviour
 
                 i++;
             }
+
             yield return new WaitForEndOfFrame();
         }
 
@@ -323,6 +407,7 @@ public class ProceduralSnow : MonoBehaviour
             var vertex = vertices[i1];
             uv[i1] = new Vector2(vertex.x, vertex.z);
         }
+
         yield return new WaitForEndOfFrame();
 
         _originalVertices = vertices;
