@@ -3,6 +3,8 @@ using Random = UnityEngine.Random;
 
 public class WildTree : MonoBehaviour
 {
+    public GameObject itemTemplate;
+    
     private float _shakeDuration;
     private Vector3 _originalPosition;
     private Quaternion _originalRotation;
@@ -16,12 +18,19 @@ public class WildTree : MonoBehaviour
             {
                 transform.position = _originalPosition;
                 transform.rotation = _originalRotation;
+
+                DropItem();
             }
             else
             {
                 transform.rotation = _originalRotation * Quaternion.Euler(RandomShakeOffset());
             }
         }
+    }
+
+    private void DropItem()
+    {
+        Instantiate(itemTemplate, transform.position + Vector3.up * 3f + Random.insideUnitSphere, Random.rotation, null);
     }
 
     private Vector3 RandomShakeOffset()
