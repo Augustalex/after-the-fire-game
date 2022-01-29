@@ -70,7 +70,7 @@ Material:
     m_Floats:
     - Vector1_525a9b695e614eb0bf3b8a62add2136a: 0.05
     - Vector1_591dea61ec8b4c2e9d2f75710f9fa970: -0.01
-    - Vector1_eaddce1e9add4e52a60fdd79dc9ff054: 14.66
+    - Vector1_eaddce1e9add4e52a60fdd79dc9ff054: 20.9
     - _AddLightFallOff: 1
     - _Anisotropic: 0
     - _Anisotropy: 0
