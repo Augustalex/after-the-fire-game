@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Example Snow Toon Material
   m_Shader: {fileID: -6465566751694194690, guid: b4ca407065ebd29428dcf026ebad5e6e, type: 3}
-  m_ShaderKeywords: NORMAL_ON RIM_ON
+  m_ShaderKeywords: GRADIENT_ON NORMAL_ON RIM_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -32,7 +32,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _GradientMap:
-        m_Texture: {fileID: 2800000, guid: 9b1ed83c8cf620a45a9e6a1b84f94f9a, type: 3}
+        m_Texture: {fileID: 2800000, guid: e590b840c1ddb5340b2f4c033ed092b4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _LuxURPToonLighting_56B90218_Texture2D1C70DCC_2061595112:
@@ -80,20 +80,20 @@ Material:
     - _AddLightFallOff: 1
     - _AlphaClip: 0
     - _Anisotropic: 0
-    - _Anisotropy: 0.9
+    - _Anisotropy: 1
     - _Blend: 0
     - _BumpScale: 1
     - _ColorizedShadowsAdd: 0
     - _ColorizedShadowsAddA: 1
     - _ColorizedShadowsMain: 0
-    - _ColorizedShadowsMainA: 0.462
+    - _ColorizedShadowsMainA: 0.56
     - _Cull: 2
     - _Cutoff: 0.5
-    - _DiffuseFallOff: 0
-    - _DiffuseStep: 0.15
+    - _DiffuseFallOff: 1
+    - _DiffuseStep: 0.23
     - _DstBlend: 0
     - _EnableNormalMap: 1
-    - _EnableRamp: 0
+    - _EnableRamp: 1
     - _EnableRim: 1
     - _EnableSpecular: 0
     - _EnableToonRim: 1
@@ -116,23 +116,23 @@ Material:
     - _RimAttenuation: 1
     - _RimFallOff: 0.431
     - _RimPower: 0.528
-    - _SSAO: 0
+    - _SSAO: 1
     - _ShadowBiasAdditional: 0
     - _ShadowBiasDirectional: 0
     - _ShadowFallOff: 1
     - _ShadowiasAdditional: 0
     - _ShadowiasDirectional: 0
-    - _Smoothness: 0.211
+    - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularFallOff: 0
     - _SpecularHighlights: 1
-    - _SpecularStep: 0.443
+    - _SpecularStep: 0.5
     - _SrcBlend: 1
-    - _Steps: 3
+    - _Steps: 8
     - _Surface: 0
-    - _ToonRimAttenuation: 1
-    - _ToonRimFallOff: 0.525
-    - _ToonRimPower: 0.297
+    - _ToonRimAttenuation: 0.774
+    - _ToonRimFallOff: 0.211
+    - _ToonRimPower: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
@@ -140,7 +140,7 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}
-    - _ShadedBaseColor: {r: 0.5233179, g: 0.55796844, b: 0.6792453, a: 1}
+    - _ShadedBaseColor: {r: 0.04650232, g: 0.72628134, b: 0.8962264, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _Specular: {r: 1, g: 1, b: 1, a: 0}
     - _Tiling: {r: 0.4, g: 0.4, b: 0.4, a: 0}
