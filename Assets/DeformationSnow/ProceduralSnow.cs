@@ -22,8 +22,9 @@ public class ProceduralSnow : MonoBehaviour
 
     private Vector3[] _originalVertices;
     private MeshCollider _meshCollider;
+    private bool _doneGenerating;
 
-    private const int VectorRowCount = 50;
+    private const int VectorRowCount = 42;
 
     private const float GridCullingMargin = .5f;
     private const float LocalCullingDistance = 5f;
@@ -43,6 +44,8 @@ public class ProceduralSnow : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!_doneGenerating) return;
+        
         if (Vector3.Distance(_player.transform.position, transform.position) >
             ProceduralLandscapeGenerator.GridSize + GridCullingMargin) return;
 
@@ -263,7 +266,7 @@ public class ProceduralSnow : MonoBehaviour
         }
     }
 
-    public void GeneratePlane()
+    public IEnumerator GeneratePlane()
     {
         var gridSize = ProceduralLandscapeGenerator.GridSize;
         var vectorsRowCount = VectorRowCount;
@@ -290,8 +293,10 @@ public class ProceduralSnow : MonoBehaviour
                 triangles[ti + 4] = ((d + 1) * (width + 1)) + w + 1;
                 triangles[ti + 5] = (d * (width + 1)) + w + 1;
             }
-        }
 
+        }
+        yield return new WaitForEndOfFrame();
+        
         var gridRadius = ProceduralLandscapeGenerator.GridSize * .5f;
 
         // Defining vertices.
@@ -308,6 +313,7 @@ public class ProceduralSnow : MonoBehaviour
 
                 i++;
             }
+            yield return new WaitForEndOfFrame();
         }
 
         // Defining UV.
@@ -317,6 +323,7 @@ public class ProceduralSnow : MonoBehaviour
             var vertex = vertices[i1];
             uv[i1] = new Vector2(vertex.x, vertex.z);
         }
+        yield return new WaitForEndOfFrame();
 
         _originalVertices = vertices;
 
@@ -339,5 +346,7 @@ public class ProceduralSnow : MonoBehaviour
         _meshCollider.sharedMesh = _mesh;
 
         // SetStartHeight();
+
+        _doneGenerating = true;
     }
 }

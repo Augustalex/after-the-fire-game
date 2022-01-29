@@ -50,7 +50,7 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
         _planes.Add(terrain.transform);
         _planeExistsByPosition.Add(AlignToGrid(nextPlanePosition));
 
-        terrain.GetComponentInChildren<ProceduralSnow>().GeneratePlane();
+        StartCoroutine(terrain.GetComponentInChildren<ProceduralSnow>().GeneratePlane());
     }
 
     private Vector3 AlignToGrid(Vector3 position)
