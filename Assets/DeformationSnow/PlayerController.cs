@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour
     private bool _sprint;
     private float _stunnedCooldown;
 
+    public ParticleSystem snowParticles;
+
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -142,6 +144,13 @@ public class PlayerController : MonoBehaviour
         _previousPosition = transform.position;
 
         _jump = false;
+
+        var em = snowParticles.emission;
+        em.enabled = true;
+        // < xf ? - dont emit any particle below this value
+        // * xf - Emitter multiplier
+        em.rateOverTime = (_rigidbody.velocity.magnitude < 10f ? 0f : _rigidbody.velocity.magnitude * 30f);
+        Debug.Log(_rigidbody.velocity.magnitude);
     }
 
     private void AddExtraGravityIfOnIsland()

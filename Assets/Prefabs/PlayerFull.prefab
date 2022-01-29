@@ -1066,7 +1066,7 @@ ParticleSystem:
     rateOverDistance:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 40
+      scalar: 0
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -3779,7 +3779,7 @@ ParticleSystem:
     m_Dampen:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.6
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -5013,6 +5013,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 95b667503499d8a42a0b4522a00df2d8, type: 2}
+  snowParticles: {fileID: 605548265613843310}
 --- !u!114 &7387713727618563533
 MonoBehaviour:
   m_ObjectHideFlags: 0
