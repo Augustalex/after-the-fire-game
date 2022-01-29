@@ -222,30 +222,6 @@ public class ProceduralSnow : MonoBehaviour
                     }
                 }
 
-                // if (playerFalling)
-                // {
-                //     playerMorphPoint = playerPosition + velocityVector.normalized * -.15f;
-                //     staticSpeed = playerScaleX * velocity * .7f;
-                // }
-                // else if (!playerMoving)
-                // {
-                //     playerMorphPoint = playerPosition + velocityVector.normalized * -.05f;
-                //     staticSpeed = playerScaleX * velocity * .2f;
-                // }
-                // else if (playerBoosting)
-                // {
-                //     playerMorphPoint = playerPosition + velocityVector.normalized * .05f;
-                //
-                //     var boostSpeed = .4f + (boostFactor * .4f);
-                //     staticSpeed = playerScaleX * velocity * boostSpeed;
-                // }
-                // else
-                // {
-                //     playerMorphPoint = playerPosition + velocityVector.normalized * -.1f;
-                //     staticSpeed = playerScaleX * velocity * .4f;
-                // }
-
-
                 var playerVertexAlignedPoint = new Vector3(playerMorphPoint.x, worldVertex.y, playerMorphPoint.z);
                 var pointDistance = Vector3.Distance(
                     playerVertexAlignedPoint,
