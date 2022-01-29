@@ -119,9 +119,6 @@ public class ProceduralSnow : MonoBehaviour
             playerVertexAlignedPoint,
             worldVertex);
 
-        // if (pointDistance < LocalCullingDistance &&
-        //     (playerMorphPoint.y - worldVertex.y) < playerScaleX * .8f)
-        // {
         var baseHoleSize = .45f; //.55f
         var boostHoleSize = baseHoleSize + (boostFactor * .1f);
         var holeSize = playerScaleX *
@@ -141,7 +138,6 @@ public class ProceduralSnow : MonoBehaviour
         vertex.y = Mathf.Clamp(vertex.y - (digSpeed * Time.fixedDeltaTime), maxDepth, originalHeight);
 
         return vertex.y;
-        // }
     }
 
     public void DeformVerticies()
@@ -185,8 +181,8 @@ public class ProceduralSnow : MonoBehaviour
 
                 if (playerFalling)
                 {
-                    playerMorphPoint = playerPosition + velocityVector.normalized * -.1f;
-                    staticSpeed = playerScaleX * velocity * .5f;
+                    playerMorphPoint = playerPosition + velocityVector.normalized * -.2f;
+                    staticSpeed = playerScaleX * velocity * .4f;
                 }
                 else if (!playerMoving)
                 {
@@ -242,7 +238,7 @@ public class ProceduralSnow : MonoBehaviour
                 }
 
                 if (pointDistance < LocalCullingDistance &&
-                    (playerMorphPoint.y - worldVertex.y) < playerScaleX * .8f)
+                    (playerMorphPoint.y - worldVertex.y) < playerScaleX * .7f)
                 {
                     vertex.y = InterpolatedDeform(playerPreviousPosition, playerMorphPoint, _originalVertices[i],
                         vertex, worldVertex, staticSpeed, playerScaleX, playerBoosting, playerFalling, boostFactor);
@@ -425,7 +421,7 @@ public class ProceduralSnow : MonoBehaviour
 
         _meshCollider.sharedMesh = _mesh;
 
-        // SetStartHeight();
+        SetStartHeight();
 
         _doneGenerating = true;
     }

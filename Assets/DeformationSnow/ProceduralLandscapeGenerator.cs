@@ -65,12 +65,10 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
 
         if (CanGenerateIsland(terrain))
         {
-            Debug.Log("GENERATE ISLAND");
             GenerateIsland(terrain);
         }
         else if (Random.value < .05 && CanGenerateForrest(terrain))
         {
-            Debug.Log("GENERATE FORREST");
             GenerateForrest(terrain);
         }
     }

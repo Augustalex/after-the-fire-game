@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Numerics;
 using DeformationSnow;
 using TMPro;
@@ -46,6 +47,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        AddExtraGravityIfOnIsland();
+
         if (Stunned())
         {
             _stunnedCooldown -= Time.deltaTime;
@@ -130,6 +133,14 @@ public class PlayerController : MonoBehaviour
         _previousPosition = transform.position;
 
         _jump = false;
+    }
+
+    private void AddExtraGravityIfOnIsland()
+    {
+        if (Physics.OverlapSphere(transform.position, 2f).Any(hit => hit.CompareTag("Island")))
+        {
+            _rigidbody.AddForce(Vector3.down * 200f * Time.deltaTime, ForceMode.Acceleration);
+        }
     }
 
     public Vector3 GetPreviousPosition()
