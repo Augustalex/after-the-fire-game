@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: hog_flat_01
+  m_Shader: {fileID: -6465566751694194690, guid: c2cdf647f0f1059459c619a46974d4be, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Texture2D_91a9d121c355476f957ca6609d45beb5:
+        m_Texture: {fileID: 2800000, guid: 9900a728efa2f4240aa71782a6dc004f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_5a04a861686341a28b8d32eaeff39c59_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 9900a728efa2f4240aa71782a6dc004f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats: []
+    m_Colors:
+    - Color_41624d7e5dfd49b3abea3ad3aaa20d13: {r: 0.22546726, g: 0.6792453, b: 0.19480237, a: 0}
+    - Color_5a427e84068a439298801614e1856276: {r: 0.7924528, g: 0.6117817, b: 0.23474543, a: 0}
+    - Color_7407324375704e12aad0ac1d3c599a71: {r: 0.8113208, g: 0.24033462, b: 0.53115517, a: 0}
+    - Color_846b460d00de45149aa50c6c20bd4563: {r: 1, g: 1, b: 1, a: 0}
+    - Color_d1ce6ce2f9cd4798be22ebb31fba2945: {r: 0.745283, g: 0.15046278, b: 0.228673, a: 0}
+  m_BuildTextureStacks: []
