@@ -119,9 +119,6 @@ public class ProceduralSnow : MonoBehaviour
             playerVertexAlignedPoint,
             worldVertex);
 
-        // if (pointDistance < LocalCullingDistance &&
-        //     (playerMorphPoint.y - worldVertex.y) < playerScaleX * .8f)
-        // {
         var baseHoleSize = .45f; //.55f
         var boostHoleSize = baseHoleSize + (boostFactor * .1f);
         var holeSize = playerScaleX *
@@ -141,7 +138,6 @@ public class ProceduralSnow : MonoBehaviour
         vertex.y = Mathf.Clamp(vertex.y - (digSpeed * Time.fixedDeltaTime), maxDepth, originalHeight);
 
         return vertex.y;
-        // }
     }
 
     public void DeformVerticies()
