@@ -64,6 +64,8 @@ public class WildTree : MonoBehaviour
         if (other.collider.CompareTag("Player") && _swings.Count == 0)
         {
             Shake();
+            other.collider.GetComponentInChildren<PlayerController>().HitTree();
+            other.collider.GetComponentInChildren<PlayerGrower>().ReleaseSnow();
         }
     }
 
@@ -94,7 +96,12 @@ public class WildTree : MonoBehaviour
     private Quaternion GenerateRandomShakeOffset(float scale)
     {
         var offset = RandomShakeOffset();
-        return Quaternion.Euler(offset * scale);
+        var offsetYAligned = new Vector3(
+            offset.x,
+            transform.rotation.eulerAngles.y,
+            offset.z
+        );
+        return Quaternion.Euler(offsetYAligned * scale);
     }
 
     private Vector3 RandomShakeOffset()

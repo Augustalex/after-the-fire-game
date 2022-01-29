@@ -27,8 +27,10 @@ public class WildForrestGenerator : MonoBehaviour
                 Random.Range(position.z - planeRadius, position.z + planeRadius)
                 ));
             if (_treeExistsByPosition.Contains(AlignToGrid(randomPosition))) continue;
-            
-            Instantiate(treeTemplate, randomPosition, treeTemplate.transform.rotation, transform);
+
+            var randomRotation = Quaternion.Euler(0f, Random.Range(0f, 359f), 0f);
+
+            Instantiate(treeTemplate, randomPosition, randomRotation, transform);
             _treeExistsByPosition.Add(AlignToGrid(randomPosition));
         }
     }
