@@ -305,6 +305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8f5b5b9c63eddc42b4ef1c3088bc62d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  islandOneTemplate: {fileID: 1926051456368350320, guid: 9f3cfde4fdc2a1b4fb44acc39f62e2cf, type: 3}
   terrainTemplate: {fileID: 3176813460889869157, guid: 36cf415baf755dd4791bd59b9deabd10, type: 3}
   followTarget: {fileID: 1444204692}
 --- !u!4 &738017186
