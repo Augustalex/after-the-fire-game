@@ -185,8 +185,8 @@ public class ProceduralSnow : MonoBehaviour
 
                 if (playerFalling)
                 {
-                    playerMorphPoint = playerPosition + velocityVector.normalized * -.1f;
-                    staticSpeed = playerScaleX * velocity * .5f;
+                    playerMorphPoint = playerPosition + velocityVector.normalized * -.2f;
+                    staticSpeed = playerScaleX * velocity * .4f;
                 }
                 else if (!playerMoving)
                 {
@@ -242,7 +242,7 @@ public class ProceduralSnow : MonoBehaviour
                 }
 
                 if (pointDistance < LocalCullingDistance &&
-                    (playerMorphPoint.y - worldVertex.y) < playerScaleX * .8f)
+                    (playerMorphPoint.y - worldVertex.y) < playerScaleX * .7f)
                 {
                     vertex.y = InterpolatedDeform(playerPreviousPosition, playerMorphPoint, _originalVertices[i],
                         vertex, worldVertex, staticSpeed, playerScaleX, playerBoosting, playerFalling, boostFactor);
@@ -425,7 +425,7 @@ public class ProceduralSnow : MonoBehaviour
 
         _meshCollider.sharedMesh = _mesh;
 
-        // SetStartHeight();
+        SetStartHeight();
 
         _doneGenerating = true;
     }
