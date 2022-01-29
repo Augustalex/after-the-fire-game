@@ -24,19 +24,19 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_379ad66efd224167b3e9d59d4717aa78:
-        m_Texture: {fileID: 2800000, guid: 8d74e2d149f2e6f4ba8c8fe8367e4a43, type: 3}
+        m_Texture: {fileID: 2800000, guid: a9506ecb60b8bb74e8eb8e3b2dda5684, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_3c3ee4b6fabb427e9aab4ef4a89ce4d5:
-        m_Texture: {fileID: 2800000, guid: 7222f49c4f964e94d86b29e91640f198, type: 3}
+        m_Texture: {fileID: 2800000, guid: 86e125b0008711648bda7dd19ca0301b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_ac4e2277148143ac9310d97e219a06b4:
-        m_Texture: {fileID: 2800000, guid: 8c7df85ea19b34d419ba28829f6d095b, type: 3}
+        m_Texture: {fileID: 2800000, guid: d6822855366f5124e8e8a8fe476dc315, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_ad6ee90ef2af4ca5b7ded03296c31520:
-        m_Texture: {fileID: 2800000, guid: 7e1acc0eb07f3994fae07b2929c16c9d, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0877e350fb9368c409db9e41db4cf3bb, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -68,16 +68,16 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_525a9b695e614eb0bf3b8a62add2136a: 0.05
-    - Vector1_591dea61ec8b4c2e9d2f75710f9fa970: -0.01
+    - Vector1_525a9b695e614eb0bf3b8a62add2136a: 0.008
+    - Vector1_591dea61ec8b4c2e9d2f75710f9fa970: -0.005
     - Vector1_eaddce1e9add4e52a60fdd79dc9ff054: 20.9
     - _AddLightFallOff: 1
     - _Anisotropic: 0
     - _Anisotropy: 0
     - _ColorizedShadowsAddA: 1
     - _ColorizedShadowsMainA: 1
-    - _DiffuseFallOff: 0
-    - _DiffuseStep: 0.33
+    - _DiffuseFallOff: 0.324
+    - _DiffuseStep: 0.07
     - _EnableNormalMap: 0
     - _EnableRamp: 0
     - _EnableSpecular: 1
@@ -90,10 +90,10 @@ Material:
     - _ShadowBiasAdditional: 0.243
     - _ShadowBiasDirectional: 0
     - _ShadowFallOff: 0.5
-    - _Smoothness: 0.281
+    - _Smoothness: 0
     - _SpecularFallOff: 0
     - _SpecularStep: 0.5
-    - _Steps: 1
+    - _Steps: 2
     - _ToonRimAttenuation: 0
     - _ToonRimFallOff: 1
     - _ToonRimPower: 0.5
