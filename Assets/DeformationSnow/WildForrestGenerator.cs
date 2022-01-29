@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class WildForrestGenerator : MonoBehaviour
 {
-    public GameObject treeTemplate;
+    public List<GameObject> treeTemplates = new List<GameObject>();
 
     private HashSet<Vector3> _treeExistsByPosition = new HashSet<Vector3>();
     
     void Start()
     {
+        // If forest or not
         if (Random.value < .9f) return;
 
         var position = transform.position;
@@ -18,6 +19,8 @@ public class WildForrestGenerator : MonoBehaviour
         var count = Random.Range(12, 20);
         for (var i = 0; i < count; i++)
         {
+            GameObject treeTemplate = treeTemplates[Random.Range(0, treeTemplates.Count)];
+            
             var randomPosition = AlignToSubGrid(new Vector3(
                 Random.Range(position.x - planeRadius, position.x + planeRadius),
                 6f,
