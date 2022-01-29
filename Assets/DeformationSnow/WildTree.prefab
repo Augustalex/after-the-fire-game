@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8070812030720882550}
   - component: {fileID: 6542563516523565254}
   - component: {fileID: 9136675306132860000}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: WildTree
   m_TagString: Tree
   m_Icon: {fileID: 0}
@@ -203,6 +203,10 @@ PrefabInstance:
     - target: {fileID: 7127574381036859825, guid: 4d10104ff0ef55747b0a94e7195f7636, type: 3}
       propertyPath: m_Name
       value: tree18 (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7127574381036859825, guid: 4d10104ff0ef55747b0a94e7195f7636, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7128243553612635313, guid: 4d10104ff0ef55747b0a94e7195f7636, type: 3}
       propertyPath: m_Convex

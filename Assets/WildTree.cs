@@ -7,21 +7,21 @@ using Random = UnityEngine.Random;
 public class WildTree : MonoBehaviour
 {
     public GameObject itemTemplate;
-    
-    private float _shakeDuration;
-    private Vector3 _originalPosition;
+
     private Quaternion _originalRotation;
     private Quaternion _zeroRotation;
 
     private const float SwingTime = .15f;
     private float _currentMaxSwingTime = 0f;
     private float _swingTimeLeft = 0f;
-    
+
     private readonly List<Quaternion> _swings = new List<Quaternion>();
+    private CinemachineImpulseSource _impulseSource;
 
     private void Start()
     {
         _zeroRotation = transform.rotation;
+        _impulseSource = GetComponent<CinemachineImpulseSource>();
     }
 
     void Update()
@@ -29,8 +29,8 @@ public class WildTree : MonoBehaviour
         if (_swings.Count > 0)
         {
             _swingTimeLeft -= Time.deltaTime;
-            
-            var progress = (_swingTimeLeft) / SwingTime;
+
+            var progress = Mathf.Clamp((_swingTimeLeft) / SwingTime, 0f, 1f);
             transform.rotation = Quaternion.Slerp(_originalRotation, _swings[0], 1f - progress);
 
             if (progress <= 0)
@@ -38,7 +38,12 @@ public class WildTree : MonoBehaviour
                 _swings.RemoveAt(0);
                 _currentMaxSwingTime = _currentMaxSwingTime * .8f;
                 _swingTimeLeft = SwingTime;
-                _originalRotation = transform.rotation;    
+                _originalRotation = transform.rotation;
+
+                if (_swings.Count == 1)
+                {
+                    DropItem();
+                }
 
                 if (_swings.Count == 0)
                 {
@@ -46,66 +51,54 @@ public class WildTree : MonoBehaviour
                 }
             }
         }
-        
-        
-        // if (_shakeDuration > 0f)
-        // {
-        //     _shakeDuration -= Time.deltaTime;
-        //     if (_shakeDuration <= 0)
-        //     {
-        //         transform.position = _originalPosition;
-        //         transform.rotation = _originalRotation;
-        //
-        //         DropItem();
-        //     }
-        //     else
-        //     {
-        //         transform.rotation = _originalRotation * Quaternion.Euler(RandomShakeOffset());
-        //     }
-        // }
     }
 
     private void DropItem()
     {
-        Instantiate(itemTemplate, transform.position + Vector3.up * 3f + Random.insideUnitSphere, Random.rotation, null);
+        Instantiate(itemTemplate, transform.position + Vector3.up * 3f + Random.insideUnitSphere, Random.rotation,
+            null);
     }
 
     private void OnCollisionEnter(Collision other)
     {
         if (other.collider.CompareTag("Player") && _swings.Count == 0)
         {
-            _originalPosition = transform.position;
-            _originalRotation = transform.rotation;
             Shake();
         }
     }
 
     private void Shake()
     {
-        _swings.AddRange(new []
+        var a = GenerateRandomShakeOffset(1f);
+        var b = Quaternion.Inverse(a);
+        var c = GenerateRandomShakeOffset(.5f);
+        var d = Quaternion.Inverse(c);
+        var e = GenerateRandomShakeOffset(.1f);
+
+        _swings.AddRange(new[]
         {
-            GenerateRandomShakeOffset(1f),
-            GenerateRandomShakeOffset(.6f),
-            GenerateRandomShakeOffset(.4f),
-            GenerateRandomShakeOffset(.2f),
-            GenerateRandomShakeOffset(.1f),
+            a,
+            b,
+            c,
+            d,
+            e,
             _zeroRotation
         });
         _originalRotation = transform.rotation;
         _currentMaxSwingTime = SwingTime;
         _swingTimeLeft = SwingTime;
-        
-        GetComponent<CinemachineImpulseSource>().GenerateImpulse();        
-        _shakeDuration = .5f;
+
+        _impulseSource.GenerateImpulse();
     }
 
     private Quaternion GenerateRandomShakeOffset(float scale)
     {
-        return _originalRotation * Quaternion.Euler(RandomShakeOffset() * scale);
+        var offset = RandomShakeOffset();
+        return Quaternion.Euler(offset * scale);
     }
 
     private Vector3 RandomShakeOffset()
     {
-        return Random.insideUnitSphere.normalized * 5f;
+        return Random.insideUnitSphere.normalized * 4f;
     }
 }
