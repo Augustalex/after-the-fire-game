@@ -127,3 +127,4 @@ MonoBehaviour:
   treeTemplates:
   - {fileID: 1008090094371036101, guid: 8607b48bcbf9fb244a719d97516e7437, type: 3}
   - {fileID: 4109935269899308152, guid: 12686e266ecbc214a8ceb648fc70d3e1, type: 3}
+  - {fileID: 4123422102580704600, guid: e63c16b10c9b4764dac14308fb8f9c65, type: 3}
