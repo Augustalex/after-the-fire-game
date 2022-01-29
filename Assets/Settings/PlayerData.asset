@@ -15,3 +15,4 @@ MonoBehaviour:
   shiftBoost: 600
   speed: 1800
   startBoost: 2500
+  jumpForce: 14

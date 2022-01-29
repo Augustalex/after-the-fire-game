@@ -15,12 +15,12 @@ public class PlayerController : MonoBehaviour
     private double _cooldown;
     private float _boostMeter;
 
-    private const float JumpForce = 8f;
-
     private Vector2 _move;
     private bool _inAir;
     private float _inAirCooldown;
     private Vector3 _previousPosition;
+    private bool _jump;
+    private bool _sprint;
 
     void Start()
     {
@@ -29,12 +29,17 @@ public class PlayerController : MonoBehaviour
 
     public void OnMove(InputValue value)
     {
-        MoveInput(value.Get<Vector2>());
+        _move = value.Get<Vector2>();
     }
 
-    public void MoveInput(Vector2 newMoveDirection)
+    public void OnJump(InputValue value)
     {
-        _move = newMoveDirection;
+        _jump = value.isPressed;
+    }
+    
+    public void OnSprint(InputValue value)
+    {
+        _sprint = value.isPressed;
     }
 
     void FixedUpdate()
@@ -57,10 +62,6 @@ public class PlayerController : MonoBehaviour
 
             return;
         }
-        else if (!Physics.Raycast(transform.position, Vector3.down, 1f))
-        {
-            Ground();
-        }
 
         if (_rigidbody.velocity.magnitude > 10f)
         {
@@ -81,36 +82,18 @@ public class PlayerController : MonoBehaviour
 
         var direction = new Vector3(_move.x, 0, _move.y);
         
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (_jump)
         {
-            if (Physics.OverlapSphere(transform.position, transform.localScale.x * .5f).Length > 1)
+            var grounded = Physics.OverlapSphere(transform.position, transform.localScale.x * .6f).Length > 1;
+            
+            if (grounded)
             {
                 _inAirCooldown = 1f;
                 _inAir = true;
-                _rigidbody.AddForce(Vector3.up * JumpForce + direction * 8f, ForceMode.Impulse);
+                _rigidbody.AddForce(Vector3.up * data.jumpForce + direction * 8f, ForceMode.Impulse);
             }
         }
-
-        // if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-        // {
-        //     direction += Vector3.left;
-        // }
-        //
-        // if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-        // {
-        //     direction += Vector3.right;
-        // }
-        //
-        // if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
-        // {
-        //     direction += Vector3.forward;
-        // }
-        //
-        // if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
-        // {
-        //     direction += Vector3.back;
-        // }
-
+        
         if (direction != Vector3.zero)
         {
             _moving = true;
@@ -137,19 +120,8 @@ public class PlayerController : MonoBehaviour
         }
 
         _previousPosition = transform.position;
-    }
 
-    private void Ground()
-    {
-        // RaycastHit hit;
-        // if (Physics.Raycast (transform.position, -Vector3.up, out hit)) {
-        //     var distanceToGround = hit.distance;
-        //     if (distanceToGround > .1f)
-        //     {
-        //         transform.position = transform.position - Vector3.up * distanceToGround + Vector3.up * transform.localScale.x * .6f;
-        //     }
-        //     // _rigidbody.AddForce(Vector3.down * distanceToGround * 5000f * Time.deltaTime, ForceMode.Acceleration);
-        // }
+        _jump = false;
     }
 
     public Vector3 GetPreviousPosition()
@@ -169,7 +141,7 @@ public class PlayerController : MonoBehaviour
 
     public bool Boosting()
     {
-        return Input.GetKey(KeyCode.LeftShift);
+        return _sprint;
     }
 
     public float BoostJuice()

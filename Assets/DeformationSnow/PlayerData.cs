@@ -8,5 +8,7 @@ namespace DeformationSnow
         public float shiftBoost = 100f;
         public float speed = 1400f;
         public float startBoost = 2500f;
+
+        public float jumpForce = 8f;
     }
 }
