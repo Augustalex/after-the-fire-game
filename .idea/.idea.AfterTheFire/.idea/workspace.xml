@@ -1,7 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="401e852c-8b40-4b1e-930e-03d39a7ea572" name="Default Changelist" comment="" />
+    <list default="true" id="401e852c-8b40-4b1e-930e-03d39a7ea572" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.AfterTheFire/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.AfterTheFire/.idea/contentModel.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.AfterTheFire/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.AfterTheFire/.idea/indexLayout.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.AfterTheFire/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.AfterTheFire/.idea/projectSettingsUpdater.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.AfterTheFire/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.AfterTheFire/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.AfterTheFire/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.AfterTheFire/riderModule.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DeformationSnow/DeadBlock.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DeformationSnow/DeadBlock.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DeformationSnow/FollowSphere.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DeformationSnow/FollowSphere.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DeformationSnow/ItemSnowDeformer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DeformationSnow/ItemSnowDeformer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DeformationSnow/LandscapeGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DeformationSnow/LandscapeGenerator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DeformationSnow/LoopingProceduralLandscapeGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DeformationSnow/LoopingProceduralLandscapeGenerator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DeformationSnow/LoopingProceduralLandscapeGenerator.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DeformationSnow/LoopingProceduralLandscapeGenerator.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DeformationSnow/PlayerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DeformationSnow/PlayerController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DeformationSnow/PlayerGrower.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DeformationSnow/PlayerGrower.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DeformationSnow/PlayerRotatingFollower.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DeformationSnow/PlayerRotatingFollower.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DeformationSnow/ProceduralLandscapeGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DeformationSnow/ProceduralLandscapeGenerator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DeformationSnow/ProceduralSnow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DeformationSnow/ProceduralSnow.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DeformationSnow/RollerController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DeformationSnow/RollerController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DeformationSnow/SnowGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DeformationSnow/SnowGenerator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DeformationSnow/SnowParticle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DeformationSnow/SnowParticle.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DeformationSnow/SnowParticleCollisionHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DeformationSnow/SnowParticleCollisionHelper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DeformationSnow/SnowParticleCollisionHelper.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DeformationSnow/SnowParticleCollisionHelper.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DeformationSnow/TerrainDeformer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DeformationSnow/TerrainDeformer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/DeformationSnow/WildForrestGenerator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/DeformationSnow/WildForrestGenerator.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -61,8 +99,16 @@
       <workItem from="1643449803418" duration="14000" />
       <workItem from="1643449896768" duration="726000" />
       <workItem from="1643450875890" duration="184000" />
-      <workItem from="1643451076905" duration="167000" />
+      <workItem from="1643451076905" duration="507000" />
     </task>
+    <task id="LOCAL-00001" summary="Initial commit + Snow deformation package">
+      <created>1643451269660</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1643451269660</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -70,10 +116,27 @@
   </component>
   <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="EditMode" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="Initial commit + Snow deformation package" />
+    <option name="LAST_COMMIT_MESSAGE" value="Initial commit + Snow deformation package" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="1593" y="598" key="Github.ShareDialog" timestamp="1643451290707">
+      <screen x="0" y="0" width="3440" height="1400" />
+    </state>
+    <state x="1593" y="598" key="Github.ShareDialog/0.0.3440.1400@0.0.3440.1400" timestamp="1643451290707" />
     <state x="878" y="424" width="1269" height="850" key="com.intellij.openapi.vcs.changes.SpecificFilesViewDialog" timestamp="1643451007976">
       <screen x="0" y="0" width="3440" height="1400" />
     </state>
