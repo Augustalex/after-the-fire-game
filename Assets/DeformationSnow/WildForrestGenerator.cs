@@ -8,11 +8,8 @@ public class WildForrestGenerator : MonoBehaviour
 
     private HashSet<Vector3> _treeExistsByPosition = new HashSet<Vector3>();
     
-    void Start()
+    public void GenerateForrestOnPlane()
     {
-        // If forest or not
-        if (Random.value < .9f) return;
-
         var position = transform.position;
         var planeRadius = ProceduralLandscapeGenerator.GridSize * .5f;
 
@@ -25,7 +22,7 @@ public class WildForrestGenerator : MonoBehaviour
                 Random.Range(position.x - planeRadius, position.x + planeRadius),
                 6f,
                 Random.Range(position.z - planeRadius, position.z + planeRadius)
-                ));
+            ));
             if (_treeExistsByPosition.Contains(AlignToGrid(randomPosition))) continue;
 
             var randomRotation = Quaternion.Euler(0f, Random.Range(0f, 359f), 0f);
