@@ -23,6 +23,7 @@ public class ProceduralSnow : MonoBehaviour
     private Vector3[] _originalVertices;
     private MeshCollider _meshCollider;
     private bool _doneGenerating;
+    private PlayerGrower _playerGrower;
 
     private const int VectorRowCount = 42;
 
@@ -39,6 +40,7 @@ public class ProceduralSnow : MonoBehaviour
     private void Start()
     {
         _player = FindObjectOfType<PlayerController>();
+        _playerGrower = FindObjectOfType<PlayerGrower>();
         _playerRigidbody = _player.GetComponent<Rigidbody>();
     }
 
@@ -120,26 +122,26 @@ public class ProceduralSnow : MonoBehaviour
         // if (pointDistance < LocalCullingDistance &&
         //     (playerMorphPoint.y - worldVertex.y) < playerScaleX * .8f)
         // {
-            var baseHoleSize = .45f; //.55f
-            var boostHoleSize = baseHoleSize + (boostFactor * .1f);
-            var holeSize = playerScaleX *
-                           (playerFalling ? .7f : playerBoosting ? boostHoleSize : baseHoleSize);
-            var t = Mathf.Clamp(pointDistance, 0f, holeSize);
-            var distanceFactorFromHoleCenter = Mathf.Clamp(t / holeSize, 0f, 1f);
-            var height = Mathf.Clamp(OutCirc(1 - distanceFactorFromHoleCenter), 0f, 1f);
+        var baseHoleSize = .45f; //.55f
+        var boostHoleSize = baseHoleSize + (boostFactor * .1f);
+        var holeSize = playerScaleX *
+                       (playerFalling ? .7f : playerBoosting ? boostHoleSize : baseHoleSize);
+        var t = Mathf.Clamp(pointDistance, 0f, holeSize);
+        var distanceFactorFromHoleCenter = Mathf.Clamp(t / holeSize, 0f, 1f);
+        var height = Mathf.Clamp(OutCirc(1 - distanceFactorFromHoleCenter), 0f, 1f);
 
-            var originalHeight = originalVertex.y;
+        var originalHeight = originalVertex.y;
 
-            var currentDepth = originalHeight - vertex.y;
-            var progress = ((currentDepth) / snowHeight);
-            var digSpeed = Mathf.Max(0, staticDigSpeed * InExpo(1 - progress)) * height;
+        var currentDepth = originalHeight - vertex.y;
+        var progress = ((currentDepth) / snowHeight);
+        var digSpeed = Mathf.Max(0, staticDigSpeed * InExpo(1 - progress)) * height;
 
-            var maxDepth = originalHeight - snowHeight;
+        var maxDepth = originalHeight - snowHeight;
 
-            vertex.y = Mathf.Clamp(vertex.y - (digSpeed * Time.fixedDeltaTime), maxDepth, originalHeight);
+        vertex.y = Mathf.Clamp(vertex.y - (digSpeed * Time.fixedDeltaTime), maxDepth, originalHeight);
 
-            return vertex.y;
-            // }
+        return vertex.y;
+        // }
     }
 
     public void DeformVerticies()
@@ -150,6 +152,7 @@ public class ProceduralSnow : MonoBehaviour
         var playerMoving = _player.Moving();
         var playerBoosting = _player.Boosting();
         var boostFactor = Mathf.Clamp(_player.BoostJuice() / 3f, 0f, 1f);
+        var maxSizeReached = _playerGrower.MaxSizeReached();
         var playerFalling = velocityVector.y < -4f;
         var playerPreviousPosition = _player.GetPreviousPosition();
 
@@ -182,8 +185,8 @@ public class ProceduralSnow : MonoBehaviour
 
                 if (playerFalling)
                 {
-                    playerMorphPoint = playerPosition + velocityVector.normalized * -.15f;
-                    staticSpeed = playerScaleX * velocity * .7f;
+                    playerMorphPoint = playerPosition + velocityVector.normalized * -.1f;
+                    staticSpeed = playerScaleX * velocity * .5f;
                 }
                 else if (!playerMoving)
                 {
@@ -193,16 +196,32 @@ public class ProceduralSnow : MonoBehaviour
                 else if (playerBoosting)
                 {
                     playerMorphPoint = playerPosition + velocityVector * Time.fixedDeltaTime * 3f;
-                
-                    var boostSpeed = .4f + (boostFactor * .4f);
-                    staticSpeed = playerScaleX * velocity * boostSpeed;
+
+                    if (maxSizeReached)
+                    {
+                        staticSpeed = playerScaleX * velocity * .05f;
+                    }
+                    else
+                    {
+                        var boostSpeed = .5f + (boostFactor * .4f);
+                        staticSpeed = playerScaleX * velocity * boostSpeed;
+                    }
                 }
                 else
                 {
                     playerMorphPoint = playerPosition + velocityVector * (Time.fixedDeltaTime * 2f);
-                    staticSpeed = playerScaleX * velocity * .4f;
+
+
+                    if (maxSizeReached)
+                    {
+                        staticSpeed = playerScaleX * velocity * .1f;
+                    }
+                    else
+                    {
+                        staticSpeed = playerScaleX * velocity * .4f;
+                    }
                 }
-                
+
                 // if (playerFalling)
                 // {
                 //     playerMorphPoint = playerPosition + velocityVector.normalized * -.15f;
@@ -225,8 +244,7 @@ public class ProceduralSnow : MonoBehaviour
                 //     playerMorphPoint = playerPosition + velocityVector.normalized * -.1f;
                 //     staticSpeed = playerScaleX * velocity * .4f;
                 // }
-                
-                
+
 
                 var playerVertexAlignedPoint = new Vector3(playerMorphPoint.x, worldVertex.y, playerMorphPoint.z);
                 var pointDistance = Vector3.Distance(
@@ -250,7 +268,8 @@ public class ProceduralSnow : MonoBehaviour
                 if (pointDistance < LocalCullingDistance &&
                     (playerMorphPoint.y - worldVertex.y) < playerScaleX * .8f)
                 {
-                    vertex.y = InterpolatedDeform(playerPreviousPosition, playerMorphPoint, _originalVertices[i], vertex, worldVertex, staticSpeed, playerScaleX, playerBoosting, playerFalling, boostFactor);
+                    vertex.y = InterpolatedDeform(playerPreviousPosition, playerMorphPoint, _originalVertices[i],
+                        vertex, worldVertex, staticSpeed, playerScaleX, playerBoosting, playerFalling, boostFactor);
                     // var baseHoleSize = .45f; //.55f
                     // var boostHoleSize = baseHoleSize + (boostFactor * .1f);
                     // var holeSize = playerScaleX *

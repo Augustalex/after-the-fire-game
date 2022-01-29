@@ -1,5 +1,6 @@
 using System.Numerics;
 using DeformationSnow;
+using TMPro;
 using UnityEditor.Timeline.Actions;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -21,6 +22,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 _previousPosition;
     private bool _jump;
     private bool _sprint;
+    private float _stunnedCooldown;
 
     void Start()
     {
@@ -42,8 +44,14 @@ public class PlayerController : MonoBehaviour
         _sprint = value.isPressed;
     }
 
-    void FixedUpdate()
+    void Update()
     {
+        if (Stunned())
+        {
+            _stunnedCooldown -= Time.deltaTime;
+            return;
+        }
+
         if (_inAir)
         {
             _rigidbody.drag = 1f;
@@ -147,5 +155,17 @@ public class PlayerController : MonoBehaviour
     public float BoostJuice()
     {
         return _boostMeter;
+    }
+
+    public void HitTree()
+    {
+        _stunnedCooldown = data.treeHitStunTime;
+        
+        _rigidbody.AddForce(-_rigidbody.velocity * 1.5f, ForceMode.Impulse);
+    }
+
+    public bool Stunned()
+    {
+        return _stunnedCooldown > 0f;
     }
 }
