@@ -94,11 +94,15 @@ public class PlayerController : MonoBehaviour
             _stunnedCooldown -= Time.deltaTime;
         }
         
-        if(!Stunned() && !_inAir)
+        if(!Stunned())
         {
-            HandleJump();
+            if (!_inAir)
+            {
+                HandleJump();
+                HandleBoosting();
+            }
+            
             HandleMoving();
-            HandleBoosting();
         }
 
         if (NotTouchingSnow())
@@ -145,9 +149,14 @@ public class PlayerController : MonoBehaviour
 
     private bool NotTouchingSnow()
     {
-        return _inAir || _onIsland;
+        return _inAir || _onIsland || TouchingSnow();
     }
 
+    private bool TouchingSnow()
+    {
+        return Physics.OverlapSphere(transform.position, transform.localScale.x).Any(hit => hit.CompareTag("Terrain"));
+    }
+    
     private void AdjustDrag()
     {
         if (_rigidbody.velocity.magnitude > 10f)
