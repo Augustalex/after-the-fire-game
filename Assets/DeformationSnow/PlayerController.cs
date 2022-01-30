@@ -300,6 +300,11 @@ public class PlayerController : MonoBehaviour
         return _boostMeter;
     }
 
+    public void ZeroBoostJuice()
+    {
+        _boostMeter = 0f;
+    }
+
     public void HitTree()
     {
         _stunnedCooldown = data.treeHitStunTime;

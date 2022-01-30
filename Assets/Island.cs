@@ -7,4 +7,5 @@ public class Island : MonoBehaviour
 {
     public GameObject NPC;
     public List<DeadTree> trees;
+    public GameObject successObjects;
 }
