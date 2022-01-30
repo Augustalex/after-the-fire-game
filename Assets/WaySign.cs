@@ -13,6 +13,8 @@ public class WaySign : MonoBehaviour
 
     private readonly List<Quaternion> _swings = new List<Quaternion>();
     private CinemachineImpulseSource _impulseSource;
+    private bool _falling;
+    private double _fallingCooldown;
 
     private void Start()
     {
@@ -22,6 +24,8 @@ public class WaySign : MonoBehaviour
 
     void Update()
     {
+        DestroyRigidbodyWhenFirmlyGrounded();
+
         if (_swings.Count > 0)
         {
             _swingTimeLeft -= Time.deltaTime;
@@ -40,6 +44,22 @@ public class WaySign : MonoBehaviour
                 {
                     transform.rotation = _zeroRotation;
                 }
+            }
+        }
+    }
+
+    private void DestroyRigidbodyWhenFirmlyGrounded()
+    {
+        if (_falling)
+        {
+            if (_fallingCooldown > 0f)
+            {
+                _fallingCooldown -= Time.deltaTime;
+            }
+            else
+            {
+                _falling = false;
+                Destroy(GetComponent<Rigidbody>());
             }
         }
     }
