@@ -26,7 +26,7 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
         var followTargetPosition = followTarget.position;
         var alignedPosition = AlignToGrid(followTargetPosition);
 
-        var lookAhead = 6;
+        var lookAhead = 4;
         for (var y = -lookAhead; y <= lookAhead; y++)
         {
             for (var x = -lookAhead; x <= lookAhead; x++)
@@ -66,10 +66,6 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
             if (CanGenerateWaySign(terrain))
             {
                 GenerateWaySign(terrain);
-            }
-            else
-            {
-                Debug.Log("CAN NOT GENERATE SIGN");
             }
         }
     }

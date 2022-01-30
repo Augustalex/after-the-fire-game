@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 using UnityEngine.InputSystem;
@@ -127,6 +128,8 @@ namespace StarterAssets
 
         private void Update()
         {
+            AddExtraGravityIfOnIsland();
+            
             _hasAnimator = TryGetComponent(out _animator);
 
             JumpAndGravity();
@@ -143,6 +146,18 @@ namespace StarterAssets
             else if (_animator.GetBool("IsWalking"))
             {
                 _animator.SetBool("IsWalking", false);
+            }
+        }
+
+        private void AddExtraGravityIfOnIsland()
+        {
+            if (Physics.OverlapSphere(transform.position, 2f).Any(hit => hit.CompareTag("Island")))
+            {
+                Gravity = -30f;
+            }
+            else
+            {
+                Gravity = -15f;
             }
         }
 
