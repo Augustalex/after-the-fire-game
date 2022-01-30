@@ -53,6 +53,12 @@ MonoBehaviour:
   - {fileID: 2016229570588930715}
   - {fileID: 3792569592543473507}
   successObjects: {fileID: 7807274846952746161}
+  islandMesh: {fileID: 5111043817823048533}
+  fireMaterial: {fileID: 2100000, guid: ab93a5e76d6722d40a5219c29eadd6c2, type: 2}
+  ashMaterial: {fileID: 2100000, guid: c74308e8f4ba92945b918b43cb54dcae, type: 2}
+  grassMaterial: {fileID: 2100000, guid: 35f2d8c95528f504c8aa73a48cb47baa, type: 2}
+  currentState: 0
+  _numberOfTreesExstingueshed: 0
 --- !u!1 &2559553803846105412
 GameObject:
   m_ObjectHideFlags: 0
@@ -867,6 +873,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f149bea2302da34d92c59b4dc07f08a, type: 3}
+--- !u!23 &5111043817823048533 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 6f149bea2302da34d92c59b4dc07f08a, type: 3}
+  m_PrefabInstance: {fileID: 5850042754963214289}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6243466386741618746 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6f149bea2302da34d92c59b4dc07f08a, type: 3}
@@ -948,6 +959,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2f512ee2255f784eb42c8ef22503636, type: 3}
+--- !u!4 &3675487538721398438 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7667359844800783935, guid: a2f512ee2255f784eb42c8ef22503636, type: 3}
+  m_PrefabInstance: {fileID: 6441866376061450393}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &3792569592543473507 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7910558065247426554, guid: a2f512ee2255f784eb42c8ef22503636, type: 3}
@@ -959,11 +975,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 912b22b4f6ce4d3bb58d5f98f199dbcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &3675487538721398438 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7667359844800783935, guid: a2f512ee2255f784eb42c8ef22503636, type: 3}
-  m_PrefabInstance: {fileID: 6441866376061450393}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8322680275501439104
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -54,6 +54,12 @@ MonoBehaviour:
   - {fileID: 4754308124959384334}
   - {fileID: 2882567246176603295}
   successObjects: {fileID: 6486455579991524950}
+  islandMesh: {fileID: 2683476600131314255}
+  fireMaterial: {fileID: 2100000, guid: ab93a5e76d6722d40a5219c29eadd6c2, type: 2}
+  ashMaterial: {fileID: 2100000, guid: c74308e8f4ba92945b918b43cb54dcae, type: 2}
+  grassMaterial: {fileID: 2100000, guid: 35f2d8c95528f504c8aa73a48cb47baa, type: 2}
+  currentState: 0
+  _numberOfTreesExstingueshed: 0
 --- !u!1 &4460627009538588529
 GameObject:
   m_ObjectHideFlags: 0

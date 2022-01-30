@@ -10,6 +10,11 @@ public class Island : MonoBehaviour
     public GameObject successObjects;
     private int numberOfTrees;
 
+    public MeshRenderer islandMesh;
+    public Material fireMaterial;
+    public Material ashMaterial;
+    public Material grassMaterial;
+    
     [Serializable]
     private enum State
     {
@@ -31,6 +36,9 @@ public class Island : MonoBehaviour
         }
 
         numberOfTrees = trees.Count;
+        islandMesh.material = fireMaterial;
+        
+        successObjects.SetActive(false);
     }
 
     public void OnExstuinguishTree()
@@ -41,9 +49,11 @@ public class Island : MonoBehaviour
         if (_numberOfTreesExstingueshed >= numberOfTrees)
         {
             currentState = State.part1done;
+            islandMesh.material = ashMaterial;
             
             // TODO: send state to NPC, and then whern NPC state is done, set to completed and show this
             successObjects.SetActive(true);
+            islandMesh.material = grassMaterial;
         }
     }
 }
