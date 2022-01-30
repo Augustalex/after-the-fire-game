@@ -8,7 +8,8 @@ using UnityEngine;
         public Material deadMaterial;
         public MeshRenderer treeMesh;
         public ParticleSystem fireParticles;
-
+        [HideInInspector] public Island island; // Will be set in Island.cs onEnable
+        
         [Serializable]
         private enum State
         {
@@ -29,13 +30,13 @@ using UnityEngine;
                     var playerGrower = other.GetComponent<PlayerGrower>();
                     var playerController = other.GetComponent<PlayerController>();
                     playerController.ZeroBoostJuice();
-                    // TODO: Change so the ball can
                     if (playerGrower.GrowthProgress() > 0.2f)
                     {
                         playerGrower.ReleaseThirdOfSnow();
                         currentState = State.Dead;
                         treeMesh.material = deadMaterial;
                         fireParticles.Stop();
+                        island.OnExstuinguishTree();
                     }
                 }
                 else if (currentState == State.Dead)
