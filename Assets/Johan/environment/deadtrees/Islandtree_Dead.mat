@@ -75,7 +75,7 @@ Material:
     - _ToonRimFallOff: 0.202
     - _ToonRimPower: 0.857
     m_Colors:
-    - _BaseColor: {r: 0.4056604, g: 0.373131, b: 0.37625885, a: 0}
+    - _BaseColor: {r: 0.2264151, g: 0.2264151, b: 0.2264151, a: 0}
     - _ShadedBaseColor: {r: 0, g: 0, b: 0, a: 1}
     - _Specular: {r: 0.2, g: 0.2, b: 0.2, a: 0}
     - _Tiling: {r: 1, g: 1, b: 0, a: 0}
