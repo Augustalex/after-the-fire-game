@@ -195,7 +195,7 @@ public class PlayerController : MonoBehaviour
         _inAirLastFrame = true;
     }
 
-    private void TriggerHitGroundParticles()
+    public void TriggerHitGroundParticles()
     {
         var go = Instantiate(groundCollisionParticles, this.transform.position, Quaternion.identity);
         Destroy(go, 5f); // TODO: make a safer destory    
@@ -312,5 +312,10 @@ public class PlayerController : MonoBehaviour
     public bool Stunned()
     {
         return _stunnedCooldown > 0f;
+    }
+
+    public void HitDeadTree()
+    {
+        HitTree();
     }
 }

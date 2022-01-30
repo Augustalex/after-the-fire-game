@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7667359844800783935}
   - component: {fileID: 7910558065247426554}
   - component: {fileID: 7224349482705037486}
+  - component: {fileID: 749883792886767303}
   m_Layer: 0
   m_Name: Burning_tree_02
   m_TagString: Untagged
@@ -50,6 +51,7 @@ MonoBehaviour:
   deadMaterial: {fileID: 2100000, guid: 1f034d70d76ccf94b99ae3469032de4f, type: 2}
   treeMesh: {fileID: 984156229945626009}
   fireParticles: {fileID: 2847127221856204304}
+  island: {fileID: 0}
   currentState: 0
 --- !u!65 &7224349482705037486
 BoxCollider:
@@ -64,6 +66,66 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3, y: 6, z: 3}
   m_Center: {x: 0, y: 3, z: 0}
+--- !u!114 &749883792886767303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4486386904499300177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ImpulseDefinition:
+    m_ImpulseChannel: 1
+    m_RawSignal: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 0.1
+    m_RepeatMode: 0
+    m_Randomize: 1
+    m_TimeEnvelope:
+      m_AttackShape:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 34
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_AttackTime: 0
+      m_SustainTime: 0.2
+      m_DecayTime: 0.7
+      m_ScaleWithImpact: 1
+      m_HoldForever: 0
+    m_ImpactRadius: 100
+    m_DirectionMode: 0
+    m_DissipationMode: 2
+    m_DissipationDistance: 1000
+    m_PropagationSpeed: 343
 --- !u!1001 &1903326377990885661
 PrefabInstance:
   m_ObjectHideFlags: 0
