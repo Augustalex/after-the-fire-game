@@ -9,6 +9,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     public PlayerModeController player;
     public Vector3 finishPosition;
+    public GameObject partyMode;
 
     public string victoryText =
         "Yay! You healed the forest! This is the best beetle stew we ever had. We forgive you.";
@@ -20,6 +21,7 @@ public class GameManager : MonoSingleton<GameManager>
             UIManager.Instance.SetSubtitle(victoryText);
             player.SetToWalkingMode();
             player.hogRoot.transform.position = finishPosition;
+            partyMode.SetActive(true);
             // Set till hog
             // Set hog post till start position
         }
