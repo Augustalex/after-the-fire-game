@@ -21,6 +21,7 @@ public class Npc : MonoBehaviour
     }
 
     [SerializeField] private State _currentState = State.idle;
+    [HideInInspector] public Island island; // Set's in Island onEnable
 
     private void OnEnable()
     {
@@ -57,6 +58,7 @@ public class Npc : MonoBehaviour
         {
             _currentState = State.allCompleted;
             playerInventory.RegisterPickedUpWorm();
+            island.OnAllCompleted();
         }
             
     }

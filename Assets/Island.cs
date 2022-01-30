@@ -39,23 +39,28 @@ public class Island : MonoBehaviour
         islandMesh.material = fireMaterial;
         
         successObjects.SetActive(false);
+
+        npc.island = this;
     }
 
     public void OnExstuinguishTree()
     {
-        if (currentState ==State.allCompleted) return;
+        if (currentState == State.allCompleted) return;
         
         _numberOfTreesExstingueshed++;
         if (_numberOfTreesExstingueshed >= numberOfTrees)
         {
             currentState = State.part1done;
             islandMesh.material = ashMaterial;
-
             npc.OnPart1Complete();
-            
-            // TODO: send state to NPC, and then whern NPC state is done, set to completed and show this
-            successObjects.SetActive(true);
-            islandMesh.material = grassMaterial;
         }
+    }
+
+    public void OnAllCompleted()
+    {
+        successObjects.SetActive(true);
+        islandMesh.material = grassMaterial;
+        
+        GameManager.Instance.OnIslandCompleted(this);
     }
 }

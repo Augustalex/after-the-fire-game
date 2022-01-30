@@ -54,5 +54,10 @@ public class PlayerInventory : MonoBehaviour
         wormsText.text = _worms.ToString();
     }
 
+    public int GetWorms()
+    {
+        return _worms;
+    }
+
     
 }

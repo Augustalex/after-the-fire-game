@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class UIManager : MonoSingleton<UIManager>
 {
-    public TextMeshProUGUI subtitleText;
+    [SerializeField] private TextMeshProUGUI subtitleText;
     private float _closeDialogueCooldown;
     private bool _closing;
 

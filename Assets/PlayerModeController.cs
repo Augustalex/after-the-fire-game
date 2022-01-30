@@ -19,6 +19,8 @@ public class PlayerModeController : MonoBehaviour
     private SphereCollider _ballCollider;
     private PlayerGrower _ballGrower;
 
+    public Vector3 originalSpawnPosition;
+
     private void Awake()
     {
         _hogCharacterController = hogRoot.GetComponent<CharacterController>();
@@ -32,6 +34,8 @@ public class PlayerModeController : MonoBehaviour
         _ballGrower = ballRoot.GetComponentInChildren<PlayerGrower>();
 
         SetToBallMode();
+
+        originalSpawnPosition = hogRoot.transform.position;
     }
 
     void Update()
