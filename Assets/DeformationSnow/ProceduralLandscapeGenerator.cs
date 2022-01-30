@@ -57,10 +57,6 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
     {
         yield return terrain.GetComponentInChildren<ProceduralSnow>().GeneratePlane();
 
-        // if (CanGenerateIsland(terrain))
-        // {
-        //     GenerateIsland(terrain);
-        // }
         if (Random.value < .05 && CanGenerateForrest(terrain))
         {
             GenerateForrest(terrain);
@@ -71,12 +67,16 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
             {
                 GenerateWaySign(terrain);
             }
+            else
+            {
+                Debug.Log("CAN NOT GENERATE SIGN");
+            }
         }
     }
 
     private bool CanGenerateWaySign(GameObject terrain)
     {
-        return !Physics.OverlapSphere(terrain.transform.position, 100f).Any(s => s.CompareTag("WaySign"));
+        return !Physics.OverlapSphere(AlignToGrid(terrain.transform.position), 100f).Any(s => s.CompareTag("WaySign"));
     }
 
     private void GenerateWaySign(GameObject terrain)
