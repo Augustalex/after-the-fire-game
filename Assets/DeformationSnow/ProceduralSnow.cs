@@ -1,10 +1,7 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using TreeEditor;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class ProceduralSnow : MonoBehaviour
 {
@@ -56,10 +53,11 @@ public class ProceduralSnow : MonoBehaviour
             _setup = true;
         }
 
-        if (Vector3.Distance(_player.transform.position, transform.position) >
-            ProceduralLandscapeGenerator.GridSize + GridCullingMargin) return;
-
-        DeformVerticies();
+        if (Vector3.Distance(_player.transform.position, transform.position) <
+            (ProceduralLandscapeGenerator.GridSize * .75f) + GridCullingMargin)
+        {
+            DeformVerticies();
+        }
     }
 
     public void SetStartHeight()
@@ -172,7 +170,8 @@ public class ProceduralSnow : MonoBehaviour
         var playerPosition = playerTransform.position;
         var playerScaleX = playerTransform.localScale.x;
 
-        var treePoints = Physics.OverlapSphere(playerPosition, playerScaleX * .6f).Where(c => c.CompareTag("Tree") || c.CompareTag("WaySign"))
+        var treePoints = Physics.OverlapSphere(playerPosition, playerScaleX * .6f)
+            .Where(c => c.CompareTag("Tree") || c.CompareTag("WaySign"))
             .ToArray();
         if (treePoints.Length > 0) return;
         if (velocity == 0) return;
@@ -432,5 +431,84 @@ public class ProceduralSnow : MonoBehaviour
         SetStartHeight();
 
         _doneGenerating = true;
+    }
+
+    public class FractalNoise
+    {
+        private float[] m_Exponent;
+        private int m_IntOctaves;
+        private float m_Octaves;
+        private float m_Lacunarity;
+
+        public FractalNoise(float inH, float inLacunarity, float inOctaves)
+        {
+            this.m_Lacunarity = inLacunarity;
+            this.m_Octaves = inOctaves;
+            this.m_IntOctaves = (int) inOctaves;
+            this.m_Exponent = new float[this.m_IntOctaves + 1];
+            float num = 1f;
+            for (int index = 0; index < this.m_IntOctaves + 1; ++index)
+            {
+                this.m_Exponent[index] = (float) Math.Pow((double) this.m_Lacunarity, -(double) inH);
+                num *= this.m_Lacunarity;
+            }
+        }
+
+        public float HybridMultifractal(float x, float y, float offset)
+        {
+            float num1 = (Mathf.PerlinNoise(x, y) + offset) * this.m_Exponent[0];
+            float num2 = num1;
+            x *= this.m_Lacunarity;
+            y *= this.m_Lacunarity;
+            int index;
+            for (index = 1; index < this.m_IntOctaves; ++index)
+            {
+                if ((double) num2 > 1.0)
+                    num2 = 1f;
+                float num3 = (Mathf.PerlinNoise(x, y) + offset) * this.m_Exponent[index];
+                num1 += num2 * num3;
+                num2 *= num3;
+                x *= this.m_Lacunarity;
+                y *= this.m_Lacunarity;
+            }
+
+            float num4 = this.m_Octaves - (float) this.m_IntOctaves;
+            return num1 + num4 * Mathf.PerlinNoise(x, y) * this.m_Exponent[index];
+        }
+
+        public float RidgedMultifractal(float x, float y, float offset, float gain)
+        {
+            float num1 = Mathf.Abs(Mathf.PerlinNoise(x, y));
+            float num2 = offset - num1;
+            float num3 = num2 * num2;
+            float num4 = num3;
+            for (int index = 1; index < this.m_IntOctaves; ++index)
+            {
+                x *= this.m_Lacunarity;
+                y *= this.m_Lacunarity;
+                float num5 = Mathf.Clamp01(num3 * gain);
+                float num6 = Mathf.Abs(Mathf.PerlinNoise(x, y));
+                float num7 = offset - num6;
+                num3 = num7 * num7 * num5;
+                num4 += num3 * this.m_Exponent[index];
+            }
+
+            return num4;
+        }
+
+        public float BrownianMotion(float x, float y)
+        {
+            float num1 = 0.0f;
+            long index;
+            for (index = 0L; index < (long) this.m_IntOctaves; ++index)
+            {
+                num1 = Mathf.PerlinNoise(x, y) * this.m_Exponent[index];
+                x *= this.m_Lacunarity;
+                y *= this.m_Lacunarity;
+            }
+
+            float num2 = this.m_Octaves - (float) this.m_IntOctaves;
+            return num1 + num2 * Mathf.PerlinNoise(x, y) * this.m_Exponent[index];
+        }
     }
 }

@@ -1,12 +1,7 @@
-using System;
 using System.Linq;
-using System.Numerics;
 using Cinemachine;
 using DeformationSnow;
-using TMPro;
-using UnityEditor.Timeline.Actions;
 using UnityEngine;
-using UnityEngine.Assertions.Must;
 using UnityEngine.InputSystem;
 using Quaternion = UnityEngine.Quaternion;
 using Vector2 = UnityEngine.Vector2;
@@ -234,7 +229,9 @@ public class PlayerController : MonoBehaviour
             var shiftBoost = Boosting() ? data.shiftBoost : 0f;
             var minSpeed = 3f;
             var startBoost = (Mathf.Max(0, minSpeed - _rigidbody.velocity.magnitude) / minSpeed) * data.startBoost;
-            _rigidbody.AddForce((direction.normalized * (data.speed + startBoost + shiftBoost)) * Time.deltaTime,
+            var inAirPenalty = _inAir ? .3f : 1f;
+            
+            _rigidbody.AddForce((direction.normalized * (data.speed + startBoost + shiftBoost)) * Time.deltaTime * inAirPenalty,
                 ForceMode.Acceleration);
         }
         else if (_stillMovingCooldown < 0)
