@@ -4,24 +4,30 @@ using UnityEngine;
 
 public class Npc : MonoBehaviour
 {
-    public string part1CompletedText = "Nice! Now fetch me 5 cones";
-    public string allCompletedText = "Thanks! Here's a worm to your pot!";
+    public string part1CompletedText = "Nice! Now fetch me # cones";
+    public string allCompletedText = "Thanks for the # cones! Here's a worm to your pot!";
     public int numberOfConesToFetch = 5;
     public int collectedCones = 0;
+    public int leftToCollect = 5;
 
     [SerializeField] private bool _inside;
 
     [Serializable]
     private enum State
     {
-        idle= 0,
+        idle = 0,
         part1completed = 1,
         allCompleted = 2,
     }
 
     [SerializeField] private State _currentState = State.idle;
-    
-    
+
+    private void OnEnable()
+    {
+        leftToCollect = numberOfConesToFetch;
+    }
+
+
     public void OnPart1Complete()
     {
         _currentState = State.part1completed;
@@ -37,7 +43,21 @@ public class Npc : MonoBehaviour
 
     private void TryToGetPinesFromPlayer(Collider other)
     {
-        Debug.Log("Tru to get pines from player");
+        var playerInventory = other.GetComponentInParent<PlayerInventory>();
+
+        if (!playerInventory)
+        {
+            Debug.LogWarning("No Inventory");
+            return;
+        }
+        leftToCollect = numberOfConesToFetch - collectedCones;
+        collectedCones += playerInventory.TryGetCones(leftToCollect);
+        leftToCollect = numberOfConesToFetch - collectedCones;
+        if (leftToCollect <= 0)
+        {
+            _currentState = State.allCompleted;
+        }
+            
     }
 
     private void UpdateStateMachine(Collider other)
@@ -46,12 +66,14 @@ public class Npc : MonoBehaviour
             
         if (_currentState == State.part1completed)
         {
-            UIManager.Instance.SetSubtitle(part1CompletedText);
             TryToGetPinesFromPlayer(other);
+            var text = part1CompletedText.Replace("#", leftToCollect.ToString());
+            UIManager.Instance.SetSubtitle(text);
         }
         if (_currentState == State.allCompleted)
         {
-            UIManager.Instance.SetSubtitle(allCompletedText);
+            var text = allCompletedText.Replace("#", numberOfConesToFetch.ToString());
+            UIManager.Instance.SetSubtitle(text);
         }
     }
 
