@@ -63,7 +63,7 @@ public class DeadTree : MonoBehaviour
                     }
 
                     Shake();
-                    other.GetComponentInChildren<PlayerController>().HitTree();
+                    other.GetComponentInChildren<PlayerController>().HitDeadTree();
                     SfxManager.Instance.PlaySfx("collideWithTree",  other.attachedRigidbody.velocity.magnitude * 0.05f, true); 
                 }
                 else if (currentState == State.Dead)

@@ -313,4 +313,10 @@ public class PlayerController : MonoBehaviour
     {
         return _stunnedCooldown > 0f;
     }
+
+    public void HitDeadTree()
+    {
+        HitTree();
+        TriggerHitGroundParticles();
+    }
 }
