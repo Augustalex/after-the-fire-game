@@ -1090,6 +1090,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1891676858 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6707339881894108149, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
+  m_PrefabInstance: {fileID: 1891676854}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1956145530
 GameObject:
   m_ObjectHideFlags: 0
@@ -1571,6 +1582,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3959439489612392025, guid: 0cbcd0f3566f6b1488e0fcf057b035f2, type: 3}
+      propertyPath: seedText
+      value: 
+      objectReference: {fileID: 1891676857}
+    - target: {fileID: 3959439489612392025, guid: 0cbcd0f3566f6b1488e0fcf057b035f2, type: 3}
+      propertyPath: wormsText
+      value: 
+      objectReference: {fileID: 1891676858}
     - target: {fileID: 4325210509057043700, guid: 0cbcd0f3566f6b1488e0fcf057b035f2, type: 3}
       propertyPath: m_RootOrder
       value: 6
