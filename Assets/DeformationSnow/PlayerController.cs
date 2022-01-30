@@ -176,8 +176,11 @@ public class PlayerController : MonoBehaviour
 
         if (_hitGroundTrigger)
         {
-            var go = Instantiate(groundCollisionParticles, this.transform.position, Quaternion.identity);
-            Destroy(go, 5f); // TODO: make a safer destory
+            if (!_onIsland)
+            {
+                var go = Instantiate(groundCollisionParticles, this.transform.position, Quaternion.identity);
+                Destroy(go, 5f); // TODO: make a safer destory    
+            }
             _impulseSource.GenerateImpulse();
             
         }
