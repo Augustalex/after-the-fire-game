@@ -133,6 +133,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: island_04
       objectReference: {fileID: 0}
+    - target: {fileID: 5138832502415532927, guid: bb1e24418cf8ac240bc024fe01725143, type: 3}
+      propertyPath: m_TagString
+      value: Island
+      objectReference: {fileID: 0}
     - target: {fileID: 5484008048295279045, guid: bb1e24418cf8ac240bc024fe01725143, type: 3}
       propertyPath: m_RootOrder
       value: 1
