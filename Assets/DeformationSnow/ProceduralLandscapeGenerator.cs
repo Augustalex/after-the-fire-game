@@ -65,7 +65,7 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
         {
             GenerateForrest(terrain);
         }
-        else if(terrain.transform.position.magnitude > 200f && Random.value < .1)
+        else if(terrain.transform.position.magnitude > 200f && Random.value < .2)
         {
             if (CanGenerateWaySign(terrain))
             {
