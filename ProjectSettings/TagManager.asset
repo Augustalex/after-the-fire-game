@@ -11,6 +11,7 @@ TagManager:
   - IslandBeacon
   - WaySign
   - IslandTree
+  - PlayerHog
   layers:
   - Default
   - TransparentFX
