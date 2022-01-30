@@ -69,7 +69,12 @@ public class WildTree : MonoBehaviour
                 Shake();
                 other.collider.GetComponentInChildren<PlayerController>().HitTree();
                 grower.ReleaseSnow();
-            }    
+                SfxManager.Instance.PlaySfx("collideWithTreeSeedDrop"); 
+            }
+            else
+            {
+                SfxManager.Instance.PlaySfx("collideWithTree",  other.rigidbody.velocity.magnitude * 0.05f, true); 
+            }
             
         }
     }

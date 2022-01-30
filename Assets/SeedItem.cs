@@ -9,6 +9,7 @@ public class SeedItem : MonoBehaviour
         {
             other.collider.GetComponentInChildren<PlayerInventory>().RegisterPickedUpSeed();
             Destroy(gameObject, .1f);
+            SfxManager.Instance.PlaySfx("seedPickup", 0.6f); 
         }
     }
 }
