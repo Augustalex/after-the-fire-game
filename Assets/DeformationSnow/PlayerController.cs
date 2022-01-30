@@ -184,7 +184,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            var hitGround = Physics.Raycast(transform.position, Vector3.down, 1f);
+            var hitGround = Physics.Raycast(transform.position, Vector3.down, transform.localScale.x * .75f);
             if (hitGround) _inAir = false;
         }
 
