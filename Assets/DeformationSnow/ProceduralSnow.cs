@@ -172,7 +172,7 @@ public class ProceduralSnow : MonoBehaviour
         var playerPosition = playerTransform.position;
         var playerScaleX = playerTransform.localScale.x;
 
-        var treePoints = Physics.OverlapSphere(playerPosition, playerScaleX * .6f).Where(c => c.CompareTag("Tree"))
+        var treePoints = Physics.OverlapSphere(playerPosition, playerScaleX * .6f).Where(c => c.CompareTag("Tree") || c.CompareTag("WaySign"))
             .ToArray();
         if (treePoints.Length > 0) return;
         if (velocity == 0) return;

@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody _rigidbody;
     private bool _moving;
-    private double _cooldown;
+    private double _stillMovingCooldown;
     private float _boostMeter;
 
     private Vector2 _move;
@@ -26,21 +26,21 @@ public class PlayerController : MonoBehaviour
     private float _inAirCooldown;
     private bool _inAirLastFrame;
     private Vector3 _previousPosition;
-    private bool _jump;
+    private bool _jumpThisFrame;
     private bool _sprint;
     private float _stunnedCooldown;
     [SerializeField] private bool _hitGroundTrigger;
     private bool _onIsland;
 
     public ParticleSystem snowParticles;
-    private ParticleSystem.EmissionModule _em;
+    private ParticleSystem.EmissionModule _trailParticles;
     public GameObject groundCollisionParticles;
     public CinemachineImpulseSource _impulseSource;
-    
+
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        _em = snowParticles.emission;
+        _trailParticles = snowParticles.emission;
     }
 
     public void OnMove(InputValue value)
@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputValue value)
     {
-        _jump = value.isPressed;
+        _jumpThisFrame = value.isPressed;
     }
 
     public void OnSprint(InputValue value)
@@ -70,32 +70,73 @@ public class PlayerController : MonoBehaviour
     {
         AddExtraGravityIfOnIsland();
 
+        if (_inAir)
+        {
+            TrackIfStillInAir();
+        }
+        else
+        {
+            AdjustDrag();
+        }
+
         if (Stunned())
         {
             _stunnedCooldown -= Time.deltaTime;
-            return;
         }
-
-        if (_inAir)
+        
+        if(!Stunned() && !_inAir)
         {
-            _rigidbody.drag = 1f;
-            _rigidbody.AddForce(Vector3.down * 100f * Time.deltaTime, ForceMode.Acceleration);
-
-
-            if (_inAirCooldown > 0)
-            {
-                _inAirCooldown -= Time.deltaTime;
-            }
-            else
-            {
-                var hitGround = Physics.Raycast(transform.position, Vector3.down, 1f);
-                if (hitGround) _inAir = false;
-            }
-            _inAirLastFrame = true;
-            return;
+            HandleJump();
+            HandleMoving();
+            HandleBoosting();
         }
-        _hitGroundTrigger = _inAirLastFrame && !_inAir;
 
+        if (NotTouchingSnow())
+        {
+            DisableTrailParticles();
+        }
+        else
+        {
+            EnableTrailParticles();
+        }
+
+        if (TouchedGroundThisFrame())
+        {
+            if (!_onIsland)
+            {
+                TriggerHitGroundParticles();
+            }
+
+            _impulseSource.GenerateImpulse();
+        }
+
+        _previousPosition = transform.position;
+        _jumpThisFrame = false;
+        if (!_inAir && _inAirLastFrame) _inAirLastFrame = false;
+    }
+
+    private void EnableTrailParticles()
+    {
+        _trailParticles.enabled = true;
+
+        // < xf ? - dont emit any particle below this value
+        // * xf - Emitter multiplier
+        _trailParticles.rateOverTime = (_rigidbody.velocity.magnitude < 10f ? 0f : _rigidbody.velocity.magnitude * 30f);
+    }
+
+    private void DisableTrailParticles()
+    {
+        _trailParticles.enabled = false;
+        _trailParticles.rateOverTime = 0f;
+    }
+
+    private bool NotTouchingSnow()
+    {
+        return _inAir || _onIsland;
+    }
+
+    private void AdjustDrag()
+    {
         if (_rigidbody.velocity.magnitude > 10f)
         {
             _rigidbody.drag = 2f;
@@ -112,21 +153,57 @@ public class PlayerController : MonoBehaviour
         {
             _rigidbody.drag = 0.1f;
         }
+    }
 
-        var direction = new Vector3(_move.x, 0, _move.y);
+    private bool TouchedGroundThisFrame()
+    {
+        return _inAirLastFrame && !_inAir;
+    }
 
-        bool grounded = true;
-        if (_jump)
+    private void TrackIfStillInAir()
+    {
+        _rigidbody.drag = 1f;
+        _rigidbody.AddForce(Vector3.down * 100f * Time.deltaTime, ForceMode.Acceleration);
+
+        if (_inAirCooldown > 0)
         {
-            grounded = Physics.OverlapSphere(transform.position, transform.localScale.x * .6f).Length > 1;
-
-            if (grounded)
-            {
-                _inAirCooldown = 1f;
-                _inAir = true;
-                _rigidbody.AddForce(Vector3.up * data.jumpForce + direction * 8f, ForceMode.Impulse);
-            }
+            _inAirCooldown -= Time.deltaTime;
         }
+        else
+        {
+            var hitGround = Physics.Raycast(transform.position, Vector3.down, 1f);
+            if (hitGround) _inAir = false;
+        }
+
+        _inAirLastFrame = true;
+    }
+
+    private void TriggerHitGroundParticles()
+    {
+        var go = Instantiate(groundCollisionParticles, this.transform.position, Quaternion.identity);
+        Destroy(go, 5f); // TODO: make a safer destory    
+    }
+
+    private void HandleBoosting()
+    {
+        if (Boosting())
+        {
+            _boostMeter += Time.deltaTime;
+        }
+        else
+        {
+            _boostMeter = 0;
+        }
+    }
+
+    private Vector3 GetMoveDirection()
+    {
+        return new Vector3(_move.x, 0, _move.y);
+    }
+
+    private void HandleMoving()
+    {
+        var direction = GetMoveDirection();
 
         if (direction != Vector3.zero)
         {
@@ -138,53 +215,32 @@ public class PlayerController : MonoBehaviour
             _rigidbody.AddForce((direction.normalized * (data.speed + startBoost + shiftBoost)) * Time.deltaTime,
                 ForceMode.Acceleration);
         }
-        else if (_cooldown < 0)
+        else if (_stillMovingCooldown < 0)
         {
-            _cooldown = .2f;
+            _stillMovingCooldown = .2f;
             _moving = false;
         }
         else
         {
-            _cooldown -= Time.deltaTime;
+            _stillMovingCooldown -= Time.deltaTime;
         }
+    }
 
-        if (Boosting())
-        {
-            _boostMeter += Time.deltaTime;
-        }
-        else
-        {
-            _boostMeter = 0;
-        }
+    private void HandleJump()
+    {
+        var direction = GetMoveDirection();
 
-        _previousPosition = transform.position;
+        if (_jumpThisFrame)
+        {
+            var grounded = Physics.OverlapSphere(transform.position, transform.localScale.x * .6f).Length > 1;
 
-        _jump = false;
-        
-        if (_inAir || _onIsland)
-        {
-            _em.enabled = false;
-            _em.rateOverTime = 0f;
-        }
-        else
-        {
-            _em.enabled = true;
-            // < xf ? - dont emit any particle below this value
-            // * xf - Emitter multiplier
-            _em.rateOverTime = (_rigidbody.velocity.magnitude < 10f ? 0f : _rigidbody.velocity.magnitude * 30f);
-        }
-
-        if (_hitGroundTrigger)
-        {
-            if (!_onIsland)
+            if (grounded)
             {
-                var go = Instantiate(groundCollisionParticles, this.transform.position, Quaternion.identity);
-                Destroy(go, 5f); // TODO: make a safer destory    
+                _inAirCooldown = 1f;
+                _inAir = true;
+                _rigidbody.AddForce(Vector3.up * data.jumpForce + direction * 8f, ForceMode.Impulse);
             }
-            _impulseSource.GenerateImpulse();
-            
         }
-        _inAirLastFrame = false; // using the early return here
     }
 
     private void AddExtraGravityIfOnIsland()

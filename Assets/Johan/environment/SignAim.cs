@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class SignAim : MonoBehaviour
 {
-    public Transform target;
+    public IslandBeacon.IslandTag targetTag;
 
-    private void Update()
+    private void Start()
     {
-        Vector3 direction = target.position - transform.position;
+        var target = IslandBeacon.GetWithTag(targetTag);
+        if (!target) return;
+        
+        Vector3 direction = target.transform.position - transform.position;
         Quaternion rotation = Quaternion.LookRotation(direction);
         transform.rotation = rotation;
     }
