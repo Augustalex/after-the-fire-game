@@ -79,7 +79,7 @@ Material:
     - _ToonRimFallOff: 0.82
     - _ToonRimPower: 0.5
     m_Colors:
-    - Color_544b956882334b4c9e0d4b9755d79ae3: {r: 0.6415094, g: 0.5093614, b: 0.16582409, a: 0}
+    - Color_544b956882334b4c9e0d4b9755d79ae3: {r: 0.764151, g: 0.6466211, b: 0.34242615, a: 0}
     - Color_757bae9c10aa4596b02407e83e7ad02e: {r: 1, g: 1, b: 1, a: 0}
     - Color_9f5b37bb08a84d6ab6fecf8b02b05860: {r: 0.5, g: 0.37226707, b: 0.12924525, a: 0}
     - Color_a195ab0c81fb4308856eed56fe59f81c: {r: 0.19607842, g: 0.41989547, b: 0.6784314, a: 0}

@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: hog_03
+  m_Name: hog_06
   m_Shader: {fileID: -6465566751694194690, guid: 91a888722409bcf4db9a6445ab82abb3, type: 3}
   m_ShaderKeywords: SPECULAR_ON
   m_LightmapFlags: 4
@@ -79,11 +79,11 @@ Material:
     - _ToonRimFallOff: 0.82
     - _ToonRimPower: 0.5
     m_Colors:
-    - Color_544b956882334b4c9e0d4b9755d79ae3: {r: 0.9716981, g: 0.46293163, b: 0.8509118, a: 0}
+    - Color_544b956882334b4c9e0d4b9755d79ae3: {r: 0.764151, g: 0.41868427, b: 0.06848521, a: 0}
     - Color_757bae9c10aa4596b02407e83e7ad02e: {r: 1, g: 1, b: 1, a: 0}
-    - Color_9f5b37bb08a84d6ab6fecf8b02b05860: {r: 0.33490568, g: 0.5835555, b: 1, a: 0}
-    - Color_a195ab0c81fb4308856eed56fe59f81c: {r: 0.8301887, g: 0.2145959, b: 0.30425048, a: 0}
-    - Color_c1ca8699df7d477c9cefb29d6a15d6a2: {r: 0.17116742, g: 0.11461371, b: 0.4433962, a: 0}
+    - Color_9f5b37bb08a84d6ab6fecf8b02b05860: {r: 0.2735849, g: 0.22250463, b: 0.12775898, a: 0}
+    - Color_a195ab0c81fb4308856eed56fe59f81c: {r: 0.78401387, g: 0.8490566, b: 0.26032397, a: 0}
+    - Color_c1ca8699df7d477c9cefb29d6a15d6a2: {r: 0.17512558, g: 0.14297792, b: 0.1981132, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 0}
     - _ShadedBaseColor: {r: 0, g: 0, b: 0, a: 1}
     - _Specular: {r: 0.2, g: 0.2, b: 0.2, a: 0}
