@@ -1,13 +1,9 @@
-using System;
 using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
-public class WildTree : MonoBehaviour
+public class WaySign : MonoBehaviour
 {
-    public GameObject itemTemplate;
-
     private Quaternion _originalRotation;
     private Quaternion _zeroRotation;
 
@@ -40,11 +36,6 @@ public class WildTree : MonoBehaviour
                 _swingTimeLeft = SwingTime;
                 _originalRotation = transform.rotation;
 
-                if (_swings.Count == 1)
-                {
-                    DropItem();
-                }
-
                 if (_swings.Count == 0)
                 {
                     transform.rotation = _zeroRotation;
@@ -53,29 +44,14 @@ public class WildTree : MonoBehaviour
         }
     }
 
-    private void DropItem()
-    {
-        Instantiate(itemTemplate, transform.position + Vector3.up * 3f + Random.insideUnitSphere, Random.rotation,
-            null);
-    }
-
     private void OnCollisionEnter(Collision other)
     {
         if (other.collider.CompareTag("Player") && _swings.Count == 0)
         {
             var grower = other.collider.GetComponentInChildren<PlayerGrower>();
-            if (grower.SizeToMaxSize() < .2f)
-            {
-                Shake();
-                other.collider.GetComponentInChildren<PlayerController>().HitTree();
-                grower.ReleaseSnow();
-                SfxManager.Instance.PlaySfx("collideWithTreeSeedDrop"); 
-            }
-            else
-            {
-                SfxManager.Instance.PlaySfx("collideWithTree",  other.rigidbody.velocity.magnitude * 0.05f, true); 
-            }
-            
+            Shake();
+            other.collider.GetComponentInChildren<PlayerController>().HitTree();
+            grower.ReleaseSnow();
         }
     }
 
@@ -116,7 +92,7 @@ public class WildTree : MonoBehaviour
             _zeroRotation.y,
             other.z,
             _zeroRotation.w
-            );
+        );
     }
 
     private Vector3 RandomShakeOffset()

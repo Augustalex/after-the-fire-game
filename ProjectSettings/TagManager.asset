@@ -9,6 +9,7 @@ TagManager:
   - CinemachineTarget
   - Terrain
   - IslandBeacon
+  - WaySign
   layers:
   - Default
   - TransparentFX

@@ -7,23 +7,14 @@ using Random = UnityEngine.Random;
 
 public class ProceduralLandscapeGenerator : MonoBehaviour
 {
+    public GameObject waySignTemplate;
     public GameObject terrainTemplate;
     public Transform followTarget;
 
     public const float GridSize = 10f;
 
     private readonly HashSet<Vector3> _planeExistsByPosition = new HashSet<Vector3>();
-    private HashSet<Vector3> _islandExistsByPosition = new HashSet<Vector3>();
-
-    public IslandInfo[] islandInfos;
-
-    [Serializable]
-    public struct IslandInfo
-    {
-        public GameObject template;
-        public int gridX;
-        public int gridZ;
-    }
+    
 
     void Start()
     {
@@ -74,6 +65,24 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
         {
             GenerateForrest(terrain);
         }
+        else if(terrain.transform.position.magnitude > 200f && Random.value < .1)
+        {
+            if (CanGenerateWaySign(terrain))
+            {
+                GenerateWaySign(terrain);
+            }
+        }
+    }
+
+    private bool CanGenerateWaySign(GameObject terrain)
+    {
+        return !Physics.OverlapSphere(terrain.transform.position, 100f).Any(s => s.CompareTag("WaySign"));
+    }
+
+    private void GenerateWaySign(GameObject terrain)
+    {
+        var waySign = Instantiate(waySignTemplate);
+        waySign.transform.position = terrain.transform.position + Vector3.up * 6f;
     }
 
     private bool CanGenerateForrest(GameObject terrain)
@@ -81,43 +90,6 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
         var gridPosition = AlignToGrid(terrain.transform.position);
 
         return !Physics.OverlapSphere(gridPosition, GridSize * 2f).Any(s => s.CompareTag("Island"));
-    }
-
-    public Vector3 IslandLocation(IslandInfo info)
-    {
-        return AlignToGrid(new Vector3(info.gridX * GridSize, 0, info.gridZ * GridSize));
-    }
-
-    private void GenerateIsland(GameObject terrain)
-    {
-        var islandInfo = islandInfos.FirstOrDefault(info =>
-            Vector3.Distance(AlignToGrid(terrain.transform.position), IslandLocation(info)) > GridSize * 4f);
-        if (islandInfo.template != null)
-        {
-            var islandLocation = IslandLocation(islandInfo);
-            if (!_islandExistsByPosition.Contains(islandLocation))
-            {
-                var island = Instantiate(islandInfo.template);
-                island.transform.position = islandLocation;
-
-                _islandExistsByPosition.Add(islandLocation);
-            }
-        }
-    }
-
-    private bool CanGenerateIsland(GameObject terrain)
-    {
-        if (_islandExistsByPosition.Count > islandInfos.Length) return false;
-
-        return islandInfos.Any(islandInfo =>
-        {
-            var distanceToIsland = Vector3.Distance(
-                AlignToGrid(terrain.transform.position),
-                IslandLocation(islandInfo));
-
-            return !_islandExistsByPosition.Contains(IslandLocation(islandInfo))
-                   && distanceToIsland > GridSize * 4f;
-        });
     }
 
     private void GenerateForrest(GameObject terrain)
