@@ -50,6 +50,8 @@ public class Island : MonoBehaviour
         {
             currentState = State.part1done;
             islandMesh.material = ashMaterial;
+
+            npc.OnPart1Complete();
             
             // TODO: send state to NPC, and then whern NPC state is done, set to completed and show this
             successObjects.SetActive(true);

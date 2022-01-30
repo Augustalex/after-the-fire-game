@@ -5365,6 +5365,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: hog_rig_01
       objectReference: {fileID: 0}
+    - target: {fileID: 8165807213124137002, guid: e1b51184e258758408260ddb00131997, type: 3}
+      propertyPath: m_TagString
+      value: PlayerHog
+      objectReference: {fileID: 0}
     - target: {fileID: 8798088403752479376, guid: e1b51184e258758408260ddb00131997, type: 3}
       propertyPath: m_RootOrder
       value: 1
