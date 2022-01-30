@@ -11,6 +11,8 @@ public class PlayerGrower : MonoBehaviour
     private bool _maxSizeReached;
     private Vector3 _originalSize;
     private bool _visible;
+    private bool _onIsland;
+    private bool _onSnow;
 
     private const float MaxSize = 2f;
     
@@ -29,38 +31,44 @@ public class PlayerGrower : MonoBehaviour
 
     void Update()
     {
+        _onIsland = OnIsland();
+        _onSnow = OnSnow();
+        
         if (_controller.Stunned()) return;
-        if (_visible && transform.localScale == _originalSize && OnIsland())
+        if (_visible && transform.localScale == _originalSize && _onIsland)
         {
             SetInvisible();
         }
-        else if(!_visible && OnSnow())
+        else if(!_visible && _onSnow)
         {
             ReleaseSnow();
             SetVisible();
         }
 
-        if (_rigidbody.velocity.magnitude > 1f)
+        if (_onSnow && !_onIsland)
         {
-            var boostFactor = Mathf.Clamp(_controller.BoostJuice() / 12f, 0f, 1f);
-            var boostRate = .004f + 5f * boostFactor;
-            var growthRate = _controller.Boosting() ? boostRate : .004f;
-            
-            var toGrow = growthRate * SizeToMaxSize() * Time.deltaTime;
-            
-            if (transform.localScale.x >= MaxSize * .98f)
+            if (_rigidbody.velocity.magnitude > 1f)
             {
-                _maxSizeReached = true;
-            }
-            else
-            {
-                _maxSizeReached = false;
-            }
+                var boostFactor = Mathf.Clamp(_controller.BoostJuice() / 12f, 0f, 1f);
+                var boostRate = .004f + 5f * boostFactor;
+                var growthRate = _controller.Boosting() ? boostRate : .004f;
             
-            transform.localScale += Vector3.one * toGrow;
-            if (transform.localScale.x > MaxSize)
-            {
-                transform.localScale = Vector3.one * MaxSize;
+                var toGrow = growthRate * SizeToMaxSize() * Time.deltaTime;
+            
+                if (transform.localScale.x >= MaxSize * .98f)
+                {
+                    _maxSizeReached = true;
+                }
+                else
+                {
+                    _maxSizeReached = false;
+                }
+            
+                transform.localScale += Vector3.one * toGrow;
+                if (transform.localScale.x > MaxSize)
+                {
+                    transform.localScale = Vector3.one * MaxSize;
+                }
             }
         }
     }
@@ -120,6 +128,11 @@ public class PlayerGrower : MonoBehaviour
         var sizeFactor = (MaxSize - _originalSize.x) * .33f;
         var finalSizeFactor = Mathf.Clamp(transform.localScale.x - sizeFactor, _originalSize.x, MaxSize);
         transform.localScale = Vector3.one * finalSizeFactor;
+
+        if (finalSizeFactor < .2f)
+        {
+            ReleaseSnow();
+        }
     }
     
     public static float InCirc(float t) => -((float) Math.Sqrt(1 - t * t) - 1);
