@@ -36,7 +36,8 @@ public class PlayerController : MonoBehaviour
     private ParticleSystem.EmissionModule _trailParticles;
     public GameObject groundCollisionParticles;
     public CinemachineImpulseSource _impulseSource;
-
+    public AudioSource movementSfx;
+    
     void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
@@ -122,12 +123,17 @@ public class PlayerController : MonoBehaviour
         // < xf ? - dont emit any particle below this value
         // * xf - Emitter multiplier
         _trailParticles.rateOverTime = (_rigidbody.velocity.magnitude < 10f ? 0f : _rigidbody.velocity.magnitude * 30f);
+        movementSfx.volume = _rigidbody.velocity.magnitude * 0.05f;
+        movementSfx.pitch = Mathf.Clamp(_rigidbody.velocity.magnitude * 0.05f, 0.5f, 1f);
+        Debug.Log(_rigidbody.velocity.magnitude * 0.05f);
+        
     }
 
     private void DisableTrailParticles()
     {
         _trailParticles.enabled = false;
         _trailParticles.rateOverTime = 0f;
+        movementSfx.volume = 0f;
     }
 
     private bool NotTouchingSnow()
