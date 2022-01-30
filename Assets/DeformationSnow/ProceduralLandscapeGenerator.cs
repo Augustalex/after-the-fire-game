@@ -12,12 +12,10 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
 
     public const float GridSize = 10f;
 
-    private HashSet<Vector3> _planeExistsByPosition = new HashSet<Vector3>();
+    private readonly HashSet<Vector3> _planeExistsByPosition = new HashSet<Vector3>();
     private HashSet<Vector3> _islandExistsByPosition = new HashSet<Vector3>();
 
     public IslandInfo[] islandInfos;
-
-    private Vector3 _firstIslandLocation = AlignToGrid(new Vector3(5f * GridSize, 0, 5f * GridSize));
 
     [Serializable]
     public struct IslandInfo
@@ -68,11 +66,11 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
     {
         yield return terrain.GetComponentInChildren<ProceduralSnow>().GeneratePlane();
 
-        if (CanGenerateIsland(terrain))
-        {
-            GenerateIsland(terrain);
-        }
-        else if (Random.value < .05 && CanGenerateForrest(terrain))
+        // if (CanGenerateIsland(terrain))
+        // {
+        //     GenerateIsland(terrain);
+        // }
+        if (Random.value < .05 && CanGenerateForrest(terrain))
         {
             GenerateForrest(terrain);
         }
@@ -82,8 +80,7 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
     {
         var gridPosition = AlignToGrid(terrain.transform.position);
 
-        return islandInfos.Any(islandInfo =>
-            Vector3.Distance(gridPosition, IslandLocation(islandInfo)) > GridSize * 4f);
+        return !Physics.OverlapSphere(gridPosition, GridSize * 2f).Any(s => s.CompareTag("Island"));
     }
 
     public Vector3 IslandLocation(IslandInfo info)
@@ -97,18 +94,30 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
             Vector3.Distance(AlignToGrid(terrain.transform.position), IslandLocation(info)) > GridSize * 4f);
         if (islandInfo.template != null)
         {
-            var island = Instantiate(islandInfo.template);
-            island.transform.position = terrain.transform.position + Vector3.up;
+            var islandLocation = IslandLocation(islandInfo);
+            if (!_islandExistsByPosition.Contains(islandLocation))
+            {
+                var island = Instantiate(islandInfo.template);
+                island.transform.position = islandLocation;
 
-            _islandExistsByPosition.Add(island.transform.position);
+                _islandExistsByPosition.Add(islandLocation);
+            }
         }
     }
 
     private bool CanGenerateIsland(GameObject terrain)
     {
-        if (_islandExistsByPosition.Count > 0) return false;
-        if (Vector3.Distance(terrain.transform.position, _firstIslandLocation) < 1f) return true;
-        return false;
+        if (_islandExistsByPosition.Count > islandInfos.Length) return false;
+
+        return islandInfos.Any(islandInfo =>
+        {
+            var distanceToIsland = Vector3.Distance(
+                AlignToGrid(terrain.transform.position),
+                IslandLocation(islandInfo));
+
+            return !_islandExistsByPosition.Contains(IslandLocation(islandInfo))
+                   && distanceToIsland > GridSize * 4f;
+        });
     }
 
     private void GenerateForrest(GameObject terrain)

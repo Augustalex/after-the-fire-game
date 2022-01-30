@@ -8,6 +8,7 @@ TagManager:
   - Island
   - CinemachineTarget
   - Terrain
+  - IslandBeacon
   layers:
   - Default
   - TransparentFX
