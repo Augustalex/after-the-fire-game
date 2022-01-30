@@ -36,20 +36,6 @@ public class PlayerModeController : MonoBehaviour
 
     void Update()
     {
-        if (Random.value < .001f)
-        {
-            Debug.Log($"OnIsland(): {OnIsland()}");
-        }
-
-        // if (OnIsland())
-        // {
-        //     SetToWalkingMode();
-        // }
-        // else
-        // {
-        //     SetToBallMode();
-        // }
-
         if (_isBall)
         {
             hogRoot.transform.position = ballRoot.transform.position;
@@ -60,28 +46,10 @@ public class PlayerModeController : MonoBehaviour
             ballRoot.transform.position = hogRoot.transform.position;
             ballRoot.transform.rotation = hogRoot.transform.rotation;
         }
-
-        // if (Input.GetKeyDown(KeyCode.X))
-        // {
-        //     if (_isBall)
-        //     {
-        //         hogRoot.GetComponent<Animator>().SetBool("IsBall", false);
-        //         ballRoot.SetActive(false);
-        //     }
-        //     else
-        //     {
-        //         hogRoot.GetComponent<Animator>().SetBool("IsBall", true);
-        //         ballRoot.SetActive(true);
-        //     }
-        //
-        //     _isBall = !_isBall;
-        // }
     }
 
     public void SetToBallMode()
     {
-        Debug.Log("SET TO BALL MODE");
-
         hogRoot.GetComponent<Animator>().SetBool("IsWalking", false);
         hogRoot.GetComponent<Animator>().SetBool("IsBall", true);
         _hogCharacterController.enabled = false;

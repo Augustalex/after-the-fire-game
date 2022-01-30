@@ -84,11 +84,11 @@ namespace StarterAssets
         private float _fallTimeoutDelta;
 
         // animation IDs
-        private int _animIDSpeed;
-        private int _animIDGrounded;
-        private int _animIDJump;
-        private int _animIDFreeFall;
-        private int _animIDMotionSpeed;
+        // private int _animIDSpeed;
+        // private int _animIDGrounded;
+        // private int _animIDJump;
+        // private int _animIDFreeFall;
+        // private int _animIDMotionSpeed;
 
         private PlayerInput _playerInput;
         private Animator _animator;
@@ -137,7 +137,6 @@ namespace StarterAssets
             {
                 if (!_animator.GetBool("IsWalking"))
                 {
-                    Debug.Log("SET WALKING");
                     _animator.SetBool("IsWalking", true);
                 }
             }
@@ -154,11 +153,11 @@ namespace StarterAssets
 
         private void AssignAnimationIDs()
         {
-            _animIDSpeed = Animator.StringToHash("Speed");
-            _animIDGrounded = Animator.StringToHash("Grounded");
-            _animIDJump = Animator.StringToHash("Jump");
-            _animIDFreeFall = Animator.StringToHash("FreeFall");
-            _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
+            // _animIDSpeed = Animator.StringToHash("Speed");
+            // _animIDGrounded = Animator.StringToHash("Grounded");
+            // _animIDJump = Animator.StringToHash("Jump");
+            // _animIDFreeFall = Animator.StringToHash("FreeFall");
+            // _animIDMotionSpeed = Animator.StringToHash("MotionSpeed");
         }
 
         private void GroundedCheck()
@@ -172,7 +171,7 @@ namespace StarterAssets
             // update animator if using character
             if (_hasAnimator)
             {
-                _animator.SetBool(_animIDGrounded, Grounded);
+                // _animator.SetBool(_animIDGrounded, Grounded);
             }
         }
 
@@ -259,8 +258,8 @@ namespace StarterAssets
             // update animator if using character
             if (_hasAnimator)
             {
-                _animator.SetFloat(_animIDSpeed, _animationBlend);
-                _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+                // _animator.SetFloat(_animIDSpeed, _animationBlend);
+                // _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
             }
         }
 
@@ -274,8 +273,8 @@ namespace StarterAssets
                 // update animator if using character
                 if (_hasAnimator)
                 {
-                    _animator.SetBool(_animIDJump, false);
-                    _animator.SetBool(_animIDFreeFall, false);
+                    // _animator.SetBool(_animIDJump, false);
+                    // _animator.SetBool(_animIDFreeFall, false);
                 }
 
                 // stop our velocity dropping infinitely when grounded
@@ -293,7 +292,7 @@ namespace StarterAssets
                     // update animator if using character
                     if (_hasAnimator)
                     {
-                        _animator.SetBool(_animIDJump, true);
+                        // _animator.SetBool(_animIDJump, true);
                     }
                 }
 
@@ -318,7 +317,7 @@ namespace StarterAssets
                     // update animator if using character
                     if (_hasAnimator)
                     {
-                        _animator.SetBool(_animIDFreeFall, true);
+                        // _animator.SetBool(_animIDFreeFall, true);
                     }
                 }
 

@@ -154,7 +154,6 @@ public class PlayerController : MonoBehaviour
         // < xf ? - dont emit any particle below this value
         // * xf - Emitter multiplier
         em.rateOverTime = (_rigidbody.velocity.magnitude < 10f ? 0f : _rigidbody.velocity.magnitude * 30f);
-        Debug.Log(_rigidbody.velocity.magnitude);
     }
 
     private void AddExtraGravityIfOnIsland()

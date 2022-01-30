@@ -67,11 +67,6 @@ public class RollerController : MonoBehaviour
             _direction += Vector3.right * Time.deltaTime * 20f;
         }
 
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            Debug.Log(_direction);
-        }
-
         var _targetDirection = _direction.normalized;
         _rigidbody.AddForce(_acceleration * _targetDirection * Time.deltaTime + Vector3.up * .15f * Time.deltaTime,
             ForceMode.Acceleration);

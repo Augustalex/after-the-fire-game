@@ -7,19 +7,25 @@ using Random = UnityEngine.Random;
 
 public class ProceduralLandscapeGenerator : MonoBehaviour
 {
-    public GameObject islandOneTemplate;
     public GameObject terrainTemplate;
     public Transform followTarget;
 
-
-    private readonly List<Transform> _planes = new List<Transform>();
     public const float GridSize = 10f;
 
     private HashSet<Vector3> _planeExistsByPosition = new HashSet<Vector3>();
-    private HashSet<Vector3> _forrestExistsByPosition = new HashSet<Vector3>();
     private HashSet<Vector3> _islandExistsByPosition = new HashSet<Vector3>();
 
+    public IslandInfo[] islandInfos;
+
     private Vector3 _firstIslandLocation = AlignToGrid(new Vector3(5f * GridSize, 0, 5f * GridSize));
+
+    [Serializable]
+    public struct IslandInfo
+    {
+        public GameObject template;
+        public int gridX;
+        public int gridZ;
+    }
 
     void Start()
     {
@@ -53,7 +59,6 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
         var terrain = Instantiate(terrainTemplate);
         terrain.transform.position = nextPlanePosition;
 
-        _planes.Add(terrain.transform);
         _planeExistsByPosition.Add(AlignToGrid(nextPlanePosition));
 
         StartCoroutine(GeneratePlaneAndContents(terrain));
@@ -77,15 +82,26 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
     {
         var gridPosition = AlignToGrid(terrain.transform.position);
 
-        return Vector3.Distance(gridPosition, _firstIslandLocation) > GridSize * 4f;
+        return islandInfos.Any(islandInfo =>
+            Vector3.Distance(gridPosition, IslandLocation(islandInfo)) > GridSize * 4f);
+    }
+
+    public Vector3 IslandLocation(IslandInfo info)
+    {
+        return AlignToGrid(new Vector3(info.gridX * GridSize, 0, info.gridZ * GridSize));
     }
 
     private void GenerateIsland(GameObject terrain)
     {
-        var island = Instantiate(islandOneTemplate);
-        island.transform.position = terrain.transform.position + Vector3.up;
+        var islandInfo = islandInfos.FirstOrDefault(info =>
+            Vector3.Distance(AlignToGrid(terrain.transform.position), IslandLocation(info)) > GridSize * 4f);
+        if (islandInfo.template != null)
+        {
+            var island = Instantiate(islandInfo.template);
+            island.transform.position = terrain.transform.position + Vector3.up;
 
-        _islandExistsByPosition.Add(island.transform.position);
+            _islandExistsByPosition.Add(island.transform.position);
+        }
     }
 
     private bool CanGenerateIsland(GameObject terrain)
