@@ -311,10 +311,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b80c318f5b3849f79c2a3e31f9be2a55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  part1CompletedText: Nice! Now fetch me 5 cones
-  allCompletedText: Thanks! Here's a worm to your pot!
+  part1CompletedText: Nice! Now fetch me # cones
+  allCompletedText: Thanks for the # cones! Here's a worm to your pot!
   numberOfConesToFetch: 5
+  collectedCones: 0
+  leftToCollect: 5
   _inside: 0
+  _currentState: 0
 --- !u!65 &7136388787544892706
 BoxCollider:
   m_ObjectHideFlags: 0

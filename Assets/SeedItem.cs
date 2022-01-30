@@ -7,7 +7,7 @@ public class SeedItem : MonoBehaviour
     {
         if (other.collider.CompareTag("Player"))
         {
-            other.collider.GetComponentInChildren<PlayerInventory>().RegisterPickedUpSeed();
+            other.collider.GetComponentInParent<PlayerInventory>().RegisterPickedUpSeed();
             Destroy(gameObject, .1f);
             SfxManager.Instance.PlaySfx("seedPickup", 0.6f); 
         }
