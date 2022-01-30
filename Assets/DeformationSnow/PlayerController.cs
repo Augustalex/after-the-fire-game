@@ -38,8 +38,11 @@ public class PlayerController : MonoBehaviour
     public CinemachineImpulseSource _impulseSource;
     public AudioSource movementSfx;
     
+    private float _worldLoadCooldown;
+
     void Start()
     {
+        _worldLoadCooldown = 3f;
         _rigidbody = GetComponent<Rigidbody>();
         _trailParticles = snowParticles.emission;
     }
@@ -69,6 +72,12 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (_worldLoadCooldown > 0f)
+        {
+            _worldLoadCooldown -= Time.deltaTime;
+            return;
+        }
+        
         AddExtraGravityIfOnIsland();
 
         if (_inAir)
@@ -125,8 +134,6 @@ public class PlayerController : MonoBehaviour
         _trailParticles.rateOverTime = (_rigidbody.velocity.magnitude < 10f ? 0f : _rigidbody.velocity.magnitude * 30f);
         movementSfx.volume = _rigidbody.velocity.magnitude * 0.05f;
         movementSfx.pitch = Mathf.Clamp(_rigidbody.velocity.magnitude * 0.05f, 0.5f, 1f);
-        Debug.Log(_rigidbody.velocity.magnitude * 0.05f);
-        
     }
 
     private void DisableTrailParticles()
