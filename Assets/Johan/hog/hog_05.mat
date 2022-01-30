@@ -79,11 +79,11 @@ Material:
     - _ToonRimFallOff: 0.82
     - _ToonRimPower: 0.5
     m_Colors:
-    - Color_544b956882334b4c9e0d4b9755d79ae3: {r: 0.23584908, g: 0.20509313, b: 0.1254895, a: 0}
+    - Color_544b956882334b4c9e0d4b9755d79ae3: {r: 0.53648984, g: 0.7026573, b: 0.8301887, a: 0}
     - Color_757bae9c10aa4596b02407e83e7ad02e: {r: 1, g: 1, b: 1, a: 0}
-    - Color_9f5b37bb08a84d6ab6fecf8b02b05860: {r: 0.5, g: 0.37226707, b: 0.12924525, a: 0}
-    - Color_a195ab0c81fb4308856eed56fe59f81c: {r: 0.19607842, g: 0.6784314, b: 0.21542622, a: 0}
-    - Color_c1ca8699df7d477c9cefb29d6a15d6a2: {r: 0.7075472, g: 0.51332754, b: 0.1695443, a: 0}
+    - Color_9f5b37bb08a84d6ab6fecf8b02b05860: {r: 0.8490566, g: 0.6083781, b: 0.15619439, a: 0}
+    - Color_a195ab0c81fb4308856eed56fe59f81c: {r: 0.8396226, g: 0.7401975, b: 0.2891153, a: 0}
+    - Color_c1ca8699df7d477c9cefb29d6a15d6a2: {r: 0.3721965, g: 0.6415094, b: 0.5982621, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 0}
     - _ShadedBaseColor: {r: 0, g: 0, b: 0, a: 1}
     - _Specular: {r: 0.2, g: 0.2, b: 0.2, a: 0}
