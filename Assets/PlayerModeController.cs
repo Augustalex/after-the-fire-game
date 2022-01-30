@@ -17,6 +17,7 @@ public class PlayerModeController : MonoBehaviour
     private PlayerInput _ballInput;
     private Rigidbody _ballRigidbody;
     private SphereCollider _ballCollider;
+    private PlayerGrower _ballGrower;
 
     private void Awake()
     {
@@ -28,6 +29,7 @@ public class PlayerModeController : MonoBehaviour
         _ballInput = ballRoot.GetComponentInChildren<PlayerInput>();
         _ballRigidbody = ballRoot.GetComponentInChildren<Rigidbody>();
         _ballCollider = ballRoot.GetComponentInChildren<SphereCollider>();
+        _ballGrower = ballRoot.GetComponentInChildren<PlayerGrower>();
 
         SetToBallMode();
     }
@@ -98,7 +100,7 @@ public class PlayerModeController : MonoBehaviour
 
     public void SetToWalkingMode()
     {
-        Debug.Log("SET TO WALKING MODE");
+        _ballGrower.ReleaseSnow();
         _ballInput.enabled = false;
         _ballRigidbody.isKinematic = true;
         _ballCollider.enabled = false;

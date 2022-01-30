@@ -140,6 +140,10 @@ public class PlayerController : MonoBehaviour
         {
             _boostMeter += Time.deltaTime;
         }
+        else
+        {
+            _boostMeter = 0;
+        }
 
         _previousPosition = transform.position;
 
