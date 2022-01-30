@@ -60,6 +60,8 @@ public class DeadTree : MonoBehaviour
                         treeMesh.material = deadMaterial;
                         fireParticles.Stop();
                         island.OnExstuinguishTree();
+                        
+                        other.GetComponentInChildren<PlayerController>().TriggerHitGroundParticles();
                     }
 
                     Shake();
