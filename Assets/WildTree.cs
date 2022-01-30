@@ -63,9 +63,14 @@ public class WildTree : MonoBehaviour
     {
         if (other.collider.CompareTag("Player") && _swings.Count == 0)
         {
-            Shake();
-            other.collider.GetComponentInChildren<PlayerController>().HitTree();
-            other.collider.GetComponentInChildren<PlayerGrower>().ReleaseSnow();
+            var grower = other.collider.GetComponentInChildren<PlayerGrower>();
+            if (grower.SizeToMaxSize() < .2f)
+            {
+                Shake();
+                other.collider.GetComponentInChildren<PlayerController>().HitTree();
+                grower.ReleaseSnow();
+            }    
+            
         }
     }
 
