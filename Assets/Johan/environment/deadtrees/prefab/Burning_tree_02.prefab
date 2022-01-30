@@ -90,6 +90,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DeadTree2
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 176b076e9f8545d4089c8a7b5af3dfd2, type: 3}
+      propertyPath: m_TagString
+      value: IslandTree
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 176b076e9f8545d4089c8a7b5af3dfd2, type: 3}
 --- !u!1 &1632713814410144844 stripped
