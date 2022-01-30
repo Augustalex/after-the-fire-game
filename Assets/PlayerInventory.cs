@@ -7,6 +7,9 @@ public class PlayerInventory : MonoBehaviour
 {
     private int _seeds = 0;
     public TextMeshProUGUI seedText;
+    
+    private int _worms = 0;
+    public TextMeshProUGUI wormsText;
 
     public int TryGetCones(int n)
     {
@@ -43,6 +46,12 @@ public class PlayerInventory : MonoBehaviour
     {
         _seeds += 1;
         seedText.text = _seeds.ToString();
+    }
+    
+    public void RegisterPickedUpWorm()
+    {
+        _worms += 1;
+        wormsText.text = _worms.ToString();
     }
 
     

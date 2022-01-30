@@ -56,6 +56,7 @@ public class Npc : MonoBehaviour
         if (leftToCollect <= 0)
         {
             _currentState = State.allCompleted;
+            playerInventory.RegisterPickedUpWorm();
         }
             
     }
