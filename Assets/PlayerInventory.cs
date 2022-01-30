@@ -11,7 +11,6 @@ public class PlayerInventory : MonoBehaviour
     public void RegisterPickedUpSeed()
     {
         _seeds += 1;
-        Debug.Log($"SEEDS: {_seeds}");
         seedText.text = _seeds.ToString();
     }
 }
