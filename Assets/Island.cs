@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Island : MonoBehaviour
 {
-    public GameObject NPC;
+    public Npc npc;
     public List<DeadTree> trees;
     public GameObject successObjects;
     private int numberOfTrees;
