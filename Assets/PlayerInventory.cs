@@ -50,6 +50,7 @@ public class PlayerInventory : MonoBehaviour
     
     public void RegisterPickedUpWorm()
     {
+        Debug.Log("PICKED UP WORM");
         _worms += 1;
         wormsText.text = _worms.ToString();
     }

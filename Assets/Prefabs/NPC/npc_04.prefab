@@ -259,7 +259,7 @@ GameObject:
   - component: {fileID: 6210462072362581592}
   m_Layer: 0
   m_Name: npc_04
-  m_TagString: Untagged
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -316,8 +316,8 @@ MonoBehaviour:
   numberOfConesToFetch: 5
   collectedCones: 0
   leftToCollect: 5
-  _inside: 0
   _currentState: 0
+  island: {fileID: 0}
 --- !u!65 &7136388787544892706
 BoxCollider:
   m_ObjectHideFlags: 0

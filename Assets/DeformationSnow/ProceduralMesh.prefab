@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recalculateNormals: 1
-  snowHeight: 6
+  snowHeight: 9
 --- !u!114 &5766340276581437026
 MonoBehaviour:
   m_ObjectHideFlags: 0

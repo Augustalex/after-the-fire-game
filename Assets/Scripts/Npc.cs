@@ -10,8 +10,6 @@ public class Npc : MonoBehaviour
     public int collectedCones = 0;
     public int leftToCollect = 5;
 
-    [SerializeField] private bool _inside;
-
     [Serializable]
     private enum State
     {
@@ -23,15 +21,24 @@ public class Npc : MonoBehaviour
     [SerializeField] private State _currentState = State.idle;
     [HideInInspector] public Island island; // Set's in Island onEnable
 
+    private Animator _animator;
+
+    void Awake()
+    {
+        _animator = GetComponent<Animator>();
+        _animator.SetBool("IsBall", true);
+    }
+
     private void OnEnable()
     {
         leftToCollect = numberOfConesToFetch;
     }
 
-
     public void OnPart1Complete()
     {
         _currentState = State.part1completed;
+
+        _animator.SetBool("IsBall", false);
     }
 
     private void CheckIfQuestIsCompleted()
@@ -51,6 +58,7 @@ public class Npc : MonoBehaviour
             Debug.LogWarning("No Inventory");
             return;
         }
+
         leftToCollect = numberOfConesToFetch - collectedCones;
         collectedCones += playerInventory.TryGetCones(leftToCollect);
         leftToCollect = numberOfConesToFetch - collectedCones;
@@ -60,19 +68,19 @@ public class Npc : MonoBehaviour
             playerInventory.RegisterPickedUpWorm();
             island.OnAllCompleted();
         }
-            
     }
 
     private void UpdateStateMachine(Collider other)
     {
         CheckIfQuestIsCompleted();
-            
+
         if (_currentState == State.part1completed)
         {
             TryToGetPinesFromPlayer(other);
             var text = part1CompletedText.Replace("#", leftToCollect.ToString());
             UIManager.Instance.SetSubtitle(text);
         }
+
         if (_currentState == State.allCompleted)
         {
             var text = allCompletedText.Replace("#", numberOfConesToFetch.ToString());
@@ -82,19 +90,40 @@ public class Npc : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("PlayerHog"))
+        if (other.CompareTag("Player") && _currentState == State.idle)
         {
-            _inside = true;
-
-            UpdateStateMachine(other);
+            if (_currentState == State.idle)
+            {
+                UIManager.Instance.SetSubtitle("[whimpering] Fire, fire!! We need snow!");
+            }
+            else
+            {
+                UIManager.Instance.ClearSubtitle();
+            }
         }
 
-        _inside = false;
+        if (other.CompareTag("PlayerHog"))
+        {
+            UpdateStateMachine(other);
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player") || other.CompareTag("PlayerHog"))
+        {
+            other.GetComponentInParent<PlayerModeController>().CloseToNpc();
+        }
+
+        if (other.CompareTag("PlayerHog"))
+        {
+            UpdateStateMachine(other);
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("PlayerHog"))
+        if (other.CompareTag("Player") || other.CompareTag("PlayerHog"))
         {
             UIManager.Instance.ClearSubtitle();
         }

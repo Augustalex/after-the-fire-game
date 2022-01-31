@@ -54,7 +54,7 @@ public class ProceduralSnow : MonoBehaviour
         }
 
         if (Vector3.Distance(_player.transform.position, transform.position) <
-            (ProceduralLandscapeGenerator.GridSize * .75f) + GridCullingMargin)
+            (ProceduralLandscapeGenerator.GridSize) + GridCullingMargin)
         {
             DeformVerticies();
         }
@@ -202,7 +202,7 @@ public class ProceduralSnow : MonoBehaviour
 
                     if (maxSizeReached)
                     {
-                        staticSpeed = playerScaleX * velocity * .05f;
+                        staticSpeed = playerScaleX * velocity * .2f;
                     }
                     else
                     {
@@ -212,16 +212,16 @@ public class ProceduralSnow : MonoBehaviour
                 }
                 else
                 {
-                    playerMorphPoint = playerPosition + velocityVector * (Time.fixedDeltaTime * 2f);
+                    playerMorphPoint = playerPosition + velocityVector * (Time.fixedDeltaTime * 1.5f);
 
 
                     if (maxSizeReached)
                     {
-                        staticSpeed = playerScaleX * velocity * .1f;
+                        staticSpeed = playerScaleX * velocity * .2f;
                     }
                     else
                     {
-                        staticSpeed = playerScaleX * velocity * .4f;
+                        staticSpeed = playerScaleX * velocity * .8f;
                     }
                 }
 

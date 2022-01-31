@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using StarterAssets;
 using UnityEngine;
@@ -18,8 +19,9 @@ public class PlayerModeController : MonoBehaviour
     private Rigidbody _ballRigidbody;
     private SphereCollider _ballCollider;
     private PlayerGrower _ballGrower;
-
-    public Vector3 originalSpawnPosition;
+    
+    private int _npcsNearbyCount;
+    private float _lastCloseToNpc;
 
     private void Awake()
     {
@@ -34,21 +36,26 @@ public class PlayerModeController : MonoBehaviour
         _ballGrower = ballRoot.GetComponentInChildren<PlayerGrower>();
 
         SetToBallMode();
-
-        originalSpawnPosition = hogRoot.transform.position;
     }
 
     void Update()
     {
+        if (Time.time - _lastCloseToNpc > 1f && !ballRoot.activeSelf)
+        {
+            SetToBallMode();
+        }
+        
+        Transform ballRootTransform = ballRoot.transform;
+
         if (_isBall)
         {
-            hogRoot.transform.position = ballRoot.transform.position;
-            hogRoot.transform.rotation = ballRoot.transform.rotation;
+            hogRoot.transform.position = ballRootTransform.position;
+            hogRoot.transform.rotation = ballRootTransform.rotation;
         }
         else
         {
-            ballRoot.transform.position = hogRoot.transform.position;
-            ballRoot.transform.rotation = hogRoot.transform.rotation;
+            ballRootTransform.position = hogRoot.transform.position;
+            ballRootTransform.rotation = hogRoot.transform.rotation;
         }
     }
 
@@ -74,8 +81,8 @@ public class PlayerModeController : MonoBehaviour
     {
         _ballGrower.ReleaseSnow();
         _ballInput.enabled = false;
-        _ballRigidbody.isKinematic = true;
         _ballCollider.enabled = false;
+        _ballRigidbody.isKinematic = true;
         ballRoot.SetActive(false);
 
         var zeroRotation = Quaternion.identity;
@@ -94,13 +101,41 @@ public class PlayerModeController : MonoBehaviour
         _isBall = false;
     }
 
-    private bool OnIsland()
+    private bool HogNotOnIsland()
     {
-        return Physics.OverlapSphere(ballRoot.transform.position, 3f).Any(hit => hit.CompareTag("Island"));
+        var onIsland = Physics.OverlapSphere(hogRoot.transform.position, 2f).Any(hit => hit.CompareTag("Island"));
+
+        // return onIsland;
+
+        return HogOnSnow() || HogInAir();
+    }
+
+    private bool HogInAir()
+    {
+        var hitGround = Physics.Raycast(hogRoot.transform.position, Vector3.down, transform.localScale.x * 2f);
+
+        return !hitGround;
+    }
+    
+    private bool HogOnSnow()
+    {
+        return Physics.OverlapSphere(transform.position, 2f).Any(hit => hit.CompareTag("Terrain"));
     }
 
     public bool IsSnowBall()
     {
         return _isBall;
+    }
+
+    public void CloseToNpc()
+    {
+        _lastCloseToNpc = Time.time;
+    }
+
+    public bool OnIsland()
+    {
+        var onIsland = Physics.OverlapSphere(hogRoot.transform.position, 2f).Any(hit => hit.CompareTag("Island"));
+
+        return onIsland;
     }
 }

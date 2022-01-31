@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        _worldLoadCooldown = 3f;
+        _worldLoadCooldown = 1.5f;
         _rigidbody = GetComponent<Rigidbody>();
         _trailParticles = snowParticles.emission;
     }
@@ -61,7 +61,18 @@ public class PlayerController : MonoBehaviour
     {
         if (value.isPressed)
         {
-            GetComponentInParent<PlayerModeController>().SetToWalkingMode();
+            var playerModeController = GetComponentInParent<PlayerModeController>();
+            if (_onIsland)
+            {
+                if (!Boosting())
+                {
+                    playerModeController.SetToWalkingMode();
+                }
+            }
+            else
+            {
+                GetComponent<PlayerGrower>().ReleaseSnow(); // TODO: Fix circular dependency
+            }
         }
     }
 
@@ -130,9 +141,18 @@ public class PlayerController : MonoBehaviour
 
         // < xf ? - dont emit any particle below this value
         // * xf - Emitter multiplier
-        _trailParticles.rateOverTime = (_rigidbody.velocity.magnitude < 10f ? 0f : _rigidbody.velocity.magnitude * 30f);
-        movementSfx.volume = _rigidbody.velocity.magnitude * 0.05f;
-        movementSfx.pitch = Mathf.Clamp(_rigidbody.velocity.magnitude * 0.05f, 0.5f, 1f);
+        var velocityMagnitude = _rigidbody.velocity.magnitude;
+        _trailParticles.rateOverTime = (velocityMagnitude < 10f ? 0f : velocityMagnitude * 30f);
+        if (velocityMagnitude < 3.5f)
+        {
+            movementSfx.volume = velocityMagnitude * 0.01f;
+        }
+        else
+        {
+            movementSfx.volume = velocityMagnitude * 0.05f;
+        }
+        
+        movementSfx.pitch = Mathf.Clamp(velocityMagnitude * 0.05f, 0.5f, 1f);
     }
 
     private void DisableTrailParticles()
@@ -144,7 +164,7 @@ public class PlayerController : MonoBehaviour
 
     private bool NotTouchingSnow()
     {
-        return _inAir || _onIsland || TouchingSnow();
+        return _inAir || _onIsland || !TouchingSnow();
     }
 
     private bool TouchingSnow()

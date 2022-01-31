@@ -12,6 +12,7 @@ TagManager:
   - WaySign
   - IslandTree
   - PlayerHog
+  - NPC
   layers:
   - Default
   - TransparentFX

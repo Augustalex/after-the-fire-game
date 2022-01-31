@@ -13,7 +13,7 @@ public class WildForrestGenerator : MonoBehaviour
         var position = transform.position;
         var planeRadius = ProceduralLandscapeGenerator.GridSize * .5f;
 
-        var count = Random.Range(12, 20);
+        var count = Random.Range(4, 12);
         for (var i = 0; i < count; i++)
         {
             GameObject treeTemplate = treeTemplates[Random.Range(0, treeTemplates.Count)];

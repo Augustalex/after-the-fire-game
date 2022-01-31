@@ -35,14 +35,13 @@ public class PlayerGrower : MonoBehaviour
         _onSnow = OnSnow();
         
         if (_controller.Stunned()) return;
-        if (_visible && transform.localScale == _originalSize && _onIsland)
+        if (transform.localScale.x > _originalSize.x)
+        {
+            SetVisible();
+        }
+        else if (_onIsland)
         {
             SetInvisible();
-        }
-        else if(!_visible && _onSnow)
-        {
-            ReleaseSnow();
-            SetVisible();
         }
 
         if (_onSnow && !_onIsland)
@@ -50,7 +49,7 @@ public class PlayerGrower : MonoBehaviour
             if (_rigidbody.velocity.magnitude > 1f)
             {
                 var boostFactor = Mathf.Clamp(_controller.BoostJuice() / 12f, 0f, 1f);
-                var boostRate = .004f + 5f * boostFactor;
+                var boostRate = .004f + 10f * boostFactor;
                 var growthRate = _controller.Boosting() ? boostRate : .004f;
             
                 var toGrow = growthRate * SizeToMaxSize() * Time.deltaTime;
