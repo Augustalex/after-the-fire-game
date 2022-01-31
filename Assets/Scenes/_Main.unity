@@ -1106,6 +1106,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1956145531}
     m_Modifications:
+    - target: {fileID: 72904546947099082, guid: e4d3f6fe14f62164aa541b0d57c460c9, type: 3}
+      propertyPath: islandNpc
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1926051456368350320, guid: e4d3f6fe14f62164aa541b0d57c460c9, type: 3}
       propertyPath: m_Name
       value: Island_Home
@@ -1152,6 +1156,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1926051456368350321, guid: e4d3f6fe14f62164aa541b0d57c460c9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1971474498322499571, guid: e4d3f6fe14f62164aa541b0d57c460c9, type: 3}
+      propertyPath: islandNpc
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5120648667772008914, guid: e4d3f6fe14f62164aa541b0d57c460c9, type: 3}
+      propertyPath: islandNpc
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5699952902310991137, guid: e4d3f6fe14f62164aa541b0d57c460c9, type: 3}
+      propertyPath: islandNpc
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6200372186304377089, guid: e4d3f6fe14f62164aa541b0d57c460c9, type: 3}

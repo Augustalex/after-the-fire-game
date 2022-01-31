@@ -10,6 +10,8 @@ public class Npc : MonoBehaviour
     public int collectedCones = 0;
     public int leftToCollect = 5;
 
+    public bool islandNpc = true;
+
     [Serializable]
     private enum State
     {
@@ -22,11 +24,16 @@ public class Npc : MonoBehaviour
     [HideInInspector] public Island island; // Set's in Island onEnable
 
     private Animator _animator;
+    private bool _collectedReward;
 
     void Awake()
     {
         _animator = GetComponent<Animator>();
-        _animator.SetBool("IsBall", true);
+
+        if (islandNpc)
+        {
+            _animator.SetBool("IsBall", true);
+        }
     }
 
     private void OnEnable()
@@ -43,7 +50,7 @@ public class Npc : MonoBehaviour
 
     private void CheckIfQuestIsCompleted()
     {
-        if (collectedCones >= numberOfConesToFetch)
+        if (_currentState == State.part1completed && collectedCones >= numberOfConesToFetch)
         {
             _currentState = State.allCompleted;
         }
@@ -83,6 +90,15 @@ public class Npc : MonoBehaviour
 
         if (_currentState == State.allCompleted)
         {
+            if (numberOfConesToFetch == 0 && !_collectedReward)
+            {
+                _collectedReward = true;
+                
+                var playerInventory = other.GetComponentInParent<PlayerInventory>();
+                playerInventory.RegisterPickedUpWorm();
+                island.OnAllCompleted();
+            }
+            
             var text = allCompletedText.Replace("#", numberOfConesToFetch.ToString());
             UIManager.Instance.SetSubtitle(text);
         }
@@ -90,6 +106,8 @@ public class Npc : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!islandNpc) return;
+        
         if (other.CompareTag("Player") && _currentState == State.idle)
         {
             if (_currentState == State.idle)
@@ -110,6 +128,8 @@ public class Npc : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        if (!islandNpc) return;
+        
         if (other.CompareTag("Player") || other.CompareTag("PlayerHog"))
         {
             other.GetComponentInParent<PlayerModeController>().CloseToNpc();
@@ -123,6 +143,8 @@ public class Npc : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        if (!islandNpc) return;
+        
         if (other.CompareTag("Player") || other.CompareTag("PlayerHog"))
         {
             UIManager.Instance.ClearSubtitle();
