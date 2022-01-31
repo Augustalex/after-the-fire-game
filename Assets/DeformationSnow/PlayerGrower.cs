@@ -92,6 +92,12 @@ public class PlayerGrower : MonoBehaviour
 
     private void SetVisible()
     {
+        if (!_visible)
+        {
+            transform.localScale = _originalSize;
+            ballMeshRenderer.transform.localScale = Vector3.one;
+        }
+        
         _visible = true;
         ballMeshRenderer.enabled = true;
     }
@@ -104,12 +110,12 @@ public class PlayerGrower : MonoBehaviour
 
     private bool OnIsland()
     {
-        return Physics.OverlapSphere(transform.position, ballMeshRenderer.transform.localScale.x).Any(hit => hit.CompareTag("Island"));
+        return Physics.OverlapSphere(transform.position, transform.localScale.x).Any(hit => hit.CompareTag("Island"));
     }
     
     private bool OnSnow()
     {
-        return Physics.OverlapSphere(transform.position, ballMeshRenderer.transform.localScale.x).Any(hit => hit.CompareTag("Terrain"));
+        return Physics.OverlapSphere(transform.position, transform.localScale.x).Any(hit => hit.CompareTag("Terrain"));
     }
     
     public void ReleaseSnow()

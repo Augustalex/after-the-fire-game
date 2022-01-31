@@ -61,7 +61,8 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
         {
             GenerateForrest(terrain);
         }
-        else if(terrain.transform.position.magnitude > 200f && Random.value < .2)
+        
+        if(terrain.transform.position.magnitude > 150f && Random.value < .3)
         {
             if (CanGenerateWaySign(terrain))
             {
@@ -72,7 +73,8 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
 
     private bool CanGenerateWaySign(GameObject terrain)
     {
-        return !Physics.OverlapSphere(AlignToGrid(terrain.transform.position), 100f).Any(s => s.CompareTag("WaySign"));
+        return !Physics.OverlapSphere(AlignToGrid(terrain.transform.position), 25f).Any(s => s.CompareTag("WaySign")) &&
+               !Physics.OverlapSphere(AlignToGrid(terrain.transform.position), 100f).Any(s => s.CompareTag("Island"));
     }
 
     private void GenerateWaySign(GameObject terrain)
