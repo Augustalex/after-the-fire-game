@@ -53,7 +53,7 @@ public class DeadTree : MonoBehaviour
                     var playerGrower = other.GetComponent<PlayerGrower>();
                     var playerController = other.GetComponent<PlayerController>();
                     playerController.ZeroBoostJuice();
-                    if (playerGrower.GrowthProgress() > 0.2f)
+                    if (playerGrower.GrowthProgress() > 0.2f || CheatEngine.Instance.Cheating())
                     {
                         playerGrower.ReleaseThirdOfSnow();
                         currentState = State.Dead;

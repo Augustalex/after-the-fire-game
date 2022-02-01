@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerGrower : MonoBehaviour
 {
     public MeshRenderer ballMeshRenderer;
-    
+
     private Rigidbody _rigidbody;
     private PlayerController _controller;
     private bool _maxSizeReached;
@@ -15,7 +15,7 @@ public class PlayerGrower : MonoBehaviour
     private bool _onSnow;
 
     private const float MaxSize = 2f;
-    
+
     private void Awake()
     {
         ballMeshRenderer = GetComponentInChildren<MeshRenderer>();
@@ -33,7 +33,7 @@ public class PlayerGrower : MonoBehaviour
     {
         _onIsland = OnIsland();
         _onSnow = OnSnow();
-        
+
         if (_controller.Stunned()) return;
         if (transform.localScale.x > _originalSize.x)
         {
@@ -43,11 +43,6 @@ public class PlayerGrower : MonoBehaviour
         {
             SetInvisible();
         }
-        
-        if (CheatEngine.Instance.Cheating() && Input.GetKeyDown(KeyCode.F))
-        {
-            SetToMaxSize();
-        }
 
         if (_onSnow && !_onIsland)
         {
@@ -56,9 +51,9 @@ public class PlayerGrower : MonoBehaviour
                 var boostFactor = Mathf.Clamp(_controller.BoostJuice() / 12f, 0f, 1f);
                 var boostRate = .004f + 10f * boostFactor;
                 var growthRate = _controller.Boosting() ? boostRate : .004f;
-            
+
                 var toGrow = growthRate * SizeToMaxSize() * Time.deltaTime;
-            
+
                 if (transform.localScale.x >= MaxSize * .98f)
                 {
                     _maxSizeReached = true;
@@ -67,7 +62,7 @@ public class PlayerGrower : MonoBehaviour
                 {
                     _maxSizeReached = false;
                 }
-            
+
                 transform.localScale += Vector3.one * toGrow;
                 if (transform.localScale.x > MaxSize)
                 {
@@ -89,25 +84,26 @@ public class PlayerGrower : MonoBehaviour
 
         return easedProgress;
     }
-    
+
     public float GrowthProgress()
     {
         var progress = Mathf.Clamp((transform.localScale.x - _originalSize.x) / (MaxSize - _originalSize.x), 0f, 1f);
 
         return progress;
     }
-    
-    public static float InSine(float t) => (float)-Math.Cos(t * Math.PI / 2);
-    public static float OutSine(float t) => (float)Math.Sin(t * Math.PI / 2);
+
+    public static float InSine(float t) => (float) -Math.Cos(t * Math.PI / 2);
+    public static float OutSine(float t) => (float) Math.Sin(t * Math.PI / 2);
 
     private void SetVisible()
     {
         ballMeshRenderer.enabled = true;
-        
+
         if (!_visible)
         {
             transform.localScale = _originalSize;
         }
+
         _visible = true;
     }
 
@@ -121,12 +117,12 @@ public class PlayerGrower : MonoBehaviour
     {
         return Physics.OverlapSphere(transform.position, transform.localScale.x).Any(hit => hit.CompareTag("Island"));
     }
-    
+
     private bool OnSnow()
     {
         return Physics.OverlapSphere(transform.position, transform.localScale.x).Any(hit => hit.CompareTag("Terrain"));
     }
-    
+
     public void ReleaseSnow()
     {
         transform.localScale = _originalSize;
@@ -148,7 +144,6 @@ public class PlayerGrower : MonoBehaviour
             ReleaseSnow();
         }
     }
-    
-    public static float InCirc(float t) => -((float) Math.Sqrt(1 - t * t) - 1);
 
+    public static float InCirc(float t) => -((float) Math.Sqrt(1 - t * t) - 1);
 }
