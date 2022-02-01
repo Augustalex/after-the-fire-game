@@ -43,6 +43,11 @@ public class PlayerGrower : MonoBehaviour
         {
             SetInvisible();
         }
+        
+        if (CheatEngine.Instance.Cheating() && Input.GetKeyDown(KeyCode.F))
+        {
+            SetToMaxSize();
+        }
 
         if (_onSnow && !_onIsland)
         {
@@ -66,12 +71,15 @@ public class PlayerGrower : MonoBehaviour
                 transform.localScale += Vector3.one * toGrow;
                 if (transform.localScale.x > MaxSize)
                 {
-                    transform.localScale = Vector3.one * MaxSize;
+                    SetToMaxSize();
                 }
-                
-                ballMeshRenderer.transform.localScale = Vector3.one; // For some reason this is changed, so have to set it here (try removing in the future and see if the ball mesh gets small sometimes)
             }
         }
+    }
+
+    private void SetToMaxSize()
+    {
+        transform.localScale = Vector3.one * MaxSize;
     }
 
     public float SizeToMaxSize()
@@ -99,8 +107,6 @@ public class PlayerGrower : MonoBehaviour
         if (!_visible)
         {
             transform.localScale = _originalSize;
-            
-            ballMeshRenderer.transform.localScale = Vector3.one; // For some reason this is changed, so have to set it here (try removing in the future and see if the ball mesh gets small sometimes)
         }
         _visible = true;
     }

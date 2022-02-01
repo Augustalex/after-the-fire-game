@@ -277,7 +277,15 @@ public class PlayerController : MonoBehaviour
             {
                 _inAirCooldown = 1f;
                 _inAir = true;
-                _rigidbody.AddForce(Vector3.up * data.jumpForce + direction * 8f, ForceMode.Impulse);
+                
+                if (CheatEngine.Instance.Cheating())
+                {
+                    _rigidbody.AddForce(Vector3.up * data.jumpForce * 2f + direction * 8f, ForceMode.Impulse);
+                }
+                else
+                {
+                    _rigidbody.AddForce(Vector3.up * data.jumpForce + direction * 8f, ForceMode.Impulse);
+                }
             }
         }
     }

@@ -39,4 +39,19 @@ public class SfxManager : MonoSingleton<SfxManager>
             Debug.LogWarning("No audio clip found with name: " + sfxName);
         }
     }
+    
+    public void PlaySfxWithPitch(string sfxName, float volume = 1f, float pitch = .5f)
+    {
+        var clip = Sfx.TryGetValue(sfxName, out AudioClip audioClip);
+        if (audioClip)
+        {
+
+            audioSource.pitch = pitch; 
+            audioSource.PlayOneShot(audioClip, volume);
+        }
+        else
+        {
+            Debug.LogWarning("No audio clip found with name: " + sfxName);
+        }
+    }
 }
