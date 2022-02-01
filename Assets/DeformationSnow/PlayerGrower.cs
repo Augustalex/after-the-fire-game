@@ -68,6 +68,8 @@ public class PlayerGrower : MonoBehaviour
                 {
                     transform.localScale = Vector3.one * MaxSize;
                 }
+                
+                ballMeshRenderer.transform.localScale = Vector3.one; // For some reason this is changed, so have to set it here (try removing in the future and see if the ball mesh gets small sometimes)
             }
         }
     }
@@ -92,14 +94,15 @@ public class PlayerGrower : MonoBehaviour
 
     private void SetVisible()
     {
+        ballMeshRenderer.enabled = true;
+        
         if (!_visible)
         {
             transform.localScale = _originalSize;
-            ballMeshRenderer.transform.localScale = Vector3.one;
+            
+            ballMeshRenderer.transform.localScale = Vector3.one; // For some reason this is changed, so have to set it here (try removing in the future and see if the ball mesh gets small sometimes)
         }
-        
         _visible = true;
-        ballMeshRenderer.enabled = true;
     }
 
     private void SetInvisible()

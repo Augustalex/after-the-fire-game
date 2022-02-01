@@ -68,20 +68,6 @@ public class TerrainDeformer : MonoBehaviour
         if (Vector3.Distance(_player.position, transform.position) > _cullingLength) return;
         
         DeformVerticies();
-
-        // TODO: Move to player class
-        if (_playerRigidbody.velocity.magnitude > 1f)
-        {
-            var maxSize = 4.5f;
-        
-            var currentSize = _player.localScale.x;
-            var growth = .004f * Time.deltaTime;
-            var nextSize = currentSize + growth;
-            var progress = ((nextSize - 1) / (maxSize - 1));
-        
-            _player.localScale = Vector3.one * Mathf.Min(maxSize, nextSize);
-            _playerDiameter = _player.localScale.x;
-        }
     }
 
     public void SetStartHeight()
