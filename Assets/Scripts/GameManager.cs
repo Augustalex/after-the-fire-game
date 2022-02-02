@@ -16,9 +16,13 @@ public class GameManager : MonoSingleton<GameManager>
     public string victoryText =
         "Yay! You healed the forest! This is the best beetle stew we ever had. We forgive you.";
 
+    private int _islandsCompleted;
+
     public void OnIslandCompleted(Island island)
     {
-        if (playerInventory.GetWorms() >= 4)
+        _islandsCompleted += 1;
+        
+        if (_islandsCompleted >= 4)
         {
             completed = true;
             UIManager.Instance.SetSubtitle(victoryText);
