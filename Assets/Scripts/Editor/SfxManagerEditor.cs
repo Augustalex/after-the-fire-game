@@ -29,6 +29,15 @@ public class SfxManagerEditor : UnityEditor.Editor
             }
             SfxManager.Instance.PlaySfx(strings[selGridInt], 1f);
         }
+        if (GUILayout.Button("PlaySfx random pitch"))
+        {
+            if (strings.Length <= 0)
+            {
+                Debug.Log("This button only works in Play mode");
+                return;
+            }
+            SfxManager.Instance.PlaySfx(strings[selGridInt], 1f, true);
+        }
         GUILayout.EndVertical();
     }
 }

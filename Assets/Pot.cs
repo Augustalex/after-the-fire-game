@@ -51,8 +51,8 @@ public class Pot : MonoBehaviour
             _stewParticles.enabled = true;
             _stewParticles.rateOverTime = GameManager.Instance.Quest1Progress;
             stewSplashParticles.Play();
+            SfxManager.Instance.PlaySfx("splash", 1f, true);
             SfxManager.Instance.PlaySfxWithPitch("seedPickup", 1f, 0.92f + _size * .08f);
-            SfxManager.Instance.PlaySfx("splash");
 
             if (GameManager.Instance.Quest1Completed)
             {
