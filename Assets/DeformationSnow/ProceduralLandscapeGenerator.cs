@@ -13,8 +13,12 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
     public Transform followTarget;
 
     public const float GridSize = 10f;
+    public const float ItemGridSize = 80f;
+    public const float ForrestGridSize = 40f;
 
     private readonly HashSet<Vector3> _planeExistsByPosition = new HashSet<Vector3>();
+    private readonly HashSet<Vector3> _itemExistsByPosition = new HashSet<Vector3>();
+    private readonly HashSet<Vector3> _forrestExistsByPosition = new HashSet<Vector3>();
 
 
     void Start()
@@ -58,65 +62,59 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
     {
         yield return terrain.GetComponentInChildren<ProceduralSnow>().GeneratePlane();
 
-        if (Random.value < .3 && CanGenerateForrest(terrain))
+        if (Random.value < .2 && CanGenerateForrestOnPosition(terrain.transform.position))
         {
             GenerateForrest(terrain);
         }
-        else if(terrain.transform.position.magnitude > 150f && Random.value < .3)
+        else if (CanGenerateItemOnPosition(terrain.transform.position))
         {
-            if (CanGenerateWaySign(terrain))
+            if (terrain.transform.position.magnitude > 150f && Random.value < .3f)
             {
                 GenerateWaySign(terrain);
             }
+            else if (Random.value < .3f)
+            {
+                GenerateWildNpc(terrain);
+            }
         }
-        // else if(Random.value < .5f && CanGenerateWildNpc(terrain))
-        // {
-        //     foreach (var collider1 in Physics.OverlapSphere(AlignToGrid(terrain.transform.position), 200f))
-        //     {
-        //         Debug.Log(collider1.tag);
-        //     }
-        //
-        //     GenerateWildNpc(terrain);
-        // }
     }
 
-    private bool CanGenerateWildNpc(GameObject terrain)
+    private bool CanGenerateForrestOnPosition(Vector3 unalignedPosition)
     {
-        //THey are generated same frame??? thus this does not always work
-        // Maybe create a hash set with positions aligned to a large grid just for checking if can spawn, not to get spawn positon (for that use smaller grid)
-        return !Physics.OverlapSphere(AlignToGrid(terrain.transform.position), 50f).Any(s => s.CompareTag("NPC")) &&
-               !Physics.OverlapSphere(AlignToGrid(terrain.transform.position), 100f).Any(s => s.CompareTag("Island"));
+        return !_itemExistsByPosition.Contains(AlignToForrestGrid(unalignedPosition)) && 
+               !_forrestExistsByPosition.Contains(AlignToForrestGrid(unalignedPosition)) &&
+               !Physics.OverlapSphere(AlignToGrid(unalignedPosition), 50f).Any(s => s.CompareTag("Island"));
+    }
+
+    private bool CanGenerateItemOnPosition(Vector3 unalignedPosition)
+    {
+        return !_itemExistsByPosition.Contains(AlignToItemGrid(unalignedPosition)) &&
+               !_forrestExistsByPosition.Contains(AlignToGrid(unalignedPosition)) &&
+               !Physics.OverlapSphere(AlignToItemGrid(unalignedPosition), 100f).Any(s => s.CompareTag("Island"));
     }
 
     private void GenerateWildNpc(GameObject terrain)
     {
-        var npc = Instantiate(wildNpcTemplate);
-        npc.transform.position = terrain.transform.position + Vector3.up * 6f;
+        var alignedPosition = AlignToItemGrid(terrain.transform.position);
+        _itemExistsByPosition.Add(alignedPosition);
         
-        Debug.Log(terrain.transform.position + ", " + AlignToGrid(terrain.transform.position));
-    }
-
-    private bool CanGenerateWaySign(GameObject terrain)
-    {
-        return !Physics.OverlapSphere(AlignToGrid(terrain.transform.position), 25f).Any(s => s.CompareTag("WaySign")) &&
-               !Physics.OverlapSphere(AlignToGrid(terrain.transform.position), 100f).Any(s => s.CompareTag("Island"));
+        var npc = Instantiate(wildNpcTemplate);
+        npc.transform.position = alignedPosition + Vector3.up * 6f;
     }
 
     private void GenerateWaySign(GameObject terrain)
     {
-        var waySign = Instantiate(waySignTemplate);
-        waySign.transform.position = terrain.transform.position + Vector3.up * 6f;
-    }
-
-    private bool CanGenerateForrest(GameObject terrain)
-    {
-        var gridPosition = AlignToGrid(terrain.transform.position);
+        var alignedPosition = AlignToItemGrid(terrain.transform.position);
+        _itemExistsByPosition.Add(alignedPosition);
         
-        return !Physics.OverlapSphere(gridPosition, GridSize * 3f).Any(s => s.CompareTag("Island") || s.CompareTag("Tree"));
+        var waySign = Instantiate(waySignTemplate);
+        waySign.transform.position = alignedPosition + Vector3.up * 6f;
     }
 
     private void GenerateForrest(GameObject terrain)
     {
+        _forrestExistsByPosition.Add(AlignToForrestGrid(terrain.transform.position));
+        
         terrain.GetComponent<WildForrestGenerator>().GenerateForrestOnPlane();
     }
 
@@ -126,5 +124,21 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
             position.x - (position.x % GridSize),
             0f,
             position.z - (position.z % GridSize));
+    }
+
+    private static Vector3 AlignToItemGrid(Vector3 position)
+    {
+        return new Vector3(
+            position.x - (position.x % ItemGridSize),
+            0f,
+            position.z - (position.z % ItemGridSize));
+    }
+    
+    private static Vector3 AlignToForrestGrid(Vector3 position)
+    {
+        return new Vector3(
+            position.x - (position.x % ForrestGridSize),
+            0f,
+            position.z - (position.z % ForrestGridSize));
     }
 }
