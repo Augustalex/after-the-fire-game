@@ -103,7 +103,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99280e209612db340b7c1a84fdfe9b04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _seeds: 0
   seedText: {fileID: 0}
+  _worms: 0
   wormsText: {fileID: 0}
 --- !u!1 &2927804251634372720
 GameObject:
@@ -5318,6 +5320,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4534974258532236069, guid: 92e241e59a2ff1442b90e3fe635f2c17, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4889684553372850791, guid: 92e241e59a2ff1442b90e3fe635f2c17, type: 3}
+      propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
