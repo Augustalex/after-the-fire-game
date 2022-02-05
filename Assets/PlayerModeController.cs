@@ -26,6 +26,7 @@ public class PlayerModeController : MonoBehaviour
     private float _lastCloseToNpc;
     private float _lastTurnedToBall;
     private double _lastSwitchedToWalking;
+    private bool _intro;
 
     private void Awake()
     {
@@ -42,13 +43,17 @@ public class PlayerModeController : MonoBehaviour
 
         SetToBallMode();
 
-        StartCoroutine(SetToWalkingModeSoon());
+        StartCoroutine(ExitIntroScene());
     }
 
-    private IEnumerator SetToWalkingModeSoon()
+    private IEnumerator ExitIntroScene()
     {
-        yield return new WaitForSeconds(2f);
+        _intro = true;
+        yield return new WaitForSeconds(6f);
         SetToWalkingMode();
+        yield return new WaitForSeconds(4f);
+        CameraModeController.Instance.SetToPlayerCamera();
+        _intro = false;
     }
 
     void Update()
@@ -71,6 +76,11 @@ public class PlayerModeController : MonoBehaviour
         // {
         //        SetToWalkingMode();
         // }
+
+        if (_intro)
+        {
+            _ballRigidbody.velocity = Vector3.zero;
+        }
     }
 
     public bool CanSwitchToWalkingMode()
