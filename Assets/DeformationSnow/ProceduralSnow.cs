@@ -153,7 +153,13 @@ public class ProceduralSnow : MonoBehaviour
 
         var playerMoving = _player.Moving();
         var playerBoosting = _player.Boosting();
-        var boostFactor = Mathf.Clamp(_player.BoostJuice() / 3f, 0f, 1f);
+        
+        // Deforming force based on boost
+        // var boostFactor = Mathf.Clamp(_player.BoostJuice() / 3f, 0f, 1f);
+        
+        // Deforming force based on time spent continuously on the move
+        var boostFactor = Mathf.Clamp(_player.TimeMoving() / 3f, 0f, 1f);
+        
         var maxSizeReached = _playerGrower.MaxSizeReached();
         var playerFalling = velocityVector.y < -4f;
         var playerPreviousPosition = _player.GetPreviousPosition();
@@ -213,15 +219,19 @@ public class ProceduralSnow : MonoBehaviour
                 else
                 {
                     playerMorphPoint = playerPosition + velocityVector * (Time.fixedDeltaTime * 1.5f);
-
-
+                    
                     if (maxSizeReached)
                     {
                         staticSpeed = playerScaleX * velocity * .2f;
                     }
                     else
                     {
-                        staticSpeed = playerScaleX * velocity * .8f;
+                        // Used when Boosting is the main method to grow
+                        // staticSpeed = playerScaleX * velocity * .8f;
+                        
+                        // Replacement for boosting - always grow at a fast pace
+                        var boostSpeed = .5f + (boostFactor * .4f);
+                        staticSpeed = playerScaleX * velocity * boostSpeed;
                     }
                 }
 

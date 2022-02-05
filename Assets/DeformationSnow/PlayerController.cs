@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
     public AudioSource movementSfx;
 
     private float _worldLoadCooldown;
+    private float _moveTime;
 
     void Start()
     {
@@ -249,6 +250,16 @@ public class PlayerController : MonoBehaviour
 
     private void HandleBoosting()
     {
+        // Regular moveTime - might come to replace boosting
+        if (_rigidbody.velocity.magnitude > 2f)
+        {
+            _moveTime += Time.deltaTime;
+        }
+        else if(GetMoveDirection().magnitude < .25f)
+        {
+            _moveTime = 0f;
+        }
+        
         if (Boosting())
         {
             _boostMeter += Time.deltaTime;
@@ -352,8 +363,16 @@ public class PlayerController : MonoBehaviour
         return _boostMeter;
     }
 
+    public float TimeMoving()
+    {
+        return _moveTime;
+    }
+
     public void ZeroBoostJuice()
     {
+        // TODO: Update method name to reflect new boost replacement
+        _moveTime = 0f;
+        
         _boostMeter = 0f;
     }
 

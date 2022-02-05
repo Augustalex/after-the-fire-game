@@ -48,9 +48,15 @@ public class PlayerGrower : MonoBehaviour
         {
             if (_rigidbody.velocity.magnitude > 1f)
             {
-                var boostFactor = Mathf.Clamp(_controller.BoostJuice() / 12f, 0f, 1f);
+                // Grow based on "boosting"
+                // var boostFactor = Mathf.Clamp(_controller.BoostJuice() / 12f, 0f, 1f);
+                // var boostRate = .004f + 10f * boostFactor;
+                // var growthRate = _controller.Boosting() ? boostRate : .004f;
+                
+                // Grow based on time moving
+                var boostFactor = Mathf.Clamp(Mathf.Max(_controller.TimeMoving() - .5f, 0f) / 12f, 0f, 1f);
                 var boostRate = .004f + 10f * boostFactor;
-                var growthRate = _controller.Boosting() ? boostRate : .004f;
+                var growthRate = boostRate;
 
                 var toGrow = growthRate * SizeToMaxSize() * Time.deltaTime;
 
@@ -125,6 +131,7 @@ public class PlayerGrower : MonoBehaviour
 
     public void ReleaseSnow()
     {
+        GetComponent<PlayerController>().ZeroBoostJuice(); // TODO: Fix circular depedency
         transform.localScale = _originalSize;
     }
 
