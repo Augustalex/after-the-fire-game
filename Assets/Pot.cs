@@ -11,7 +11,7 @@ public class Pot : MonoBehaviour
     [SerializeField] private ParticleSystem stewParticles;
     private ParticleSystem.EmissionModule _stewParticles;
     [SerializeField] private ParticleSystem stewSplashParticles;
-    
+    [SerializeField] private ParticleSystem fireworks;
 
     void Awake()
     {
@@ -42,7 +42,6 @@ public class Pot : MonoBehaviour
         
         for (var i = 0; i < worms; i++)
         {
-            SfxManager.Instance.PlaySfxWithPitch("seedPickup", 1f, 0.92f + _size * .08f);
 
             var nextSize = NextSize();
             _animator.SetInteger("Size", nextSize);
@@ -52,6 +51,14 @@ public class Pot : MonoBehaviour
             _stewParticles.enabled = true;
             _stewParticles.rateOverTime = GameManager.Instance.Quest1Progress;
             stewSplashParticles.Play();
+            SfxManager.Instance.PlaySfxWithPitch("seedPickup", 1f, 0.92f + _size * .08f);
+            SfxManager.Instance.PlaySfx("splash");
+
+            if (GameManager.Instance.Quest1Completed)
+            {
+                fireworks.Play();
+                SfxManager.Instance.PlaySfx("success", 0.4f);
+            }
 
             yield return new WaitForSeconds(1f);
         }

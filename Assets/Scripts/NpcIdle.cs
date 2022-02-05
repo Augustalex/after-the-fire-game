@@ -19,7 +19,7 @@ public class NpcIdle : MonoBehaviour
         if (other.CompareTag("PlayerHog"))
         {
             var text = quest1Instructions.Replace("#", (GameManager.Instance.quest1BeetlesToCollect - GameManager.Instance.Quest1Progress).ToString());
-            UIManager.Instance.SetSubtitle(GameManager.Instance.Completed ? quest1Success : text);
+            UIManager.Instance.SetSubtitle(GameManager.Instance.Quest1AllBeetlesCollected ? quest1Success : text);
         }
     }
 
@@ -33,7 +33,7 @@ public class NpcIdle : MonoBehaviour
         if (other.CompareTag("PlayerHog"))
         {
             var text = quest1Instructions.Replace("#", (GameManager.Instance.quest1BeetlesToCollect - GameManager.Instance.Quest1Progress).ToString());
-            UIManager.Instance.SetSubtitle(GameManager.Instance.Completed ? quest1Success : text);
+            UIManager.Instance.SetSubtitle(GameManager.Instance.Quest1AllBeetlesCollected ? quest1Success : text);
         }
     }
 

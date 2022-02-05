@@ -12,6 +12,8 @@ public class SfxManager : MonoSingleton<SfxManager>
     [SerializeField] private AudioClip seedDrop;
     [SerializeField] private AudioClip collideWithTree;
     [SerializeField] private AudioClip collideWithTreeSeedDrop;
+    [SerializeField] private AudioClip splash;
+    [SerializeField] private AudioClip success;
 
     public Dictionary<string, AudioClip> Sfx;
     
@@ -23,6 +25,8 @@ public class SfxManager : MonoSingleton<SfxManager>
         Sfx.Add("seedPickup", seedDrop);
         Sfx.Add("collideWithTree", collideWithTree);
         Sfx.Add("collideWithTreeSeedDrop", collideWithTreeSeedDrop);
+        Sfx.Add("splash", splash);
+        Sfx.Add("success", success);
     }
 
     public void PlaySfx(string sfxName, float volume = 1f, bool randomPitch = false)

@@ -12,14 +12,25 @@ public class GameManager : MonoSingleton<GameManager>
     public Vector3 finishPosition;
     public GameObject partyMode;
 
-    private bool _completed;
-    public bool Completed
+    private bool _quest1AllBeetlesCollected;
+    public bool Quest1AllBeetlesCollected
     {
-        get => _completed;
+        get => _quest1AllBeetlesCollected;
         set
         {
             Debug.Log("Game completed: " + value);
-            _completed = value;
+            _quest1AllBeetlesCollected = value;
+        }
+    }
+
+    private bool _quest1Completed;
+    public bool Quest1Completed
+    {
+        get => _quest1Completed;
+        private set
+        {
+            Debug.Log("Quest1 completed completed: " + value);
+            _quest1Completed = value;
         }
     }
 
@@ -34,7 +45,13 @@ public class GameManager : MonoSingleton<GameManager>
 
     public int Quest1SetProgress()
     {
-        return Quest1Progress++;
+        
+        Quest1Progress++;
+        if (Quest1Progress == quest1BeetlesToCollect)
+        {
+            Quest1Completed = true;
+        }
+        return Quest1Progress;
     }
 
     public void OnIslandCompleted()
@@ -43,7 +60,7 @@ public class GameManager : MonoSingleton<GameManager>
         
         if (_islandsCompleted >= 4)
         {
-            Completed = true;
+            Quest1AllBeetlesCollected = true;
             UIManager.Instance.SetSubtitle(victoryText);
             partyMode.SetActive(true);
             // Set till hog
