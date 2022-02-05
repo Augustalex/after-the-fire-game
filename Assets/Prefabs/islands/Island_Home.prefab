@@ -571,8 +571,23 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 5.61, y: 5.72, z: 5.14}
-  m_Center: {x: 0.060317345, y: 0.90184844, z: 0.1444809}
+  m_Size: {x: 6.2871857, y: 5.25319, z: 9.398943}
+  m_Center: {x: 0.11172527, y: 1.6927676, z: -1.9849867}
+--- !u!114 &9100851840875514122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6876596471524591058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8193359a0e5c426e80ef27aaa7c78d65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  quest1Instructions: We need # beetles to finish our stew! Maybe check with our
+    neighbours?
+  quest1Success: Look! Everyone came to our party to thank you for helping them!
 --- !u!1001 &5399777382514565330
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -774,44 +789,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95d8053ef24a0684aa426cecdd5f5d5e, type: 3}
---- !u!1 &6200372186304377089 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 532401367002248794, guid: 95d8053ef24a0684aa426cecdd5f5d5e, type: 3}
-  m_PrefabInstance: {fileID: 5868011781028022107}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6721610399106608059 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 876135482955246816, guid: 95d8053ef24a0684aa426cecdd5f5d5e, type: 3}
   m_PrefabInstance: {fileID: 5868011781028022107}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &97806506
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6200372186304377089}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 12.1, y: 18.63, z: 18.71}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &97806505
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6200372186304377089}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8193359a0e5c426e80ef27aaa7c78d65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  quest1Instructions: We need # beetles to finish our stew! Maybe check with our
-    neighbours?
-  quest1Success: Look! Everyone came to our party to thank you for helping them!
 --- !u!1001 &6451118204058069172
 PrefabInstance:
   m_ObjectHideFlags: 0
