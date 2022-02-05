@@ -62,7 +62,7 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
     {
         yield return terrain.GetComponentInChildren<ProceduralSnow>().GeneratePlane();
 
-        if (Random.value < .2 && CanGenerateForrestOnPosition(terrain.transform.position))
+        if (Random.value < .3 && CanGenerateForrestOnPosition(terrain.transform.position))
         {
             GenerateForrest(terrain);
         }
