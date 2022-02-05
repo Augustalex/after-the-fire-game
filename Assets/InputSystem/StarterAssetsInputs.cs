@@ -43,11 +43,8 @@ namespace StarterAssets
         }
 
         public void OnSwitchMode(InputValue value)
-        {
-            if (value.isPressed)
-            {
-                GetComponentInParent<PlayerModeController>().SetToBallMode();
-            }
+        {   
+            // When in walk mode - switching happens when player starts moving
         }
 
 #else

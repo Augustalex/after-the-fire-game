@@ -59,18 +59,27 @@ public class PlayerController : MonoBehaviour
 
     public void OnSwitchMode(InputValue value)
     {
-        if (value.isPressed)
+        var grounded = TouchingSnow() || _onIsland;
+        if (value.isPressed && !Boosting() && grounded)
         {
-            var playerModeController = GetComponentInParent<PlayerModeController>();
-            if (!Boosting())
-            {
-                playerModeController.SetToWalkingMode();
-            }
-
             if (!_onIsland)
             {
-                GetComponent<PlayerGrower>().ReleaseSnow(); // TODO: Fix circular dependency
+                var playerGrower =
+                    GetComponent<PlayerGrower>(); // TODO: Fix circular dependency - Probably the grower shouldn't depend on the movement controller?
+
+                if (playerGrower.GrowthProgress() > .25f)
+                {
+                    TriggerHitGroundParticles();
+                }
+
+                playerGrower.ReleaseSnow();
             }
+
+            _rigidbody.velocity = Vector3.zero;
+            _stunnedCooldown = 3f;
+
+            var playerModeController = GetComponentInParent<PlayerModeController>();
+            playerModeController.SetToWalkingMode();
         }
     }
 
@@ -131,6 +140,25 @@ public class PlayerController : MonoBehaviour
         _previousPosition = transform.position;
         _jumpThisFrame = false;
         if (!_inAir && _inAirLastFrame) _inAirLastFrame = false;
+    }
+
+    public void PrepareForStopRolling()
+    {
+        var playerGrower =
+            GetComponent<PlayerGrower>(); // TODO: Fix circular dependency - Probably the grower shouldn't depend on the movement controller?
+
+        if (playerGrower.GrowthProgress() > .25f)
+        {
+            TriggerHitGroundParticles();
+        }
+
+        playerGrower.ReleaseSnow();
+    }
+
+    public void PrepareForStartRolling()
+    {
+        TriggerHitGroundParticles();
+        _stunnedCooldown = .5f;
     }
 
     private void EnableTrailParticles()
