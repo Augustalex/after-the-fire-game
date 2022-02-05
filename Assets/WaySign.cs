@@ -13,8 +13,8 @@ public class WaySign : MonoBehaviour
 
     private readonly List<Quaternion> _swings = new List<Quaternion>();
     private CinemachineImpulseSource _impulseSource;
-    private bool _falling;
-    private double _fallingCooldown;
+    private bool _falling = true;
+    private double _fallingCooldown = 10f;
 
     private void Start()
     {

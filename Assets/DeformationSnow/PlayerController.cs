@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
     public GameObject groundCollisionParticles;
     public CinemachineImpulseSource _impulseSource;
     public AudioSource movementSfx;
-    
+
     private float _worldLoadCooldown;
 
     void Start()
@@ -62,14 +62,12 @@ public class PlayerController : MonoBehaviour
         if (value.isPressed)
         {
             var playerModeController = GetComponentInParent<PlayerModeController>();
-            if (_onIsland)
+            if (!Boosting())
             {
-                if (!Boosting())
-                {
-                    playerModeController.SetToWalkingMode();
-                }
+                playerModeController.SetToWalkingMode();
             }
-            else
+
+            if (!_onIsland)
             {
                 GetComponent<PlayerGrower>().ReleaseSnow(); // TODO: Fix circular dependency
             }
@@ -83,7 +81,7 @@ public class PlayerController : MonoBehaviour
             _worldLoadCooldown -= Time.deltaTime;
             return;
         }
-        
+
         AddExtraGravityIfOnIsland();
 
         if (_inAir)
@@ -99,15 +97,15 @@ public class PlayerController : MonoBehaviour
         {
             _stunnedCooldown -= Time.deltaTime;
         }
-        
-        if(!Stunned())
+
+        if (!Stunned())
         {
             if (!_inAir)
             {
                 HandleJump();
                 HandleBoosting();
             }
-            
+
             HandleMoving();
         }
 
@@ -151,7 +149,7 @@ public class PlayerController : MonoBehaviour
         {
             movementSfx.volume = velocityMagnitude * 0.05f;
         }
-        
+
         movementSfx.pitch = Mathf.Clamp(velocityMagnitude * 0.05f, 0.5f, 1f);
     }
 
@@ -171,7 +169,7 @@ public class PlayerController : MonoBehaviour
     {
         return Physics.OverlapSphere(transform.position, transform.localScale.x).Any(hit => hit.CompareTag("Terrain"));
     }
-    
+
     private void AdjustDrag()
     {
         if (_rigidbody.velocity.magnitude > 10f)
@@ -250,8 +248,9 @@ public class PlayerController : MonoBehaviour
             var minSpeed = 3f;
             var startBoost = (Mathf.Max(0, minSpeed - _rigidbody.velocity.magnitude) / minSpeed) * data.startBoost;
             var inAirPenalty = _inAir ? .3f : 1f;
-            
-            _rigidbody.AddForce((direction.normalized * (data.speed + startBoost + shiftBoost)) * Time.deltaTime * inAirPenalty,
+
+            _rigidbody.AddForce(
+                (direction.normalized * (data.speed + startBoost + shiftBoost)) * Time.deltaTime * inAirPenalty,
                 ForceMode.Acceleration);
         }
         else if (_stillMovingCooldown < 0)
@@ -277,7 +276,7 @@ public class PlayerController : MonoBehaviour
             {
                 _inAirCooldown = 1f;
                 _inAir = true;
-                
+
                 if (CheatEngine.Instance.Cheating())
                 {
                     _rigidbody.AddForce(Vector3.up * data.jumpForce * 2f + direction * 8f, ForceMode.Impulse);

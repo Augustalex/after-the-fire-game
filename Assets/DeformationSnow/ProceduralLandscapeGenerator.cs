@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 
 public class ProceduralLandscapeGenerator : MonoBehaviour
 {
+    public GameObject wildNpcTemplate;
     public GameObject waySignTemplate;
     public GameObject terrainTemplate;
     public Transform followTarget;
@@ -14,7 +15,7 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
     public const float GridSize = 10f;
 
     private readonly HashSet<Vector3> _planeExistsByPosition = new HashSet<Vector3>();
-    
+
 
     void Start()
     {
@@ -61,14 +62,38 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
         {
             GenerateForrest(terrain);
         }
-        
-        if(terrain.transform.position.magnitude > 150f && Random.value < .3)
+        else if(terrain.transform.position.magnitude > 150f && Random.value < .3)
         {
             if (CanGenerateWaySign(terrain))
             {
                 GenerateWaySign(terrain);
             }
         }
+        // else if(Random.value < .5f && CanGenerateWildNpc(terrain))
+        // {
+        //     foreach (var collider1 in Physics.OverlapSphere(AlignToGrid(terrain.transform.position), 200f))
+        //     {
+        //         Debug.Log(collider1.tag);
+        //     }
+        //
+        //     GenerateWildNpc(terrain);
+        // }
+    }
+
+    private bool CanGenerateWildNpc(GameObject terrain)
+    {
+        //THey are generated same frame??? thus this does not always work
+        // Maybe create a hash set with positions aligned to a large grid just for checking if can spawn, not to get spawn positon (for that use smaller grid)
+        return !Physics.OverlapSphere(AlignToGrid(terrain.transform.position), 50f).Any(s => s.CompareTag("NPC")) &&
+               !Physics.OverlapSphere(AlignToGrid(terrain.transform.position), 100f).Any(s => s.CompareTag("Island"));
+    }
+
+    private void GenerateWildNpc(GameObject terrain)
+    {
+        var npc = Instantiate(wildNpcTemplate);
+        npc.transform.position = terrain.transform.position + Vector3.up * 6f;
+        
+        Debug.Log(terrain.transform.position + ", " + AlignToGrid(terrain.transform.position));
     }
 
     private bool CanGenerateWaySign(GameObject terrain)

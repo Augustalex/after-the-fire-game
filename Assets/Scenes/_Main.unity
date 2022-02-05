@@ -944,6 +944,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8f5b5b9c63eddc42b4ef1c3088bc62d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  wildNpcTemplate: {fileID: 532401367002248794, guid: dd95fcfc45235534db522b8d93bf527d, type: 3}
   waySignTemplate: {fileID: 5748346832177369458, guid: cce279c76abcd6f4982aa62a8c54d23b, type: 3}
   terrainTemplate: {fileID: 3176813460889869157, guid: 36cf415baf755dd4791bd59b9deabd10, type: 3}
   followTarget: {fileID: 1444204692}
@@ -2010,7 +2011,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1891676859
+--- !u!114 &1891676861
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
