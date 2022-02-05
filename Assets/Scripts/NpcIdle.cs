@@ -1,10 +1,11 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class NpcIdle : MonoBehaviour
 {
-    private string text = "We need 4 beetles to finish our stew! Maybe check with our neighbours?";
-    private string text2 = "Look! Everyone came to our party to thank you for helping them!";
+    [SerializeField] private string quest1Instructions = "We need # beetles to finish our stew! Maybe check with our neighbours?";
+    [SerializeField] private string quest1Success = "Look! Everyone came to our party to thank you for helping them!";
     private bool _firstTime = true;
 
     private void OnTriggerEnter(Collider other)
@@ -17,7 +18,8 @@ public class NpcIdle : MonoBehaviour
         
         if (other.CompareTag("PlayerHog"))
         {
-            UIManager.Instance.SetSubtitle(GameManager.Instance.completed ? text2 : text);
+            var text = quest1Instructions.Replace("#", (GameManager.Instance.quest1BeetlesToCollect - GameManager.Instance.Quest1Progress).ToString());
+            UIManager.Instance.SetSubtitle(GameManager.Instance.Completed ? quest1Success : text);
         }
     }
 
@@ -30,7 +32,8 @@ public class NpcIdle : MonoBehaviour
 
         if (other.CompareTag("PlayerHog"))
         {
-            UIManager.Instance.SetSubtitle(GameManager.Instance.completed ? text2 : text);
+            var text = quest1Instructions.Replace("#", (GameManager.Instance.quest1BeetlesToCollect - GameManager.Instance.Quest1Progress).ToString());
+            UIManager.Instance.SetSubtitle(GameManager.Instance.Completed ? quest1Success : text);
         }
     }
 

@@ -6,10 +6,10 @@ using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
-    private int _seeds = 0;
+    [SerializeField] private int _seeds = 0;
     public TextMeshProUGUI seedText;
 
-    private int _worms = 0;
+    [SerializeField] private int _worms = 0;
     public TextMeshProUGUI wormsText;
     private string _cheat;
 
@@ -39,6 +39,7 @@ public class PlayerInventory : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Q))
             {
                 RegisterPickedUpWorm();
+                GameManager.Instance.OnIslandCompleted();
             }
 
             if (Input.GetKeyDown(KeyCode.R))

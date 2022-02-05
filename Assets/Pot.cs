@@ -41,6 +41,7 @@ public class Pot : MonoBehaviour
             _animator.SetInteger("Size", nextSize);
 
             playerInventory.ConsumeWorm();
+            GameManager.Instance.Quest1SetProgress();
 
             yield return new WaitForSeconds(1f);
         }
