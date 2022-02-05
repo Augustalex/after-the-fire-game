@@ -372,39 +372,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &97806503 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6200372186304377089, guid: e4d3f6fe14f62164aa541b0d57c460c9, type: 3}
-  m_PrefabInstance: {fileID: 1317095613}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &97806505
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 97806503}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8193359a0e5c426e80ef27aaa7c78d65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  quest1Instructions: We need # beetles to finish our stew! Maybe check with our
-    neighbours?
-  quest1Success: Look! Everyone came to our party to thank you for helping them!
---- !u!65 &97806506
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 97806503}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 12.1, y: 18.63, z: 18.71}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &107951289
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1074,24 +1041,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1158642338 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6876596471524591058, guid: e4d3f6fe14f62164aa541b0d57c460c9, type: 3}
-  m_PrefabInstance: {fileID: 1317095613}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &1158642343
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1158642338}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 5.61, y: 5.72, z: 5.14}
-  m_Center: {x: 0.060317345, y: 0.90184844, z: 0.1444809}
 --- !u!1001 &1270686480
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1417,10 +1366,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1956145531}
     m_Modifications:
-    - target: {fileID: 72904546947099082, guid: e4d3f6fe14f62164aa541b0d57c460c9, type: 3}
-      propertyPath: islandNpc
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1926051456368350320, guid: e4d3f6fe14f62164aa541b0d57c460c9, type: 3}
       propertyPath: m_Name
       value: Island_Home
@@ -1467,26 +1412,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1926051456368350321, guid: e4d3f6fe14f62164aa541b0d57c460c9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1971474498322499571, guid: e4d3f6fe14f62164aa541b0d57c460c9, type: 3}
-      propertyPath: islandNpc
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5120648667772008914, guid: e4d3f6fe14f62164aa541b0d57c460c9, type: 3}
-      propertyPath: islandNpc
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5699952902310991137, guid: e4d3f6fe14f62164aa541b0d57c460c9, type: 3}
-      propertyPath: islandNpc
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6200372186304377089, guid: e4d3f6fe14f62164aa541b0d57c460c9, type: 3}
-      propertyPath: m_TagString
-      value: NPC
-      objectReference: {fileID: 0}
-    - target: {fileID: 8772444265243435887, guid: e4d3f6fe14f62164aa541b0d57c460c9, type: 3}
-      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

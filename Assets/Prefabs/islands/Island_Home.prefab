@@ -422,6 +422,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3330507863033757635}
     m_Modifications:
+    - target: {fileID: 549792822840900223, guid: 7b255c798487d34479b5224ee77540c4, type: 3}
+      propertyPath: islandNpc
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8410218678889843516, guid: 7b255c798487d34479b5224ee77540c4, type: 3}
       propertyPath: m_Name
       value: npc_02
@@ -540,13 +544,35 @@ PrefabInstance:
       propertyPath: m_Name
       value: couldron
       objectReference: {fileID: 0}
+    - target: {fileID: 4746918379983980431, guid: 94aa04e88f3cae54697d2b90a66c5d8b, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94aa04e88f3cae54697d2b90a66c5d8b, type: 3}
+--- !u!1 &6876596471524591058 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2010542740998418570, guid: 94aa04e88f3cae54697d2b90a66c5d8b, type: 3}
+  m_PrefabInstance: {fileID: 4938326694694942040}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6063327936006446952 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1201670916187302448, guid: 94aa04e88f3cae54697d2b90a66c5d8b, type: 3}
   m_PrefabInstance: {fileID: 4938326694694942040}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &1158642343
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6876596471524591058}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5.61, y: 5.72, z: 5.14}
+  m_Center: {x: 0.060317345, y: 0.90184844, z: 0.1444809}
 --- !u!1001 &5399777382514565330
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -742,13 +768,50 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2941596073879462964, guid: 95d8053ef24a0684aa426cecdd5f5d5e, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95d8053ef24a0684aa426cecdd5f5d5e, type: 3}
+--- !u!1 &6200372186304377089 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 532401367002248794, guid: 95d8053ef24a0684aa426cecdd5f5d5e, type: 3}
+  m_PrefabInstance: {fileID: 5868011781028022107}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6721610399106608059 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 876135482955246816, guid: 95d8053ef24a0684aa426cecdd5f5d5e, type: 3}
   m_PrefabInstance: {fileID: 5868011781028022107}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &97806506
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6200372186304377089}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 12.1, y: 18.63, z: 18.71}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &97806505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6200372186304377089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8193359a0e5c426e80ef27aaa7c78d65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  quest1Instructions: We need # beetles to finish our stew! Maybe check with our
+    neighbours?
+  quest1Success: Look! Everyone came to our party to thank you for helping them!
 --- !u!1001 &6451118204058069172
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -812,6 +875,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1629376334484209045, guid: d1117b4d3b3fd774dba4a142ff069de1, type: 3}
+      propertyPath: islandNpc
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d1117b4d3b3fd774dba4a142ff069de1, type: 3}
 --- !u!4 &6218285061289881154 stripped
@@ -873,6 +940,10 @@ PrefabInstance:
     - target: {fileID: 4348845903603168419, guid: ac8b164a62044894ebaf1df249b75333, type: 3}
       propertyPath: m_Name
       value: npc_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 7122862067027327786, guid: ac8b164a62044894ebaf1df249b75333, type: 3}
+      propertyPath: islandNpc
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ac8b164a62044894ebaf1df249b75333, type: 3}
@@ -1120,6 +1191,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2232883560401927662, guid: daabf58a2a095f147a833b8902d15380, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7289881368987922817, guid: daabf58a2a095f147a833b8902d15380, type: 3}
+      propertyPath: islandNpc
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -8,10 +8,17 @@ public class Pot : MonoBehaviour
     private int _size = 0;
     private bool _potGrowing;
     private const int MaxSize = 4;
+    [SerializeField] private ParticleSystem stewParticles;
+    private ParticleSystem.EmissionModule _stewParticles;
+    [SerializeField] private ParticleSystem stewSplashParticles;
+    
 
     void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
+        _stewParticles = stewParticles.emission;
+        _stewParticles.enabled = false;
+        _stewParticles.rateOverTime = 0;
     }
 
     private void OnTriggerStay(Collider other)
@@ -42,6 +49,9 @@ public class Pot : MonoBehaviour
 
             playerInventory.ConsumeWorm();
             GameManager.Instance.Quest1SetProgress();
+            _stewParticles.enabled = true;
+            _stewParticles.rateOverTime = GameManager.Instance.Quest1Progress;
+            stewSplashParticles.Play();
 
             yield return new WaitForSeconds(1f);
         }
