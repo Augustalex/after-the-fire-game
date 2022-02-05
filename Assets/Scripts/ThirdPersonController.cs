@@ -99,6 +99,7 @@ namespace StarterAssets
         private const float _threshold = 0.01f;
 
         private bool _hasAnimator;
+        private float _stunnedCooldown;
 
         private bool IsCurrentDeviceMouse => _playerInput.currentControlScheme == "KeyboardMouse";
 
@@ -109,6 +110,11 @@ namespace StarterAssets
             {
                 _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             }
+        }
+
+        public void IntroStun()
+        {
+            _stunnedCooldown = 6f;
         }
 
         private void Start()
@@ -128,7 +134,7 @@ namespace StarterAssets
         private void Update()
         {
             AddExtraGravityIfOnIsland();
-            
+
             _hasAnimator = TryGetComponent(out _animator);
 
             JumpAndGravity();
@@ -214,16 +220,23 @@ namespace StarterAssets
         {
             Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
             _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
-            new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+                             new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 
-            var newMoveDirection = _input.move;
-            
-            if (newMoveDirection.magnitude > .25f)
+            if (_stunnedCooldown > 0f)
             {
-                var playerModeController = GetComponentInParent<PlayerModeController>();
-                if (playerModeController.CanTurnToBallRightNow())
+                _stunnedCooldown -= Time.deltaTime;
+            }
+            else
+            {
+                var newMoveDirection = _input.move;
+
+                if (newMoveDirection.magnitude > .25f)
                 {
-                    playerModeController.SetToBallMode();
+                    var playerModeController = GetComponentInParent<PlayerModeController>();
+                    if (playerModeController.CanTurnToBallRightNow())
+                    {
+                        playerModeController.SetToBallMode();
+                    }
                 }
             }
         }
@@ -234,7 +247,7 @@ namespace StarterAssets
             {
                 // reset the fall timeout timer
                 _fallTimeoutDelta = FallTimeout;
-                
+
                 // stop our velocity dropping infinitely when grounded
                 if (_verticalVelocity < 0.0f)
                 {

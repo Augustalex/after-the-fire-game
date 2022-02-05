@@ -34,7 +34,6 @@ public class PlayerGrower : MonoBehaviour
         _onIsland = OnIsland();
         _onSnow = OnSnow();
 
-        if (_controller.Stunned()) return;
         if (transform.localScale.x > _originalSize.x)
         {
             SetVisible();
@@ -43,6 +42,7 @@ public class PlayerGrower : MonoBehaviour
         {
             SetInvisible();
         }
+        if (_controller.Stunned()) return;
 
         if (_onSnow && !_onIsland)
         {
@@ -131,7 +131,7 @@ public class PlayerGrower : MonoBehaviour
 
     public void ReleaseSnow()
     {
-        GetComponent<PlayerController>().ZeroBoostJuice(); // TODO: Fix circular depedency
+        _controller.ZeroBoostJuice(); // TODO: Fix circular depedency
         transform.localScale = _originalSize;
     }
 

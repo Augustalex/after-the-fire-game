@@ -42,6 +42,7 @@ public class PlayerModeController : MonoBehaviour
         _ballGrower = ballRoot.GetComponentInChildren<PlayerGrower>();
 
         SetToBallMode();
+        _ballController.IntroStun();
 
         StartCoroutine(ExitIntroScene());
     }
@@ -50,7 +51,10 @@ public class PlayerModeController : MonoBehaviour
     {
         _intro = true;
         yield return new WaitForSeconds(6f);
+        
         SetToWalkingMode();
+        _hogThirdPersonController.IntroStun();
+        
         yield return new WaitForSeconds(4f);
         CameraModeController.Instance.SetToPlayerCamera();
         _intro = false;

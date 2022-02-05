@@ -62,7 +62,7 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
     {
         yield return terrain.GetComponentInChildren<ProceduralSnow>().GeneratePlane();
 
-        if (Random.value < .3 && CanGenerateForrestOnPosition(terrain.transform.position))
+        if (Random.value < .35 && CanGenerateForrestOnPosition(terrain.transform.position))
         {
             GenerateForrest(terrain);
         }
@@ -83,7 +83,7 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
     {
         return !_itemExistsByPosition.Contains(AlignToForrestGrid(unalignedPosition)) && 
                !_forrestExistsByPosition.Contains(AlignToForrestGrid(unalignedPosition)) &&
-               !Physics.OverlapSphere(AlignToGrid(unalignedPosition), 50f).Any(s => s.CompareTag("Island"));
+               !Physics.OverlapSphere(AlignToGrid(unalignedPosition), 20f).Any(s => s.CompareTag("Island"));
     }
 
     private bool CanGenerateItemOnPosition(Vector3 unalignedPosition)

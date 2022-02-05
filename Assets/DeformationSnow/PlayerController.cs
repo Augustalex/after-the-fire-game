@@ -43,6 +43,11 @@ public class PlayerController : MonoBehaviour
         _trailParticles = snowParticles.emission;
     }
 
+    public void IntroStun()
+    {
+        _stunnedCooldown = 10f; // Tweak to aprox. fit the time the player should be unable to move (before entering walk mode) in the intro sequence
+    }
+
     public void OnMove(InputValue value)
     {
         _move = value.Get<Vector2>();
@@ -77,7 +82,7 @@ public class PlayerController : MonoBehaviour
             }
 
             _rigidbody.velocity = Vector3.zero;
-            _stunnedCooldown = 3f;
+            _stunnedCooldown = 3f; // TODO: Try remove - this probably does not do anything (as this component is disabled until we start rolling again)
 
             var playerModeController = GetComponentInParent<PlayerModeController>();
             playerModeController.SetToWalkingMode();
