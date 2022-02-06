@@ -42,21 +42,15 @@ public class PlayerGrower : MonoBehaviour
         {
             SetInvisible();
         }
+
         if (_controller.Stunned()) return;
 
         if (_onSnow && !_onIsland)
         {
             if (_rigidbody.velocity.magnitude > 1f)
             {
-                // Grow based on "boosting"
-                // var boostFactor = Mathf.Clamp(_controller.BoostJuice() / 12f, 0f, 1f);
-                // var boostRate = .004f + 10f * boostFactor;
-                // var growthRate = _controller.Boosting() ? boostRate : .004f;
-                
-                // Grow based on time moving
-                var boostFactor = Mathf.Clamp(Mathf.Max(_controller.TimeMoving() - .5f, 0f) / 12f, 0f, 1f);
-                var boostRate = .004f + 10f * boostFactor;
-                var growthRate = boostRate;
+                var moveTime = Mathf.Clamp(Mathf.Max(_controller.TimeMoving() - .5f, 0f) / 12f, 0f, 1f);
+                var growthRate = _controller.Boosting() ? .004f : .004f + 4f * moveTime;
 
                 var toGrow = growthRate * SizeToMaxSize() * Time.deltaTime;
 

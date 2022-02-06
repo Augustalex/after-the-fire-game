@@ -158,7 +158,8 @@ public class ProceduralSnow : MonoBehaviour
         // var boostFactor = Mathf.Clamp(_player.BoostJuice() / 3f, 0f, 1f);
         
         // Deforming force based on time spent continuously on the move
-        var boostFactor = Mathf.Clamp(_player.TimeMoving() / 3f, 0f, 1f);
+        var moveTimeFactor = Mathf.Clamp(_player.TimeMoving() / 6f, 0f, 1f);
+        var boostFactor = Mathf.Clamp(_player.BoostJuice() / 3f, 0f, 1f);
         
         var maxSizeReached = _playerGrower.MaxSizeReached();
         var playerFalling = velocityVector.y < -4f;
@@ -206,15 +207,8 @@ public class ProceduralSnow : MonoBehaviour
                 {
                     playerMorphPoint = playerPosition + velocityVector * Time.fixedDeltaTime * 3f;
 
-                    if (maxSizeReached)
-                    {
-                        staticSpeed = playerScaleX * velocity * .2f;
-                    }
-                    else
-                    {
-                        var boostSpeed = .5f + (boostFactor * .4f);
-                        staticSpeed = playerScaleX * velocity * boostSpeed;
-                    }
+                    var boostSpeed = .1f;
+                    staticSpeed = playerScaleX * velocity * boostSpeed;
                 }
                 else
                 {
@@ -222,16 +216,13 @@ public class ProceduralSnow : MonoBehaviour
                     
                     if (maxSizeReached)
                     {
-                        staticSpeed = playerScaleX * velocity * .2f;
+                        var moveTimeFactorSpeed = .3f + (moveTimeFactor * .2f);
+                        staticSpeed = playerScaleX * velocity * moveTimeFactorSpeed;
                     }
                     else
                     {
-                        // Used when Boosting is the main method to grow
-                        // staticSpeed = playerScaleX * velocity * .8f;
-                        
-                        // Replacement for boosting - always grow at a fast pace
-                        var boostSpeed = .5f + (boostFactor * .4f);
-                        staticSpeed = playerScaleX * velocity * boostSpeed;
+                        var moveTimeFactorSpeed = .3f + (moveTimeFactor * .3f);
+                        staticSpeed = playerScaleX * velocity * moveTimeFactorSpeed;
                     }
                 }
 
