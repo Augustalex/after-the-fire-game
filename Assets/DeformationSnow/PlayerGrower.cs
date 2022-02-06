@@ -142,7 +142,7 @@ public class PlayerGrower : MonoBehaviour
 
     public void ReleaseThirdOfSnow()
     {
-        var sizeFactor = (MaxSize - _originalSize.x) * .33f;
+        var sizeFactor = (MaxSize - _originalSize.x) * .36f;
         var finalSizeFactor = Mathf.Clamp(transform.localScale.x - sizeFactor, _originalSize.x, MaxSize);
         transform.localScale = Vector3.one * finalSizeFactor;
 

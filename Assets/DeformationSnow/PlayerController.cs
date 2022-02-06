@@ -163,7 +163,10 @@ public class PlayerController : MonoBehaviour
 
     public void PrepareForStartRolling()
     {
-        TriggerHitGroundParticles();
+        if (!_onIsland)
+        {
+            TriggerHitGroundParticles();
+        }
         _stunnedCooldown = .5f;
     }
 
