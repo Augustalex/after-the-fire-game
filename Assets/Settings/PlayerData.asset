@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 471bf4f3745146a981d0d9ebddf30742, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  shiftBoost: 600
-  speed: 1800
-  startBoost: 2500
+  shiftBoost: 800
+  speed: 1600
+  startBoost: 3000
   jumpForce: 14
   treeHitStunTime: 0.5
