@@ -59,14 +59,18 @@ public class DeadTree : MonoBehaviour
                         currentState = State.Dead;
                         treeMesh.material = deadMaterial;
                         fireParticles.Stop();
+                        SfxManager.Instance.PlaySfx("collideWithTreeFire", other.attachedRigidbody.velocity.magnitude * 0.05f, true);
                         island.OnExstuinguishTree();
                         
                         other.GetComponentInChildren<PlayerController>().TriggerHitGroundParticles();
                     }
+                    else
+                    {
+                        SfxManager.Instance.PlaySfx("collideWithTree",  other.attachedRigidbody.velocity.magnitude * 0.05f, true);
+                    }
 
                     Shake();
                     other.GetComponentInChildren<PlayerController>().HitDeadTree();
-                    SfxManager.Instance.PlaySfx("collideWithTree",  other.attachedRigidbody.velocity.magnitude * 0.05f, true); 
                 }
                 else if (currentState == State.Dead)
                 {

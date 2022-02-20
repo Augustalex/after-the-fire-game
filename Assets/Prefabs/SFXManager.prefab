@@ -176,6 +176,7 @@ MonoBehaviour:
   seedDrop: {fileID: 8300000, guid: 2a28d06602d331044acbe97672bf1cc2, type: 3}
   collideWithTree: {fileID: 8300000, guid: ccaed2e8498cdc145b12ccb194ca391b, type: 3}
   collideWithTreeSeedDrop: {fileID: 8300000, guid: c902ff5a60cfe0345af307e85495a32d, type: 3}
+  collideWithTreeFire: {fileID: 8300000, guid: 9f926af3b189bbf429f6ea1bfe8127a9, type: 3}
   splash: {fileID: 8300000, guid: 0c0790d059769764ba0c8b92b844ef60, type: 3}
   success: {fileID: 8300000, guid: a57dd5a6901548c43bbcbc6ffe0abbc0, type: 3}
 --- !u!82 &2866015221871655106
