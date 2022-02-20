@@ -70,6 +70,13 @@ public class PlayerInventory : MonoBehaviour
     public void RegisterPickedUpWorm()
     {
         Debug.Log("PICKED UP WORM");
+        UIManager.Instance.GetABug();
+        SfxManager.Instance.PlaySfx("gettingBug");
+    }
+
+    // This is called by the GetABug animation
+    public void IncreaseBugWithOne()
+    {
         _worms += 1;
         wormsText.text = _worms.ToString();
     }

@@ -73,7 +73,6 @@ public class Npc : MonoBehaviour
         {
             _currentState = State.allCompleted;
             playerInventory.RegisterPickedUpWorm();
-            SfxManager.Instance.PlaySfx("gettingBug");
             island.OnAllCompleted();
         }
     }
