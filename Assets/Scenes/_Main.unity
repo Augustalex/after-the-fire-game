@@ -751,11 +751,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5317304338560099329, guid: 9f3cfde4fdc2a1b4fb44acc39f62e2cf, type: 3}
       propertyPath: allCompletedText
-      value: Thanks for the # cones! Here, take this beetle for your pot!
+      value: Thanks for saving my spiky butt! Here, take this beetle for your pot.
       objectReference: {fileID: 0}
     - target: {fileID: 5317304338560099329, guid: 9f3cfde4fdc2a1b4fb44acc39f62e2cf, type: 3}
       propertyPath: part1CompletedText
-      value: Thank you!! If only I had # cones to regrow the forrest with..
+      value: Thank you! Now we only need to regrow the forrest.. if you had # pine
+        cones - you could plant them for me!
       objectReference: {fileID: 0}
     - target: {fileID: 5317304338560099329, guid: 9f3cfde4fdc2a1b4fb44acc39f62e2cf, type: 3}
       propertyPath: numberOfConesToFetch
@@ -1226,6 +1227,11 @@ PrefabInstance:
     - target: {fileID: 3801613151371013591, guid: 5303748a2123669418314e7f25ef0669, type: 3}
       propertyPath: m_LocalRotation.x
       value: -2.910732e-26
+      objectReference: {fileID: 0}
+    - target: {fileID: 6208210550989457840, guid: 5303748a2123669418314e7f25ef0669, type: 3}
+      propertyPath: part1CompletedText
+      value: You really did that?! If only there was someone out there to help me
+        plant some new trees... *wink wink*
       objectReference: {fileID: 0}
     - target: {fileID: 6809658901536649996, guid: 5303748a2123669418314e7f25ef0669, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1762,11 +1768,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6816667840771948362, guid: c33baec40282d1b4e9b1671805cd695c, type: 3}
       propertyPath: allCompletedText
-      value: Thankz for the # cones! I got yo a beetle. No need to thank me.
+      value: Thanks! I was trying to find my favorite scarf before and I found this.
+        No need to thank me.
       objectReference: {fileID: 0}
     - target: {fileID: 6816667840771948362, guid: c33baec40282d1b4e9b1671805cd695c, type: 3}
       propertyPath: part1CompletedText
-      value: Sweet! Yo, mind fetching me # cones while you're at it?
+      value: Sweet! Yo, mind putting some pine cones in the ground while you're at
+        it?
       objectReference: {fileID: 0}
     - target: {fileID: 6816667840771948362, guid: c33baec40282d1b4e9b1671805cd695c, type: 3}
       propertyPath: numberOfConesToFetch
@@ -2378,11 +2386,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5500544346978171262, guid: ca4e3efec4cb69848968337d783dad51, type: 3}
       propertyPath: allCompletedText
-      value: You got me # cones, wonderful! Have a beetle for your pot!
+      value: Wonderful! The forrest thanks you - it gave me this beetle and now it's
+        yours!
       objectReference: {fileID: 0}
     - target: {fileID: 5500544346978171262, guid: ca4e3efec4cb69848968337d783dad51, type: 3}
       propertyPath: part1CompletedText
-      value: What a good deed! You mind handing me # cones to regrow the forrest?
+      value: What a good deed! You mind planting # trees - to give the forrest a
+        change to regrow?
       objectReference: {fileID: 0}
     - target: {fileID: 5500544346978171262, guid: ca4e3efec4cb69848968337d783dad51, type: 3}
       propertyPath: numberOfConesToFetch
