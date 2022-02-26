@@ -92,6 +92,11 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
         }
     }
 
+    public void OnMenu(InputValue value)
+    {
+        UIManager.Instance.ToggleMenu();
+    }
+
     void Update()
     {
         if (_worldLoadCooldown > 0f)

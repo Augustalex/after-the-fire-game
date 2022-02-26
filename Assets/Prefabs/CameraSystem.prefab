@@ -1043,6 +1043,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d24db31012aabc4a896c2468692ed64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startView: {fileID: 4903824470492286956}
+  settingsView: {fileID: 8458867821119101341}
+  startButton: {fileID: 8187705373377846585}
   subtitleText: {fileID: 9162575455518791515}
   bugAnim: {fileID: 341565456}
 --- !u!1 &3694235018619398908
@@ -2987,7 +2990,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3722075267068194411, guid: e3ad85b6899520846bda17f2203bf3e2, type: 3}
       propertyPath: m_Name
-      value: Exit
+      value: Back
       objectReference: {fileID: 0}
     - target: {fileID: 5633536442878678348, guid: e3ad85b6899520846bda17f2203bf3e2, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -2995,7 +2998,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7797609960937871564, guid: e3ad85b6899520846bda17f2203bf3e2, type: 3}
       propertyPath: m_text
-      value: Exit
+      value: Back
       objectReference: {fileID: 0}
     - target: {fileID: 8077368196877973199, guid: e3ad85b6899520846bda17f2203bf3e2, type: 3}
       propertyPath: m_Pivot.x

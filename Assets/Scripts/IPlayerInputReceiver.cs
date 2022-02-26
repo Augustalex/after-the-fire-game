@@ -9,5 +9,7 @@ public interface IPlayerInputReceiver
     public void OnSprint(InputValue value);
 
     public void OnSwitchMode(InputValue value);
+    
+    public void OnMenu(InputValue value);
 
 }

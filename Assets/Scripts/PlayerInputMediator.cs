@@ -29,4 +29,9 @@ public class PlayerInputMediator : MonoBehaviour
     {
         _currentPlayerInputReceiver.OnSwitchMode(value);
     }
+    
+    public void OnMenu(InputValue value)
+    {
+        _currentPlayerInputReceiver.OnMenu(value);
+    }
 }

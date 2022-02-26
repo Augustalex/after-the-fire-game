@@ -4,9 +4,14 @@ using System.Collections.Generic;
 using Core;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class UIManager : MonoSingleton<UIManager>
 {
+    public GameObject startView;
+    public GameObject settingsView;
+    // public GameObject creditsView;
+    public GameObject startButton;
     [SerializeField] private TextMeshProUGUI subtitleText;
     [SerializeField] private GameObject bugAnim;
     private float _closeDialogueCooldown;
@@ -54,4 +59,14 @@ public class UIManager : MonoSingleton<UIManager>
     {
         bugAnim.SetActive(false);
     }
+
+    public void ToggleMenu()
+    {
+        Debug.Log("toggle menu");
+        var eventSystem = EventSystem.current;
+        startView.SetActive(!startView.activeSelf);
+        settingsView.SetActive(false);
+        // creditsView.SetActive(false);
+        eventSystem.SetSelectedGameObject(startButton);
+    } 
 }

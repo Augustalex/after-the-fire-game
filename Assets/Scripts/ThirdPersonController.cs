@@ -119,6 +119,11 @@ public class ThirdPersonController : MonoBehaviour, IPlayerInputReceiver
     {
         // When in walk mode - switching happens when player starts moving
     }
+    
+    public void OnMenu(InputValue value)
+    {
+        UIManager.Instance.ToggleMenu();
+    }
 
     private void AddExtraGravityIfOnIsland()
     {
