@@ -8,6 +8,7 @@ using UnityEngine;
 public class UIManager : MonoSingleton<UIManager>
 {
     [SerializeField] private TextMeshProUGUI subtitleText;
+    [SerializeField] private GameObject bugAnim;
     private float _closeDialogueCooldown;
     private bool _closing;
 
@@ -29,6 +30,7 @@ public class UIManager : MonoSingleton<UIManager>
     private void OnEnable()
     {
         subtitleText.text = "";
+        bugAnim.SetActive(false);
     }
 
     public void SetSubtitle(string text)
@@ -41,5 +43,15 @@ public class UIManager : MonoSingleton<UIManager>
     {
         _closing = true;
         _closeDialogueCooldown = 3f;
+    }
+
+    public void GetABug()
+    {
+        bugAnim.SetActive(true);
+    }
+    
+    public void InactivateGetABug()
+    {
+        bugAnim.SetActive(false);
     }
 }
