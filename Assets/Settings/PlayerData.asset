@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shiftBoost: 800
   speed: 1600
-  startBoost: 3000
+  startBoost: 5000
   jumpForce: 14
   treeHitStunTime: 0.5

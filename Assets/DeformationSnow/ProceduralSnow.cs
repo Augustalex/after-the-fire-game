@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ProceduralSnow : MonoBehaviour
 {
@@ -98,7 +99,7 @@ public class ProceduralSnow : MonoBehaviour
         Vector3 vertex, Vector3 worldVertex, float staticDigSpeed, float playerScaleX, bool playerBoosting,
         bool playerFalling, float boostFactor)
     {
-        var steps = 10f;
+        var steps = 1f;
 
         var direction = (currentPosition - previousPosition).normalized;
         var length = Vector3.Distance(previousPosition, currentPosition);
@@ -183,10 +184,13 @@ public class ProceduralSnow : MonoBehaviour
         if (treePoints.Length > 0) return;
         if (velocity == 0) return;
 
+        var speedScale = .5f;
+
         for (var i = 0; i < currentVerticies.Length; i++)
         {
             var vertex = currentVerticies[i];
             Vector3 worldVertex = localToWorld.MultiplyPoint3x4(vertex);
+            
 
             if (passUntil <= i)
             {
@@ -225,6 +229,8 @@ public class ProceduralSnow : MonoBehaviour
                         staticSpeed = playerScaleX * velocity * moveTimeFactorSpeed;
                     }
                 }
+
+                staticSpeed *= speedScale;
 
                 var playerVertexAlignedPoint = new Vector3(playerMorphPoint.x, worldVertex.y, playerMorphPoint.z);
                 var pointDistance = Vector3.Distance(
