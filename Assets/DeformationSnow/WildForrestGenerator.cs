@@ -13,38 +13,40 @@ public class WildForrestGenerator : MonoBehaviour
         var position = transform.position;
         var planeRadius = ProceduralLandscapeGenerator.GridSize * 2f;
 
-        var count = Random.Range(12, 24);
+        var count = Random.Range(4, 12);
         for (var i = 0; i < count; i++)
         {
-            var randomPosition = AlignToSubGrid(new Vector3(
-                Random.Range(position.x - planeRadius, position.x + planeRadius),
-                6f,
-                Random.Range(position.z - planeRadius, position.z + planeRadius)
-            ));
-            if (_treeExistsByPosition.Contains(AlignToGrid(randomPosition))) continue;
-            
-            var hit = Physics.Raycast(new Ray(randomPosition, Vector3.down), out var hitInfo, Mathf.Infinity,
-                1 << LayerMask.NameToLayer("Island"));
-            if (hit)
+            var tryingCount = 0;
+            var trying = true;
+            while (trying)
             {
-                var iceHit = Physics.Raycast(new Ray(randomPosition, Vector3.down), out var iceHitInfo, Mathf.Infinity);
-                if (iceHit)
+                var randomPosition = AlignToSubGrid(new Vector3(
+                    Random.Range(position.x - planeRadius, position.x + planeRadius),
+                    6f,
+                    Random.Range(position.z - planeRadius, position.z + planeRadius)
+                ));
+                if (_treeExistsByPosition.Contains(AlignToGrid(randomPosition))) continue;
+
+                if (Physics.Raycast(new Ray(randomPosition, Vector3.down), out var hitInfo, 10f,
+                    (1 << LayerMask.NameToLayer("Island") | (1 << LayerMask.NameToLayer("Ice")))))
                 {
-                    if (!iceHitInfo.collider.CompareTag("Ice"))
+                    if (hitInfo.collider.CompareTag("Island"))
                     {
                         var leveledPosition = new Vector3(
                             randomPosition.x,
                             hitInfo.point.y,
                             randomPosition.z
                         );
-                        
+
                         var randomRotation = Quaternion.Euler(0f, Random.Range(0f, 359f), 0f);
                         GameObject treeTemplate = treeTemplates[Random.Range(0, treeTemplates.Count)];
                         Instantiate(treeTemplate, leveledPosition, randomRotation, transform);
                         _treeExistsByPosition.Add(AlignToGrid(leveledPosition));
                     }
                 }
-                
+
+                tryingCount += 1;
+                if (tryingCount > 4) trying = false;
             }
         }
     }
