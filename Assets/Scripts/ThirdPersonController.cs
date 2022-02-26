@@ -166,6 +166,11 @@ public class ThirdPersonController : MonoBehaviour, IPlayerInputReceiver
         }
     }
 
+    private void OnEnable()
+    {
+        _move = Vector2.zero;
+    }
+
     private void JumpAndGravity()
     {
         if (Grounded)
