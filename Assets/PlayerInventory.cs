@@ -13,6 +13,28 @@ public class PlayerInventory : MonoBehaviour
     public TextMeshProUGUI wormsText;
     private string _cheat;
 
+    private void Update()
+    {
+        if (CheatEngine.Instance.Cheating())
+        {
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                RegisterPickedUpWorm();
+                GameManager.Instance.OnIslandCompleted();
+            }
+
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                RegisterPickedUpSeed();
+            }
+        }
+    }
+
+    public int GetCones()
+    {
+        return _seeds;
+    }
+
     public int TryGetCones(int n)
     {
         int seedsToReturn = n;
@@ -30,23 +52,6 @@ public class PlayerInventory : MonoBehaviour
 
         seedText.text = _seeds.ToString();
         return seedsToReturn;
-    }
-
-    private void Update()
-    {
-        if (CheatEngine.Instance.Cheating())
-        {
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                RegisterPickedUpWorm();
-                GameManager.Instance.OnIslandCompleted();
-            }
-
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                RegisterPickedUpSeed();
-            }
-        }
     }
 
     public int RemoveCones(int n)
@@ -81,16 +86,15 @@ public class PlayerInventory : MonoBehaviour
         wormsText.text = _worms.ToString();
     }
 
-    public int GetWorms()
-    {
-        return _worms;
-    }
-
-
     public void ConsumeWorm()
     {
         Debug.Log("ConsumeWorm");
         _worms -= 1;
         wormsText.text = _worms.ToString();
+    }
+
+    public int GetWorms()
+    {
+        return _worms;
     }
 }

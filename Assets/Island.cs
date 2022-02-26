@@ -8,26 +8,44 @@ public class Island : MonoBehaviour
     public Npc npc;
     public List<DeadTree> trees;
     public GameObject successObjects;
-    private int numberOfTrees;
 
     public MeshRenderer islandMesh;
     public Material fireMaterial;
     public Material ashMaterial;
     public Material grassMaterial;
-    
+
     [Serializable]
     private enum State
     {
-        init = 0,
-        part1done = 1,
-        allCompleted = 2
+        OnFire = 0,
+        FertileSoil = 1,
+        LushGreens = 2
     }
 
-    [SerializeField] private State currentState = State.init;
+    [SerializeField] private State currentState = State.OnFire;
 
     // States
-    [SerializeField]private int _numberOfTreesExstingueshed;
-    
+    [SerializeField] private int _numberOfTreesExtinguished;
+
+    private int _numberOfTrees;
+    private int _numberOfTreesNeeded = 0; // Circular dependency on island NPC - Set by NPC
+    private int _treesGrown;
+
+    public bool CanGrowTrees()
+    {
+        return currentState == State.FertileSoil || currentState == State.LushGreens;
+    }
+
+    public void PlantedTree()
+    {
+        _treesGrown += 1;
+
+        if (_treesGrown == _numberOfTreesNeeded)
+        {
+            OnAllCompleted();
+        }
+    }
+
     private void OnEnable()
     {
         foreach (var deadTree in trees)
@@ -35,22 +53,23 @@ public class Island : MonoBehaviour
             deadTree.island = this;
         }
 
-        numberOfTrees = trees.Count;
+        _numberOfTrees = trees.Count;
         islandMesh.material = fireMaterial;
-        
+
         successObjects.SetActive(false);
 
         npc.island = this;
+        _numberOfTreesNeeded = npc.numberOfConesToFetch;
     }
 
     public void OnExstuinguishTree()
     {
-        if (currentState == State.allCompleted) return;
-        
-        _numberOfTreesExstingueshed++;
-        if (_numberOfTreesExstingueshed >= numberOfTrees)
+        if (currentState == State.LushGreens) return;
+
+        _numberOfTreesExtinguished++;
+        if (_numberOfTreesExtinguished >= _numberOfTrees)
         {
-            currentState = State.part1done;
+            currentState = State.FertileSoil;
             islandMesh.material = ashMaterial;
             npc.OnPart1Complete();
         }
@@ -58,9 +77,23 @@ public class Island : MonoBehaviour
 
     public void OnAllCompleted()
     {
+        if (currentState == State.FertileSoil)
+        {
+            StartCoroutine(CompleteSoon());
+            GameManager.Instance.OnIslandCompleted(this);
+            currentState = State.LushGreens;
+        }
+    }
+
+    private IEnumerator CompleteSoon()
+    {
+        yield return new WaitForSeconds(1);
         successObjects.SetActive(true);
         islandMesh.material = grassMaterial;
-        
-        GameManager.Instance.OnIslandCompleted(this);
+    }
+
+    public int TreesGrown()
+    {
+        return _treesGrown;
     }
 }
