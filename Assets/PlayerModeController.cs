@@ -27,19 +27,20 @@ public class PlayerModeController : MonoBehaviour
     private float _lastTurnedToBall;
     private double _lastSwitchedToWalking;
     private bool _intro;
+    private PlayerInputMediator _playerInputMediator;
 
     private void Awake()
     {
         _hogCharacterController = hogRoot.GetComponent<CharacterController>();
         _hogThirdPersonController = hogRoot.GetComponent<ThirdPersonController>();
-        _hogInput = hogRoot.GetComponent<PlayerInput>();
         _hogCollider = hogRoot.GetComponent<BoxCollider>();
 
-        _ballInput = ballRoot.GetComponentInChildren<PlayerInput>();
         _ballController = ballRoot.GetComponentInChildren<PlayerController>();
         _ballRigidbody = ballRoot.GetComponentInChildren<Rigidbody>();
         _ballCollider = ballRoot.GetComponentInChildren<SphereCollider>();
         _ballGrower = ballRoot.GetComponentInChildren<PlayerGrower>();
+
+        _playerInputMediator = GetComponent<PlayerInputMediator>();
 
         SetToBallMode();
         _ballController.IntroStun();
@@ -114,17 +115,17 @@ public class PlayerModeController : MonoBehaviour
         hogRoot.GetComponent<Animator>().SetBool("IsBall", true);
         _hogCharacterController.enabled = false;
         _hogThirdPersonController.enabled = false;
-        _hogInput.enabled = false;
         _hogCollider.enabled = false;
         // hogRoot.SetActive(false);
 
         _ballController.enabled = true;
-        _ballInput.enabled = true;
         // _ballRigidbody.isKinematic = false;
         _ballCollider.enabled = true;
         ballRoot.SetActive(true);
 
         _ballController.PrepareForStartRolling();
+        
+        _playerInputMediator.SetInputReceiver(_ballController);
 
         _isBall = true;
     }
@@ -136,7 +137,6 @@ public class PlayerModeController : MonoBehaviour
         _ballController.PrepareForStopRolling();
 
         _ballController.enabled = false;
-        _ballInput.enabled = false;
         _ballCollider.enabled = false;
         // _ballRigidbody.isKinematic = true;
         ballRoot.SetActive(false);
@@ -150,10 +150,11 @@ public class PlayerModeController : MonoBehaviour
         );
         _hogCharacterController.enabled = true;
         _hogThirdPersonController.enabled = true;
-        _hogInput.enabled = true;
         _hogCollider.enabled = true;
         hogRoot.GetComponent<Animator>().SetBool("IsBall", false);
 
+        _playerInputMediator.SetInputReceiver(_hogThirdPersonController);
+        
         _isBall = false;
     }
 
