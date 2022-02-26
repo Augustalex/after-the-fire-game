@@ -146,5 +146,10 @@ public class PlayerGrower : MonoBehaviour
         }
     }
 
+    public float GetRadius()
+    {
+        return transform.lossyScale.x * .5f;
+    }
+
     public static float InCirc(float t) => -((float) Math.Sqrt(1 - t * t) - 1);
 }

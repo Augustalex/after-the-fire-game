@@ -7,21 +7,20 @@ public class Npc : MonoBehaviour
     public string part1CompletedText = "Nice! Now fetch me # cones";
     public string allCompletedText = "Thanks for the # cones! Here's a worm to your pot!";
     public int numberOfConesToFetch = 5;
-    public int collectedCones = 0;
-    public int leftToCollect = 5;
 
     public bool islandNpc = true;
 
     [Serializable]
     private enum State
     {
-        idle = 0,
-        part1completed = 1,
-        allCompleted = 2,
+        IslandOnFire = 0,
+        NeedMoreTrees = 1,
+        AllCompleted = 2,
     }
 
-    [SerializeField] private State _currentState = State.idle;
     [HideInInspector] public Island island; // Set's in Island onEnable
+    
+    private State _currentState = State.IslandOnFire;
 
     private Animator _animator;
     private bool _collectedReward;
@@ -36,44 +35,18 @@ public class Npc : MonoBehaviour
         }
     }
 
-    private void OnEnable()
-    {
-        leftToCollect = numberOfConesToFetch;
-    }
-
     public void OnPart1Complete()
     {
-        _currentState = State.part1completed;
+        _currentState = State.NeedMoreTrees;
 
         _animator.SetBool("IsBall", false);
     }
 
     private void CheckIfQuestIsCompleted()
     {
-        if (_currentState == State.part1completed && collectedCones >= numberOfConesToFetch)
+        if (_currentState == State.NeedMoreTrees && LeftToCollect() == 0)
         {
-            _currentState = State.allCompleted;
-        }
-    }
-
-    private void TryToGetPinesFromPlayer(Collider other)
-    {
-        var playerInventory = other.GetComponentInParent<PlayerInventory>();
-
-        if (!playerInventory)
-        {
-            Debug.LogWarning("No Inventory");
-            return;
-        }
-
-        leftToCollect = numberOfConesToFetch - collectedCones;
-        collectedCones += playerInventory.TryGetCones(leftToCollect);
-        leftToCollect = numberOfConesToFetch - collectedCones;
-        if (leftToCollect <= 0)
-        {
-            _currentState = State.allCompleted;
-            playerInventory.RegisterPickedUpWorm();
-            island.OnAllCompleted();
+            _currentState = State.AllCompleted;
         }
     }
 
@@ -81,22 +54,20 @@ public class Npc : MonoBehaviour
     {
         CheckIfQuestIsCompleted();
 
-        if (_currentState == State.part1completed)
+        if (_currentState == State.NeedMoreTrees)
         {
-            TryToGetPinesFromPlayer(other);
-            var text = part1CompletedText.Replace("#", leftToCollect.ToString());
+            var text = part1CompletedText.Replace("#", LeftToCollect().ToString());
             UIManager.Instance.SetSubtitle(text);
         }
 
-        if (_currentState == State.allCompleted)
+        if (_currentState == State.AllCompleted)
         {
-            if (numberOfConesToFetch == 0 && !_collectedReward)
+            if (!_collectedReward)
             {
                 _collectedReward = true;
                 
                 var playerInventory = other.GetComponentInParent<PlayerInventory>();
                 playerInventory.RegisterPickedUpWorm();
-                island.OnAllCompleted();
             }
             
             var text = allCompletedText.Replace("#", numberOfConesToFetch.ToString());
@@ -104,13 +75,18 @@ public class Npc : MonoBehaviour
         }
     }
 
+    private int LeftToCollect()
+    {
+        return Mathf.Max(0, numberOfConesToFetch - island.TreesGrown());
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (!islandNpc) return;
         
-        if (other.CompareTag("Player") && _currentState == State.idle)
+        if (other.CompareTag("Player") && _currentState == State.IslandOnFire)
         {
-            if (_currentState == State.idle)
+            if (_currentState == State.IslandOnFire)
             {
                 UIManager.Instance.SetSubtitle("[whimpering] Fire, fire!! We need snow!");
             }
