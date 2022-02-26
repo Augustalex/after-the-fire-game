@@ -51,9 +51,9 @@ public class PlayerGrower : MonoBehaviour
             {
                 var moveTime = Mathf.Clamp(Mathf.Max(_controller.TimeMoving() - .5f, 0f) / 12f, 0f, 1f);
                 var growthRate = _controller.Boosting() ? .004f : .004f + 4f * moveTime;
-
+        
                 var toGrow = growthRate * SizeToMaxSize() * Time.deltaTime;
-
+        
                 if (transform.localScale.x >= MaxSize * .98f)
                 {
                     _maxSizeReached = true;
@@ -62,7 +62,7 @@ public class PlayerGrower : MonoBehaviour
                 {
                     _maxSizeReached = false;
                 }
-
+        
                 transform.localScale += Vector3.one * toGrow;
                 if (transform.localScale.x > MaxSize)
                 {
