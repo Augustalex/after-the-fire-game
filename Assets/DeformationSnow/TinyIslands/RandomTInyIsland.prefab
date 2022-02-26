@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6392544963753918824
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6392544963753918825}
+  - component: {fileID: 3192357651957922471}
+  - component: {fileID: 1745930318678317369}
+  m_Layer: 0
+  m_Name: RandomTInyIsland
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6392544963753918825
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6392544963753918824}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3192357651957922471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6392544963753918824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8684f6dc7b9730940851f3b546e375dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  islandTemplates:
+  - {fileID: 753667735478990134, guid: 0adfce3cd5c39f14bbbfeb9b85c3f8e9, type: 3}
+  - {fileID: 753667735478990134, guid: 7b58280ee5bbe424292d8db879c26b00, type: 3}
+  - {fileID: 753667735478990134, guid: 0994fdf8a99602a4f9f781160370a979, type: 3}
+  - {fileID: 753667735478990134, guid: ba30c761dd1367044b6e070242c10373, type: 3}
+  - {fileID: 753667735478990134, guid: d8a38e3257527054aa9e4560c1140b61, type: 3}
+--- !u!114 &1745930318678317369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6392544963753918824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecd90909e304a4e48b63d982da300c55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  treeTemplates:
+  - {fileID: 1008090094371036101, guid: 8607b48bcbf9fb244a719d97516e7437, type: 3}
+  - {fileID: 1008090094371036101, guid: 45a2140219dd0714fa2303388044c453, type: 3}

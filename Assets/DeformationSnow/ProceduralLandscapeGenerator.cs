@@ -10,6 +10,7 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
     public GameObject wildNpcTemplate;
     public GameObject waySignTemplate;
     public GameObject terrainTemplate;
+    public GameObject tinyIslandTemplate;
     public Transform followTarget;
 
     public const float GridSize = 10f;
@@ -114,8 +115,9 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
     private void GenerateForrest(GameObject terrain)
     {
         _forrestExistsByPosition.Add(AlignToForrestGrid(terrain.transform.position));
-        
-        terrain.GetComponent<WildForrestGenerator>().GenerateForrestOnPlane();
+
+        Instantiate(tinyIslandTemplate, terrain.transform.position, Quaternion.identity);
+        // terrain.GetComponent<WildForrestGenerator>().GenerateForrestOnPlane();
     }
 
     private static Vector3 AlignToGrid(Vector3 position)
