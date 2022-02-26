@@ -29944,22 +29944,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 327137772, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
-      propertyPath: m_Follow
-      value: 
-      objectReference: {fileID: 248246001}
-    - target: {fileID: 327137772, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
-      propertyPath: m_LookAt
-      value: 
-      objectReference: {fileID: 248246001}
-    - target: {fileID: 3694235018270355257, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
-      propertyPath: m_Follow
-      value: 
-      objectReference: {fileID: 248246001}
-    - target: {fileID: 3694235018270355257, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
-      propertyPath: m_LookAt
-      value: 
-      objectReference: {fileID: 248246001}
+    - target: {fileID: 948816771360576511, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 948816771360576511, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 948816771360576511, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3694235018306536162, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
       propertyPath: m_Name
       value: CameraSystem
@@ -30008,16 +30004,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6555312198654192252, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetActive
-      objectReference: {fileID: 0}
-    - target: {fileID: 6555312198654192252, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+    - target: {fileID: 6141435455128434880, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
+      propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8458867821119101341, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
-      propertyPath: m_IsActive
+    - target: {fileID: 6141435455128434880, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

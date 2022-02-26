@@ -180,6 +180,7 @@ MonoBehaviour:
   splash: {fileID: 8300000, guid: 0c0790d059769764ba0c8b92b844ef60, type: 3}
   success: {fileID: 8300000, guid: a57dd5a6901548c43bbcbc6ffe0abbc0, type: 3}
   gettingBug: {fileID: 8300000, guid: 6107ce3783379b54d9b43b8f99dc35a2, type: 3}
+  musicMixer: {fileID: 24100000, guid: 7d5b7288c7623d64aaa395de8b95a417, type: 2}
 --- !u!82 &2866015221871655106
 AudioSource:
   m_ObjectHideFlags: 0

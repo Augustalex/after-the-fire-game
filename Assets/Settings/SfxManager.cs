@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Core;
 using UnityEngine;
+using UnityEngine.Audio;
 using Random = UnityEngine.Random;
 
 public class SfxManager : MonoSingleton<SfxManager>
@@ -18,6 +19,7 @@ public class SfxManager : MonoSingleton<SfxManager>
     [SerializeField] private AudioClip gettingBug;
 
     public Dictionary<string, AudioClip> Sfx;
+    public AudioMixer musicMixer;
     
 
     protected override void Awake()
