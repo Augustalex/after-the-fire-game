@@ -100,15 +100,6 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
             return;
         }
 
-        if (!_onIce && OnIce())
-        {
-            Debug.Log("ON ICE!");
-        }
-        else if (_onIce && !OnIce())
-        {
-            Debug.Log("ON SNOW!");
-        }
-
         _onIce = OnIce();
         
         AddExtraGravityIfOnIsland();
