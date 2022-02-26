@@ -8,5 +8,4 @@ public class MenuActions : MonoBehaviour
     {
         Application.Quit();
     }
-
 }

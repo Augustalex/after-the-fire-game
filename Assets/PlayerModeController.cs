@@ -174,6 +174,11 @@ public class PlayerModeController : MonoBehaviour
         return !hitGround;
     }
 
+    private bool HogOnIce()
+    {
+        return Physics.OverlapSphere(transform.position, 2f).Any(hit => hit.CompareTag("Ice"));
+    }
+
     private bool HogOnSnow()
     {
         return Physics.OverlapSphere(transform.position, 2f).Any(hit => hit.CompareTag("Terrain"));

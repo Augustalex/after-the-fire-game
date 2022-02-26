@@ -35,7 +35,10 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
 
     private float _worldLoadCooldown;
     private float _moveTime;
-
+    private bool _onIce;
+    
+    private static RaycastHit[] s_HitBuffer = new RaycastHit[16];
+    
     void Start()
     {
         _worldLoadCooldown = 1.5f;
@@ -97,6 +100,17 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
             return;
         }
 
+        if (!_onIce && OnIce())
+        {
+            Debug.Log("ON ICE!");
+        }
+        else if (_onIce && !OnIce())
+        {
+            Debug.Log("ON SNOW!");
+        }
+
+        _onIce = OnIce();
+        
         AddExtraGravityIfOnIsland();
 
         if (_inAir)
@@ -111,8 +125,8 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
         if (Stunned())
         {
             _stunnedCooldown -= Time.deltaTime;
-        }
-
+        } 
+        
         if (!Stunned())
         {
             if (!_inAir)
@@ -170,6 +184,22 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
         _stunnedCooldown = .5f;
     }
 
+    private bool OnIce()
+    {
+        RaycastHit hit;
+        var dir = Vector3.down;
+        
+        if(Physics.Raycast(transform.position,dir,out hit,transform.lossyScale.x * .6f))
+        {
+            return hit.collider.CompareTag("Ice");
+        }
+
+        return false;
+        // return (RuntimeUtility.RaycastIgnoreTag(new Ray(transform.position, Vector3.down),
+        // out RaycastHit hitInfo, 2f, new LayerMask(), "Terrain"));
+        // return Physics.OverlapSphere(transform.position, 2f).Any(hit => hit.CompareTag("Ice"));
+    }
+    
     private void EnableTrailParticles()
     {
         _trailParticles.enabled = true;
@@ -199,17 +229,21 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
 
     private bool NotTouchingSnow()
     {
-        return _inAir || _onIsland || !TouchingSnow();
+        return _inAir || _onIsland || _onIce || !TouchingSnow();
     }
 
     private bool TouchingSnow()
     {
         return Physics.OverlapSphere(transform.position, transform.localScale.x).Any(hit => hit.CompareTag("Terrain"));
     }
-
+    
     private void AdjustDrag()
     {
-        if (_rigidbody.velocity.magnitude > 10f)
+        if (_onIce)
+        {
+            _rigidbody.drag = 0f;
+        }
+        else if (_rigidbody.velocity.magnitude > 10f)
         {
             _rigidbody.drag = 2f;
         }
@@ -256,6 +290,34 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
         Destroy(go, 5f); // TODO: make a safer destory    
     }
 
+    private void HandleMoving()
+    {
+        var direction = GetMoveDirection();
+
+        if (direction != Vector3.zero)
+        {
+            _moving = true;
+
+            var shiftBoost = Boosting() ? data.shiftBoost : 0f;
+            var minSpeed = 3f;
+            var startBoost = (Mathf.Max(0, minSpeed - _rigidbody.velocity.magnitude) / minSpeed) * data.startBoost;
+            var inAirPenalty = _inAir ? .3f : 1f;
+
+            _rigidbody.AddForce(
+                (IceMovement(direction.normalized * (data.speed + startBoost + shiftBoost))) * Time.deltaTime * inAirPenalty,
+                ForceMode.Acceleration);
+        }
+        else if (_stillMovingCooldown < 0)
+        {
+            _stillMovingCooldown = .2f;
+            _moving = false;
+        }
+        else
+        {
+            _stillMovingCooldown -= Time.deltaTime;
+        }
+    }
+
     private void HandleBoosting()
     {
         // Regular moveTime - might come to replace boosting
@@ -278,37 +340,22 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
         }
     }
 
-    private Vector3 GetMoveDirection()
+    private Vector3 IceMovement(Vector3 currentMovement)
     {
-        return new Vector3(_move.x, 0, _move.y);
-    }
-
-    private void HandleMoving()
-    {
-        var direction = GetMoveDirection();
-
-        if (direction != Vector3.zero)
+        if (_onIce)
         {
-            _moving = true;
-
-            var shiftBoost = Boosting() ? data.shiftBoost : 0f;
-            var minSpeed = 3f;
-            var startBoost = (Mathf.Max(0, minSpeed - _rigidbody.velocity.magnitude) / minSpeed) * data.startBoost;
-            var inAirPenalty = _inAir ? .3f : 1f;
-
-            _rigidbody.AddForce(
-                (direction.normalized * (data.speed + startBoost + shiftBoost)) * Time.deltaTime * inAirPenalty,
-                ForceMode.Acceleration);
-        }
-        else if (_stillMovingCooldown < 0)
-        {
-            _stillMovingCooldown = .2f;
-            _moving = false;
+            return currentMovement * .4f + Random.insideUnitSphere * Random.Range(100f, 2000f);
         }
         else
         {
-            _stillMovingCooldown -= Time.deltaTime;
+            return currentMovement;
         }
+        return _onIce ? Random.insideUnitSphere * 1000f : Vector3.zero;
+    }
+
+    private Vector3 GetMoveDirection()
+    {
+        return new Vector3(_move.x, 0, _move.y);
     }
 
     private void HandleJump()

@@ -13,6 +13,7 @@ TagManager:
   - IslandTree
   - PlayerHog
   - NPC
+  - Ice
   layers:
   - Default
   - TransparentFX
