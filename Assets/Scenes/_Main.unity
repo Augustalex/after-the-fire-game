@@ -7122,7 +7122,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 371279453}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -3.4, z: 0}
+  m_LocalPosition: {x: 0, y: -4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1909126108}
@@ -10454,9 +10454,17 @@ PrefabInstance:
       value: -2.910732e-26
       objectReference: {fileID: 0}
     - target: {fileID: 6208210550989457840, guid: 5303748a2123669418314e7f25ef0669, type: 3}
+      propertyPath: allCompletedText
+      value: 'Amazing! That was a lot of work. Here, you deserve this beetle. '
+      objectReference: {fileID: 0}
+    - target: {fileID: 6208210550989457840, guid: 5303748a2123669418314e7f25ef0669, type: 3}
       propertyPath: part1CompletedText
       value: You really did that?! If only there was someone out there to help me
         plant some new trees... *wink wink*
+      objectReference: {fileID: 0}
+    - target: {fileID: 6208210550989457840, guid: 5303748a2123669418314e7f25ef0669, type: 3}
+      propertyPath: numberOfConesToFetch
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6809658901536649996, guid: 5303748a2123669418314e7f25ef0669, type: 3}
       propertyPath: m_LocalRotation.w
