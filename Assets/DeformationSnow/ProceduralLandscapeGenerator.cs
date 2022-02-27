@@ -67,7 +67,7 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
         snowComponent.generationData = generationData;
         yield return snowComponent.GeneratePlane();
 
-        if (Random.value < .35 && CanGenerateForrestOnPosition(terrain.transform.position))
+        if (Random.value < .28 && CanGenerateForrestOnPosition(terrain.transform.position))
         {
             GenerateForrest(terrain);
         }

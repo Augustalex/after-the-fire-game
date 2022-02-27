@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cinemachine;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -68,7 +69,16 @@ public class WildTree : MonoBehaviour
             else
             {
                 _falling = false;
-                Destroy(GetComponent<Rigidbody>());
+
+                var hits = Physics.OverlapSphere(transform.position, 2f);
+                if (hits.Any(hit => hit.CompareTag("WaySign")))
+                {
+                    Destroy(gameObject, .5f);
+                }
+                else
+                {
+                    Destroy(GetComponent<Rigidbody>());
+                }
             }
         }
     }
@@ -89,13 +99,12 @@ public class WildTree : MonoBehaviour
                 Shake();
                 other.collider.GetComponentInChildren<PlayerController>().HitTree();
                 grower.ReleaseSnow();
-                SfxManager.Instance.PlaySfx("collideWithTreeSeedDrop"); 
+                SfxManager.Instance.PlaySfx("collideWithTreeSeedDrop");
             }
             else
             {
-                SfxManager.Instance.PlaySfx("collideWithTree",  other.rigidbody.velocity.magnitude * 0.05f, true); 
+                SfxManager.Instance.PlaySfx("collideWithTree", other.rigidbody.velocity.magnitude * 0.05f, true);
             }
-            
         }
     }
 
@@ -136,7 +145,7 @@ public class WildTree : MonoBehaviour
             _zeroRotation.y,
             other.z,
             _zeroRotation.w
-            );
+        );
     }
 
     private Vector3 RandomShakeOffset()
