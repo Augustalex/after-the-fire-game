@@ -9122,7 +9122,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1926051456368350321, guid: 9f3cfde4fdc2a1b4fb44acc39f62e2cf, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1.44
       objectReference: {fileID: 0}
     - target: {fileID: 1926051456368350321, guid: 9f3cfde4fdc2a1b4fb44acc39f62e2cf, type: 3}
       propertyPath: m_LocalPosition.z
@@ -12577,6 +12577,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8f5b5b9c63eddc42b4ef1c3088bc62d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  generationData: {fileID: 11400000, guid: 334a1a4dba329da458af958f3f1b0094, type: 2}
   wildNpcTemplate: {fileID: 532401367002248794, guid: dd95fcfc45235534db522b8d93bf527d, type: 3}
   waySignTemplate: {fileID: 5748346832177369458, guid: cce279c76abcd6f4982aa62a8c54d23b, type: 3}
   terrainTemplate: {fileID: 3176813460889869157, guid: 36cf415baf755dd4791bd59b9deabd10, type: 3}

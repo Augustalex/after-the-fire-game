@@ -2,11 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DeformationSnow;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class ProceduralLandscapeGenerator : MonoBehaviour
 {
+    public GenerationData generationData;
     public GameObject wildNpcTemplate;
     public GameObject waySignTemplate;
     public GameObject terrainTemplate;
@@ -61,7 +63,9 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
 
     private IEnumerator GeneratePlaneAndContents(GameObject terrain)
     {
-        yield return terrain.GetComponentInChildren<ProceduralSnow>().GeneratePlane();
+        var snowComponent = terrain.GetComponentInChildren<ProceduralSnow>();
+        snowComponent.generationData = generationData;
+        yield return snowComponent.GeneratePlane();
 
         if (Random.value < .35 && CanGenerateForrestOnPosition(terrain.transform.position))
         {

@@ -1,8 +1,11 @@
 using System;
 using System.Collections;
 using System.Linq;
+using DeformationSnow;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using Unity.Mathematics;
+using static Unity.Mathematics.math;
 
 public class ProceduralSnow : MonoBehaviour
 {
@@ -24,6 +27,7 @@ public class ProceduralSnow : MonoBehaviour
     private PlayerGrower _playerGrower;
     private bool _setup;
     private PlayerModeController _playerModeController;
+    public GenerationData generationData;
 
     private const int VectorRowCount = 42;
 
@@ -40,6 +44,14 @@ public class ProceduralSnow : MonoBehaviour
     private void Start()
     {
         _playerModeController = FindObjectOfType<PlayerModeController>();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            SetStartHeight();
+        }        
     }
 
     private void FixedUpdate()
@@ -76,10 +88,7 @@ public class ProceduralSnow : MonoBehaviour
 
             Vector3 worldVertex = localToWorld.MultiplyPoint3x4(vertex);
 
-            var noiseScale = .05f;
-            var noiseAmplitude = 4f;
-            vertex.y = 0 - noise.BrownianMotion(worldVertex.x * noiseScale, worldVertex.z * noiseScale) *
-                noiseAmplitude;
+            vertex.y = MultipliedMixedNoiseHeight(worldVertex, noise);
 
             vertices[i] = vertex;
         }
@@ -95,6 +104,51 @@ public class ProceduralSnow : MonoBehaviour
         _meshCollider.sharedMesh = _mesh;
     }
 
+    private float PerlinNoiseHeight(Vector3 worldVertex, FractalNoise noise)
+    {
+        var noiseScale = generationData.perlinNoiseScale;
+        var noiseAmplitude = generationData.perlinNoiseAmplitude;
+        var perlinNoise = noise.BrownianMotion(worldVertex.x * noiseScale, worldVertex.z * noiseScale) * noiseAmplitude;
+
+        var totalNoise = perlinNoise + generationData.perlinNoiseOffset;
+        
+        return generationData.heightOffset - totalNoise;
+    }
+    
+    private float MixedNoiseHeight(Vector3 worldVertex, FractalNoise noise)
+    {
+        var cellNoiseScale = generationData.cellNoiseScale;
+        var cellNoiseAmplitude = generationData.cellNoiseAmplitude;
+        FastNoiseLite cellNoise = new FastNoiseLite();
+        cellNoise.SetNoiseType(FastNoiseLite.NoiseType.Cellular);
+        var cellNoiseResult = cellNoise.GetNoise(worldVertex.x * cellNoiseScale, worldVertex.z * cellNoiseScale) * cellNoiseAmplitude;
+
+        var noiseScale = generationData.perlinNoiseScale;
+        var noiseAmplitude = generationData.perlinNoiseAmplitude;
+        var perlinNoise = noise.BrownianMotion(worldVertex.x * noiseScale, worldVertex.z * noiseScale) * noiseAmplitude;
+
+        var totalNoise = Mathf.Min((-cellNoiseResult + generationData.cellNoiseOffset),
+            (perlinNoise + generationData.perlinNoiseOffset));
+        
+        return generationData.heightOffset - totalNoise;
+    }
+    private float MultipliedMixedNoiseHeight(Vector3 worldVertex, FractalNoise noise)
+    {
+        FastNoiseLite cellNoise = new FastNoiseLite();
+        cellNoise.SetNoiseType(FastNoiseLite.NoiseType.Cellular);
+        
+        var cellNoiseScale = generationData.cellNoiseScale;
+        var cellNoiseResult = cellNoise.GetNoise(worldVertex.x * cellNoiseScale, worldVertex.z * cellNoiseScale);
+
+        var noiseScale = generationData.perlinNoiseScale;
+        var perlinNoise = noise.BrownianMotion(worldVertex.x * noiseScale, worldVertex.z * noiseScale);
+
+        var noiseAmplitude = generationData.perlinNoiseAmplitude;
+        var totalNoise = ((1 - cellNoiseResult) * perlinNoise) * noiseAmplitude + generationData.perlinNoiseOffset;
+        
+        return generationData.heightOffset - totalNoise;
+    }
+    
     private float InterpolatedDeform(Vector3 previousPosition, Vector3 currentPosition, Vector3 originalVertex,
         Vector3 vertex, Vector3 worldVertex, float staticDigSpeed, float playerScaleX, bool playerBoosting,
         bool playerFalling, float boostFactor)
@@ -154,14 +208,14 @@ public class ProceduralSnow : MonoBehaviour
 
         var playerMoving = _player.Moving();
         var playerBoosting = _player.Boosting();
-        
+
         // Deforming force based on boost
         // var boostFactor = Mathf.Clamp(_player.BoostJuice() / 3f, 0f, 1f);
-        
+
         // Deforming force based on time spent continuously on the move
         var moveTimeFactor = Mathf.Clamp(_player.TimeMoving() / 6f, 0f, 1f);
         var boostFactor = Mathf.Clamp(_player.BoostJuice() / 3f, 0f, 1f);
-        
+
         var maxSizeReached = _playerGrower.MaxSizeReached();
         var playerFalling = velocityVector.y < -4f;
         var playerPreviousPosition = _player.GetPreviousPosition();
@@ -190,7 +244,7 @@ public class ProceduralSnow : MonoBehaviour
         {
             var vertex = currentVerticies[i];
             Vector3 worldVertex = localToWorld.MultiplyPoint3x4(vertex);
-            
+
 
             if (passUntil <= i)
             {
@@ -217,7 +271,7 @@ public class ProceduralSnow : MonoBehaviour
                 else
                 {
                     playerMorphPoint = playerPosition + velocityVector * (Time.fixedDeltaTime * 1.5f);
-                    
+
                     if (maxSizeReached)
                     {
                         var moveTimeFactorSpeed = .3f + (moveTimeFactor * .2f);
@@ -438,6 +492,34 @@ public class ProceduralSnow : MonoBehaviour
         SetStartHeight();
 
         _doneGenerating = true;
+    }
+
+    private float rnd2d(float n, float m)
+    {
+        //random proportion -1, 1
+        var e = (n * m * 31.78694f + m) % 1;
+        return (e * e * 137.21321f) % 1;
+    }
+
+    private float voronoi2(Vector3 vtx)
+    {
+        var px = Mathf.Floor(vtx.x);
+        var pz = Mathf.Floor(vtx.z);
+        var fx = vtx.x % 1;
+        var fz = vtx.z % 1;
+
+        var res = 8.0f;
+        for (var j = -1; j <= 1; j++)
+        for (var i = -1; i <= 1; i++)
+        {
+            var rx = i - fx + rnd2d(px + i, pz + j);
+            var rz = j - fz + rnd2d(px + i, pz + j);
+            var d = Mathf.Sqrt(rx * rx + rz * rz);
+
+            res += Mathf.Exp(-32.0f * d);
+        }
+
+        return -(1.0f / 32.0f) * Mathf.Log(res);
     }
 
     public class FractalNoise
