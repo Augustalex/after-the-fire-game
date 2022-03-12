@@ -30,5 +30,6 @@ namespace DeformationSnow
         public float extraDownwardForceOnIsland = 200f;
         
         public float treeHitStunTime = 2f;
+        public float hitTreeReturnForceMultiplier = 1.5f;
     }
 }

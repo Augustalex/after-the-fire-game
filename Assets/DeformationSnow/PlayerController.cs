@@ -456,7 +456,7 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
     {
         _stunnedCooldown = data.treeHitStunTime;
 
-        _rigidbody.AddForce(-_rigidbody.velocity * 1.5f, ForceMode.Impulse);
+        _rigidbody.AddForce(-_rigidbody.velocity * data.hitTreeReturnForceMultiplier, ForceMode.Impulse);
     }
 
     public bool Stunned()
