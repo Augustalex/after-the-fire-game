@@ -36,9 +36,10 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
     private float _worldLoadCooldown;
     private float _moveTime;
     private bool _onIce;
-    
+
     private static RaycastHit[] s_HitBuffer = new RaycastHit[16];
-    
+    private float _wentInAirAt;
+
     void Start()
     {
         _worldLoadCooldown = 1.5f;
@@ -48,7 +49,8 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
 
     public void IntroStun()
     {
-        _stunnedCooldown = 10f; // Tweak to aprox. fit the time the player should be unable to move (before entering walk mode) in the intro sequence
+        _stunnedCooldown =
+            10f; // Tweak to aprox. fit the time the player should be unable to move (before entering walk mode) in the intro sequence
     }
 
     public void OnMove(InputValue value)
@@ -85,7 +87,8 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
             }
 
             _rigidbody.velocity = Vector3.zero;
-            _stunnedCooldown = 3f; // TODO: Try remove - this probably does not do anything (as this component is disabled until we start rolling again)
+            _stunnedCooldown =
+                3f; // TODO: Try remove - this probably does not do anything (as this component is disabled until we start rolling again)
 
             var playerModeController = GetComponentInParent<PlayerModeController>();
             playerModeController.SetToWalkingMode();
@@ -109,6 +112,8 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
 
     void Update()
     {
+        TrackIsInAir();
+
         if (_worldLoadCooldown > 0f)
         {
             _worldLoadCooldown -= Time.deltaTime;
@@ -116,12 +121,12 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
         }
 
         _onIce = OnIce();
-        
+
         AddExtraGravityIfOnIsland();
 
         if (_inAir)
         {
-            TrackIfStillInAir();
+            ApplyInAirEffects();
         }
         else
         {
@@ -131,8 +136,8 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
         if (Stunned())
         {
             _stunnedCooldown -= Time.deltaTime;
-        } 
-        
+        }
+
         if (!Stunned())
         {
             if (!_inAir)
@@ -187,6 +192,7 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
         {
             TriggerHitGroundParticles();
         }
+
         _stunnedCooldown = 0f;
     }
 
@@ -194,8 +200,8 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
     {
         RaycastHit hit;
         var dir = Vector3.down;
-        
-        if(Physics.Raycast(transform.position,dir,out hit,transform.lossyScale.x * .6f))
+
+        if (Physics.Raycast(transform.position, dir, out hit, transform.lossyScale.x * .6f))
         {
             return hit.collider.CompareTag("Ice");
         }
@@ -205,7 +211,7 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
         // out RaycastHit hitInfo, 2f, new LayerMask(), "Terrain"));
         // return Physics.OverlapSphere(transform.position, 2f).Any(hit => hit.CompareTag("Ice"));
     }
-    
+
     private void EnableTrailParticles()
     {
         _trailParticles.enabled = true;
@@ -242,7 +248,7 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
     {
         return Physics.OverlapSphere(transform.position, transform.localScale.x).Any(hit => hit.CompareTag("Terrain"));
     }
-    
+
     private void AdjustDrag()
     {
         if (_onIce)
@@ -272,11 +278,8 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
         return _inAirLastFrame && !_inAir;
     }
 
-    private void TrackIfStillInAir()
+    private void TrackIsInAir()
     {
-        _rigidbody.drag = 1f;
-        _rigidbody.AddForce(Vector3.down * 100f * Time.deltaTime, ForceMode.Acceleration);
-
         if (_inAirCooldown > 0)
         {
             _inAirCooldown -= Time.deltaTime;
@@ -284,10 +287,25 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
         else
         {
             var hitGround = Physics.Raycast(transform.position, Vector3.down, transform.localScale.x * .75f);
-            if (hitGround) _inAir = false;
+            _inAir = !hitGround;
+            
+            if (_inAir && !_inAirLastFrame)
+            {
+                _wentInAirAt = Time.time;
+            }
         }
+        
+        if(_inAir) _inAirLastFrame = true;
+    }
 
-        _inAirLastFrame = true;
+    private void ApplyInAirEffects()
+    {
+        var inAirDuration = Time.time - _wentInAirAt;
+        var inAirTimeMultiplier = Mathf.Clamp(1 + Mathf.Pow(inAirDuration * 4f, 1.5f), 1, 10f);
+        var downForce = 100f * inAirTimeMultiplier;
+
+        _rigidbody.drag = 1f;
+        _rigidbody.AddForce(Vector3.down * downForce * Time.deltaTime, ForceMode.Acceleration);
     }
 
     public void TriggerHitGroundParticles()
@@ -310,7 +328,8 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
             var inAirPenalty = _inAir ? .3f : 1f;
 
             _rigidbody.AddForce(
-                (IceMovement(direction.normalized * (data.speed + startBoost + shiftBoost))) * Time.deltaTime * inAirPenalty,
+                (IceMovement(direction.normalized * (data.speed + startBoost + shiftBoost))) * Time.deltaTime *
+                inAirPenalty,
                 ForceMode.Acceleration);
         }
         else if (_stillMovingCooldown < 0)
@@ -331,11 +350,11 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
         {
             _moveTime += Time.deltaTime;
         }
-        else if(GetMoveDirection().magnitude < .25f)
+        else if (GetMoveDirection().magnitude < .25f)
         {
             _moveTime = 0f;
         }
-        
+
         if (Boosting())
         {
             _boostMeter += Time.deltaTime;
@@ -356,6 +375,7 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
         {
             return currentMovement;
         }
+
         return _onIce ? Random.insideUnitSphere * 1000f : Vector3.zero;
     }
 
@@ -376,10 +396,11 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
             {
                 _inAirCooldown = 1f;
                 _inAir = true;
+                _wentInAirAt = Time.time;
 
                 if (CheatEngine.Instance.Cheating())
                 {
-                    _rigidbody.AddForce(Vector3.up * data.jumpForce * 2f + direction * 8f, ForceMode.Impulse);
+                    _rigidbody.AddForce(Vector3.up * data.jumpForce * 1.8f + direction * 5f, ForceMode.Impulse);
                 }
                 else
                 {
@@ -433,7 +454,7 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
     {
         // TODO: Update method name to reflect new boost replacement
         _moveTime = 0f;
-        
+
         _boostMeter = 0f;
     }
 
