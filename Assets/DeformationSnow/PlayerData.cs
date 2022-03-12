@@ -24,10 +24,16 @@ namespace DeformationSnow
         public float gravityMultiplierGrowthExponent = 1.5f;
         public float gravityMultiplierMax = 10f;
         
+        // Jump
         public float jumpForce = 8f;
         public float jumpDirectionalPush = 5f;
         
         public float extraDownwardForceOnIsland = 200f;
+        
+        // Ice
+        public float onIceMovementMultiplier = .4f;
+        public float onIceMinRandomMotion = 100f;
+        public float onIceMaxRandomMotion = 2000f;
         
         public float treeHitStunTime = 2f;
         public float hitTreeReturnForceMultiplier = 1.5f;

@@ -369,14 +369,12 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
     {
         if (_onIce)
         {
-            return currentMovement * .4f + Random.insideUnitSphere * Random.Range(100f, 2000f);
+            return currentMovement * data.onIceMovementMultiplier + Random.insideUnitSphere * Random.Range(data.onIceMinRandomMotion, data.onIceMaxRandomMotion);
         }
         else
         {
             return currentMovement;
         }
-
-        return _onIce ? Random.insideUnitSphere * 1000f : Vector3.zero;
     }
 
     private Vector3 GetMoveDirection()
