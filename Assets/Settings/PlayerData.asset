@@ -19,8 +19,8 @@ MonoBehaviour:
   onIceDrag: 0
   highSpeedDragVelocityThreshold: 10
   highSpeedDrag: 2
-  boostDrag: 1
-  movingDrag: 2
+  boostDrag: 0.5
+  movingDrag: 0.5
   stillDrag: 0.1
   gravity: 150
   gravityMultiplierBase: 4
