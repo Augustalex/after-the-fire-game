@@ -7,9 +7,14 @@ public class PlayerInputMediator : MonoBehaviour
 
     public void SetInputReceiver(IPlayerInputReceiver receiver)
     {
+        if (_currentPlayerInputReceiver != null)
+        {
+            receiver.SyncMove(_currentPlayerInputReceiver);
+        }
+
         _currentPlayerInputReceiver = receiver;
     }
-    
+
     public void OnMove(InputValue value)
     {
         _currentPlayerInputReceiver.OnMove(value);
@@ -29,7 +34,7 @@ public class PlayerInputMediator : MonoBehaviour
     {
         _currentPlayerInputReceiver.OnSwitchMode(value);
     }
-    
+
     public void OnMenu(InputValue value)
     {
         _currentPlayerInputReceiver.OnMenu(value);

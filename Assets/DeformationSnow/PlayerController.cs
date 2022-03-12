@@ -97,6 +97,16 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
         UIManager.Instance.ToggleMenu();
     }
 
+    public void SyncMove(IPlayerInputReceiver receiver)
+    {
+        _move = receiver.GetMove();
+    }
+
+    public Vector2 GetMove()
+    {
+        return _move;
+    }
+
     void Update()
     {
         if (_worldLoadCooldown > 0f)

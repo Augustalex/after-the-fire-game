@@ -124,6 +124,16 @@ public class ThirdPersonController : MonoBehaviour, IPlayerInputReceiver
         UIManager.Instance.ToggleMenu();
     }
 
+    public void SyncMove(IPlayerInputReceiver receiver)
+    {
+        _move = receiver.GetMove();
+    }
+
+    public Vector2 GetMove()
+    {
+        return _move;
+    }
+
     private void AddExtraGravityIfOnIsland()
     {
         if (Physics.OverlapSphere(transform.position, 2f).Any(hit => hit.CompareTag("Island")))

@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.InputSystem;
 
 public interface IPlayerInputReceiver
@@ -11,5 +12,9 @@ public interface IPlayerInputReceiver
     public void OnSwitchMode(InputValue value);
     
     public void OnMenu(InputValue value);
+
+    public void SyncMove(IPlayerInputReceiver receiver);
+
+    public Vector2 GetMove();
 
 }
