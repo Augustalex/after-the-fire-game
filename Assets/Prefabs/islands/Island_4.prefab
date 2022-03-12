@@ -4015,31 +4015,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1201044056095076362, guid: 78bdca33e17ae214cb46e44b2e92a202, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.00000059604645
+      value: 0.00000423193
       objectReference: {fileID: 0}
     - target: {fileID: 1201044056095076362, guid: 78bdca33e17ae214cb46e44b2e92a202, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.2325583
+      value: -5.232563
       objectReference: {fileID: 0}
     - target: {fileID: 1201044056095076362, guid: 78bdca33e17ae214cb46e44b2e92a202, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5.1596956
+      value: -5.1596885
       objectReference: {fileID: 0}
     - target: {fileID: 1201044056095076362, guid: 78bdca33e17ae214cb46e44b2e92a202, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.99497896
+      value: -0.9949789
       objectReference: {fileID: 0}
     - target: {fileID: 1201044056095076362, guid: 78bdca33e17ae214cb46e44b2e92a202, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.10008464
+      value: 0.10008463
       objectReference: {fileID: 0}
     - target: {fileID: 1201044056095076362, guid: 78bdca33e17ae214cb46e44b2e92a202, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000029802322
+      value: -0.000000029802319
       objectReference: {fileID: 0}
     - target: {fileID: 1201044056095076362, guid: 78bdca33e17ae214cb46e44b2e92a202, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.000000067055225
+      value: -0.00000004470348
       objectReference: {fileID: 0}
     - target: {fileID: 3642854605767669140, guid: 78bdca33e17ae214cb46e44b2e92a202, type: 3}
       propertyPath: m_Lens.FieldOfView
@@ -4111,7 +4111,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9216725324719740830, guid: 78bdca33e17ae214cb46e44b2e92a202, type: 3}
       propertyPath: m_XAxis.Value
-      value: 0
+      value: -0.0000038146973
       objectReference: {fileID: 0}
     - target: {fileID: 9216725324719740830, guid: 78bdca33e17ae214cb46e44b2e92a202, type: 3}
       propertyPath: m_FollowOffset.y
