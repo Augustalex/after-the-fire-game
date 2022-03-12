@@ -255,7 +255,7 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
         {
             _rigidbody.drag = data.onIceDrag;
         }
-        else if (_rigidbody.velocity.magnitude > data.highSpeedDragVelocityThreshold)
+        else if (TouchingSnow() && _rigidbody.velocity.magnitude > data.highSpeedDragVelocityThreshold)
         {
             _rigidbody.drag = data.highSpeedDrag;
         }
