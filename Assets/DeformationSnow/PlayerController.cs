@@ -253,23 +253,23 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
     {
         if (_onIce)
         {
-            _rigidbody.drag = 0f;
+            _rigidbody.drag = data.onIceDrag;
         }
-        else if (_rigidbody.velocity.magnitude > 10f)
+        else if (_rigidbody.velocity.magnitude > data.highSpeedDragVelocityThreshold)
         {
-            _rigidbody.drag = 2f;
+            _rigidbody.drag = data.highSpeedDrag;
         }
         else if (Boosting())
         {
-            _rigidbody.drag = 2f;
+            _rigidbody.drag = data.boostDrag;
         }
         else if (_moving)
         {
-            _rigidbody.drag = 2f;
+            _rigidbody.drag = data.movingDrag;
         }
         else
         {
-            _rigidbody.drag = 0.1f;
+            _rigidbody.drag = data.stillDrag;
         }
     }
 
@@ -288,23 +288,23 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
         {
             var hitGround = Physics.Raycast(transform.position, Vector3.down, transform.localScale.x * .75f);
             _inAir = !hitGround;
-            
+
             if (_inAir && !_inAirLastFrame)
             {
                 _wentInAirAt = Time.time;
             }
         }
-        
-        if(_inAir) _inAirLastFrame = true;
+
+        if (_inAir) _inAirLastFrame = true;
     }
 
     private void ApplyInAirEffects()
     {
         var inAirDuration = Time.time - _wentInAirAt;
-        var inAirTimeMultiplier = Mathf.Clamp(1 + Mathf.Pow(inAirDuration * 4f, 1.5f), 1, 10f);
-        var downForce = 100f * inAirTimeMultiplier;
+        var inAirTimeMultiplier = Mathf.Clamp(1 + Mathf.Pow(inAirDuration * data.gravityMultiplierBase, data.gravityMultiplierGrowthExponent), 1, data.gravityMultiplierMax);
+        var downForce = data.gravity * inAirTimeMultiplier;
 
-        _rigidbody.drag = 1f;
+        _rigidbody.drag = data.inAirDrag;
         _rigidbody.AddForce(Vector3.down * downForce * Time.deltaTime, ForceMode.Acceleration);
     }
 
@@ -398,14 +398,8 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
                 _inAir = true;
                 _wentInAirAt = Time.time;
 
-                if (CheatEngine.Instance.Cheating())
-                {
-                    _rigidbody.AddForce(Vector3.up * data.jumpForce * 1.8f + direction * 5f, ForceMode.Impulse);
-                }
-                else
-                {
-                    _rigidbody.AddForce(Vector3.up * data.jumpForce + direction * 8f, ForceMode.Impulse);
-                }
+                _rigidbody.AddForce(Vector3.up * data.jumpForce + direction * data.jumpDirectionalPush,
+                    ForceMode.Impulse);
             }
         }
     }
@@ -416,7 +410,7 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
         if (Physics.OverlapSphere(transform.position, 2f).Any(hit => hit.CompareTag("Island")))
         {
             _onIsland = true;
-            _rigidbody.AddForce(Vector3.down * 200f * Time.deltaTime, ForceMode.Acceleration);
+            _rigidbody.AddForce(Vector3.down * data.extraDownwardForceOnIsland * Time.deltaTime, ForceMode.Acceleration);
         }
     }
 

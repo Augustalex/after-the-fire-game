@@ -15,5 +15,5 @@ MonoBehaviour:
   shiftBoost: 800
   speed: 1600
   startBoost: 5000
-  jumpForce: 14
+  jumpForce: 26
   treeHitStunTime: 0.5
