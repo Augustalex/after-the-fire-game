@@ -5098,6 +5098,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 268888598}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &281488712 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 5789568613038106619, guid: ca4e3efec4cb69848968337d783dad51, type: 3}
+  m_PrefabInstance: {fileID: 1337440147}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &284316083
 GameObject:
   m_ObjectHideFlags: 0
@@ -9108,6 +9113,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.23982425
       objectReference: {fileID: 0}
+    - target: {fileID: 1602918793699757119, guid: 9f3cfde4fdc2a1b4fb44acc39f62e2cf, type: 3}
+      propertyPath: islandMesh
+      value: 
+      objectReference: {fileID: 1168174039}
     - target: {fileID: 1926051456368350320, guid: 9f3cfde4fdc2a1b4fb44acc39f62e2cf, type: 3}
       propertyPath: m_Name
       value: Island_1
@@ -18309,6 +18318,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1148792606}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &1168174039 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4102726246491840477, guid: 9f3cfde4fdc2a1b4fb44acc39f62e2cf, type: 3}
+  m_PrefabInstance: {fileID: 511822236}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1196090537
 GameObject:
   m_ObjectHideFlags: 0
@@ -20967,6 +20981,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.y
       value: 0.5813635
       objectReference: {fileID: 0}
+    - target: {fileID: 4600027066494170759, guid: ca4e3efec4cb69848968337d783dad51, type: 3}
+      propertyPath: islandMesh
+      value: 
+      objectReference: {fileID: 281488712}
     - target: {fileID: 4607443813855362315, guid: ca4e3efec4cb69848968337d783dad51, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.87725455
