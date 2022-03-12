@@ -15,5 +15,22 @@ MonoBehaviour:
   shiftBoost: 800
   speed: 1600
   startBoost: 5000
-  jumpForce: 26
+  inAirDrag: 1
+  onIceDrag: 0
+  highSpeedDragVelocityThreshold: 10
+  highSpeedDrag: 2
+  boostDrag: 1
+  movingDrag: 2
+  stillDrag: 0.1
+  gravity: 150
+  gravityMultiplierBase: 4
+  gravityMultiplierGrowthExponent: 1.5
+  gravityMultiplierMax: 10
+  jumpForce: 14
+  jumpDirectionalPush: 5
+  extraDownwardForceOnIsland: 1200
+  onIceMovementMultiplier: 0.4
+  onIceMinRandomMotion: 100
+  onIceMaxRandomMotion: 2000
   treeHitStunTime: 0.5
+  hitTreeReturnForceMultiplier: 1.5

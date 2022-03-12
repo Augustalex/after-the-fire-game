@@ -1,9 +1,11 @@
+using System;
 using System.Linq;
 using Cinemachine;
 using DeformationSnow;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Quaternion = UnityEngine.Quaternion;
+using Random = UnityEngine.Random;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
@@ -39,6 +41,7 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
     
     private float _wentInAirAt;
     private bool _touchingSnow;
+    private Vector3 _islandNormal;
 
     void Start()
     {
@@ -414,7 +417,7 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
         if (Physics.OverlapSphere(transform.position, transform.localScale.x * .75f).Any(hit => hit.CompareTag("Island")))
         {
             _onIsland = true;
-            _rigidbody.AddForce(Vector3.down * data.extraDownwardForceOnIsland * Time.deltaTime, ForceMode.Acceleration);
+            _rigidbody.AddForce(-_islandNormal * data.extraDownwardForceOnIsland * Time.deltaTime, ForceMode.Acceleration);
         }
     }
 
@@ -471,5 +474,10 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
     public void HitDeadTree()
     {
         HitTree();
+    }
+
+    private void OnCollisionStay(Collision other)
+    {
+        _islandNormal = other.GetContact(0).normal;
     }
 }
