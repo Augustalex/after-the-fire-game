@@ -303,7 +303,7 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
         var inAirDuration = Time.time - _wentInAirAt;
         var inAirTimeMultiplier = Mathf.Clamp(1 + Mathf.Pow(inAirDuration * 4f, 1.5f), 1, 10f);
         var downForce = 100f * inAirTimeMultiplier;
-        Debug.Log(inAirTimeMultiplier);
+
         _rigidbody.drag = 1f;
         _rigidbody.AddForce(Vector3.down * downForce * Time.deltaTime, ForceMode.Acceleration);
     }
