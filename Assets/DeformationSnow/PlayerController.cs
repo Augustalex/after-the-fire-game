@@ -405,7 +405,7 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
     private void AddExtraGravityIfOnIsland()
     {
         _onIsland = false;
-        if (Physics.OverlapSphere(transform.position, 2f).Any(hit => hit.CompareTag("Island")))
+        if (Physics.OverlapSphere(transform.position, transform.localScale.x * .75f).Any(hit => hit.CompareTag("Island")))
         {
             _onIsland = true;
             _rigidbody.AddForce(Vector3.down * data.extraDownwardForceOnIsland * Time.deltaTime, ForceMode.Acceleration);
