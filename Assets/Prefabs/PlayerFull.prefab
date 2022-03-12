@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 4498534986170240606}
   - component: {fileID: 3959439489612392025}
   - component: {fileID: 981104264}
+  - component: {fileID: 6501083591679729006}
+  - component: {fileID: 981104265}
   m_Layer: 0
   m_Name: PlayerFull
   m_TagString: Untagged
@@ -202,6 +204,31 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &6501083591679729006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 500156025649315094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a7ee4d3028442a99a583a81d3d9a559, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &981104265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 500156025649315094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75f34f53a2134e6fb1090b409798746e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  seedTemplate: {fileID: 1099812099990827734, guid: e805e28bd3c64444c9e3d4ea1f82ccf9, type: 3}
 --- !u!1 &2927804251634372720
 GameObject:
   m_ObjectHideFlags: 0
@@ -5886,6 +5913,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1859665323475540975, guid: e1b51184e258758408260ddb00131997, type: 3}
+    - {fileID: 4946341799324689559, guid: e1b51184e258758408260ddb00131997, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e1b51184e258758408260ddb00131997, type: 3}
 --- !u!1 &7181831183924683413 stripped
 GameObject:

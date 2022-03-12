@@ -1,5 +1,4 @@
 using System.Linq;
-using StarterAssets;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
