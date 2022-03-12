@@ -274,6 +274,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fire Particle
       objectReference: {fileID: 0}
+    - target: {fileID: 505560217875200047, guid: 4fd678deca2f1894f94de63f6e1ab567, type: 3}
+      propertyPath: UVModule.enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4fd678deca2f1894f94de63f6e1ab567, type: 3}
 --- !u!4 &8395042828118750507 stripped
