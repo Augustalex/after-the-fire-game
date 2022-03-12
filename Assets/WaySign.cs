@@ -68,6 +68,7 @@ public class WaySign : MonoBehaviour
     {
         if (other.collider.CompareTag("Player") && _swings.Count == 0)
         {
+            SfxManager.Instance.PlaySfx("collideWithTree", other.rigidbody.velocity.magnitude * 0.05f, true);
             var grower = other.collider.GetComponentInChildren<PlayerGrower>();
             Shake();
             other.collider.GetComponentInChildren<PlayerController>().HitTree();
