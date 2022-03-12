@@ -11,8 +11,7 @@ public class ThirdPersonController : MonoBehaviour, IPlayerInputReceiver
     [Tooltip("The character uses its own gravity value. The engine default is -9.81f")]
     public float Gravity = -15.0f;
 
-    [Space(10)]
-    [Tooltip("Time required to pass before being able to jump again. Set to 0f to instantly jump again")]
+    [Space(10)] [Tooltip("Time required to pass before being able to jump again. Set to 0f to instantly jump again")]
     public float JumpTimeout = 0.50f;
 
     [Tooltip("Time required to pass before entering the fall state. Useful for walking down stairs")]
@@ -29,7 +28,7 @@ public class ThirdPersonController : MonoBehaviour, IPlayerInputReceiver
 
     [Tooltip("What layers the character uses as ground")]
     public LayerMask GroundLayers;
-    
+
 
     // player
     private Vector2 _move;
@@ -96,6 +95,7 @@ public class ThirdPersonController : MonoBehaviour, IPlayerInputReceiver
             _animator.SetBool("IsWalking", false);
         }
     }
+
     public void OnMove(InputValue value)
     {
         _move = value.Get<Vector2>();
@@ -118,7 +118,7 @@ public class ThirdPersonController : MonoBehaviour, IPlayerInputReceiver
     {
         // When in walk mode - switching happens when player starts moving
     }
-    
+
     public void OnMenu(InputValue value)
     {
         UIManager.Instance.ToggleMenu();
@@ -154,7 +154,7 @@ public class ThirdPersonController : MonoBehaviour, IPlayerInputReceiver
         Grounded = Physics.CheckSphere(spherePosition, GroundedRadius, GroundLayers,
             QueryTriggerInteraction.Ignore);
     }
-        
+
     private void Move()
     {
         Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
@@ -167,9 +167,7 @@ public class ThirdPersonController : MonoBehaviour, IPlayerInputReceiver
         }
         else
         {
-            var newMoveDirection = _move;
-
-            if (newMoveDirection.magnitude > .25f)
+            if (_move.magnitude > .1f)
             {
                 var playerModeController = GetComponentInParent<PlayerModeController>();
                 if (playerModeController.CanTurnToBallRightNow())

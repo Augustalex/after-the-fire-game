@@ -187,7 +187,7 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
         {
             TriggerHitGroundParticles();
         }
-        _stunnedCooldown = .5f;
+        _stunnedCooldown = .25f;
     }
 
     private bool OnIce()

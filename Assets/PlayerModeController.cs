@@ -100,7 +100,7 @@ public class PlayerModeController : MonoBehaviour
 
     public bool CanTurnToBallRightNow()
     {
-        return Time.time - _lastSwitchedToWalking > 1f;
+        return Time.time - _lastSwitchedToWalking > .25f;
     }
 
     public void SetToBallMode()
