@@ -36,9 +36,9 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
     private float _worldLoadCooldown;
     private float _moveTime;
     private bool _onIce;
-
-    private static RaycastHit[] s_HitBuffer = new RaycastHit[16];
+    
     private float _wentInAirAt;
+    private bool _touchingSnow;
 
     void Start()
     {
@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
 
     public void OnSwitchMode(InputValue value)
     {
-        var grounded = TouchingSnow() || _onIsland;
+        var grounded = _touchingSnow || _onIsland;
         if (value.isPressed && !Boosting() && grounded)
         {
             if (!_onIsland)
@@ -112,6 +112,7 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
 
     void Update()
     {
+        TrackIsTouchingSnow();
         TrackIsInAir();
 
         if (_worldLoadCooldown > 0f)
@@ -171,6 +172,11 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
         _previousPosition = transform.position;
         _jumpThisFrame = false;
         if (!_inAir && _inAirLastFrame) _inAirLastFrame = false;
+    }
+
+    private void TrackIsTouchingSnow()
+    {
+        _touchingSnow = TouchingSnow();
     }
 
     public void PrepareForStopRolling()
@@ -241,7 +247,7 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
 
     private bool NotTouchingSnow()
     {
-        return _inAir || _onIsland || _onIce || !TouchingSnow();
+        return _inAir || _onIsland || _onIce || !_touchingSnow;
     }
 
     private bool TouchingSnow()
@@ -255,7 +261,7 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
         {
             _rigidbody.drag = data.onIceDrag;
         }
-        else if (TouchingSnow() && _rigidbody.velocity.magnitude > data.highSpeedDragVelocityThreshold)
+        else if (_touchingSnow && _rigidbody.velocity.magnitude > data.highSpeedDragVelocityThreshold)
         {
             _rigidbody.drag = data.highSpeedDrag;
         }
