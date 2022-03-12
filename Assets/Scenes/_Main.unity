@@ -9063,6 +9063,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2589345178317684232, guid: 9f3cfde4fdc2a1b4fb44acc39f62e2cf, type: 3}
+      propertyPath: m_TagString
+      value: Island
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f3cfde4fdc2a1b4fb44acc39f62e2cf, type: 3}
 --- !u!4 &511822237 stripped
@@ -19957,6 +19961,10 @@ PrefabInstance:
     - target: {fileID: 1926051456368350321, guid: ca4e3efec4cb69848968337d783dad51, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5429179006363403822, guid: ca4e3efec4cb69848968337d783dad51, type: 3}
+      propertyPath: m_TagString
+      value: Island
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ca4e3efec4cb69848968337d783dad51, type: 3}
