@@ -7,35 +7,79 @@ public class PlayerFakeBall : MonoBehaviour
     public Transform follow;
 
     private Vector3 velocity;
+    private float yVelocity;
+    private float ySmoothingVelocity;
+    private float flatSmoothingVelocity;
     private Rigidbody _ballBody;
+    private PlayerController _playerController;
+    private float _dampedHeightPosition;
+    private Vector3 _dampedFlatPosition;
+    private float _dampedHeightSmoothTime;
+    private float _dampedFlatSmoothTime;
 
     void Start()
     {
         _ballBody = GetComponentInParent<PlayerModeController>().ballRoot.GetComponentInChildren<Rigidbody>();
+        _playerController = GetComponentInParent<PlayerModeController>().ballRoot.GetComponentInChildren<PlayerController>();
+
+        var currentPosition = transform.position;
+        _dampedFlatPosition = new Vector3(currentPosition.x, 0, currentPosition.z);
+        _dampedHeightPosition = currentPosition.y;
     }
 
     public void LateUpdate()
     {
-        var smoothTime = .1f - .1f * Mathf.Clamp(_ballBody.velocity.magnitude / 30f, 0f, 1f);
-        Debug.Log("mag: " + _ballBody.velocity.magnitude + ", factor: " + (_ballBody.velocity.magnitude / 30f) +
-                  " , result: " + smoothTime);
         var actualPosition = follow.position;
-        var transposedFollow = new Vector3(actualPosition.x, actualPosition.y, actualPosition.z);
+        var smoothTime = .06f - .03f * Mathf.Clamp(_ballBody.velocity.magnitude / 40f, 0f, 1f);
 
-        // Define a target position above and behind the target transform
-        Vector3 targetPosition = follow.TransformPoint(new Vector3(0, 0, 0));
+        // var flatSmoothTime = smoothTime * .5f;
+        var flatSmoothTime = 0f;
+        if (_playerController.OnIsland())
+        {
+            flatSmoothTime = .0f;
+        }
+        else if (_playerController.InAir() || _playerController.OnIce())
+        {
+            flatSmoothTime = .0f;
+        }
+        else if (_dampedHeightPosition < actualPosition.y - 1f)
+        {
+            flatSmoothTime = .03f;
+        }
+        else
+        {
+            flatSmoothTime = Mathf.Clamp(smoothTime, 0f, 1f);
+        }
+        _dampedFlatSmoothTime = Mathf.SmoothDamp(_dampedFlatSmoothTime, flatSmoothTime, ref flatSmoothingVelocity, .5f); // Smoothing out changing smooth times :)
+        var flatActualPosition = new Vector3(actualPosition.x, 0, actualPosition.z);
+        _dampedFlatPosition = Vector3.SmoothDamp(_dampedFlatPosition, flatActualPosition, ref velocity, _dampedFlatSmoothTime);
 
-        // Smoothly move the camera towards that target position
-        var dampenedFlatPosition = Vector3.SmoothDamp(transform.position, transposedFollow, ref velocity, smoothTime * .25f);
-        var dampenedPosition = Vector3.SmoothDamp(transform.position, transposedFollow, ref velocity, smoothTime);
+        var heightSmoothTime = 0f;
+        if (_playerController.OnIce() || _playerController.OnIsland())
+        {
+            heightSmoothTime = .01f;
+        }
+        else if (_playerController.InAir())
+        {
+            heightSmoothTime = .01f;
+        }
+        else if (_dampedHeightPosition < actualPosition.y - .5f)
+        {
+            heightSmoothTime = .1f;
+        }
+        else
+        {
+            heightSmoothTime = smoothTime;
+        }
+        _dampedHeightSmoothTime = Mathf.SmoothDamp(_dampedHeightSmoothTime, heightSmoothTime, ref ySmoothingVelocity, _playerController.InAir() ? 0f : .12f); // Smoothing out changing smooth times :) Except when in air, that should feel VERY direct!
+        _dampedHeightPosition = Mathf.SmoothDamp(_dampedHeightPosition, actualPosition.y, ref yVelocity, _dampedHeightSmoothTime, float.PositiveInfinity, Time.deltaTime); 
+        Debug.Log("heightSmoothTime: " + _dampedHeightSmoothTime + ", height: " + _dampedHeightPosition);
+        
         transform.position = new Vector3(
-            dampenedFlatPosition.x,
-            dampenedPosition.y,
-            dampenedFlatPosition.z
+            _dampedFlatPosition.x,
+            _dampedHeightPosition,
+            _dampedFlatPosition.z
         );
-        //
-        // transform.position = Vector3.Lerp(transform.position, follow.position, Time.deltaTime * 100);
-        // transform.rotation = Quaternion.Lerp(transform.rotation, follow.rotation, Time.deltaTime * 100);
         transform.rotation = follow.rotation;
         transform.localScale = follow.localScale;
     }

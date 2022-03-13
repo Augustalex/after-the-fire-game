@@ -42,12 +42,15 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
     private float _wentInAirAt;
     private bool _touchingSnow;
     private Vector3 _islandNormal;
+    private FollowSphere _followPlayer;
 
     void Start()
     {
         _worldLoadCooldown = 1.5f;
         _rigidbody = GetComponent<Rigidbody>();
         _trailParticles = snowParticles.emission;
+
+        _followPlayer = FindObjectOfType<FollowSphere>(); // TODO: Set reference from Editor? Will there really only be 1 follow sphere ever?
     }
 
     public void IntroStun()
@@ -59,6 +62,12 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
     public void OnMove(InputValue value)
     {
         _move = value.Get<Vector2>();
+    }
+
+    public void OnLook(InputValue value)
+    {
+        var look = value.Get<Vector2>();
+        _followPlayer.SetLook(look);
     }
 
     public void OnJump(InputValue value)
@@ -124,7 +133,7 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
             return;
         }
 
-        _onIce = OnIce();
+        _onIce = CheckIfOnIce();
 
         AddExtraGravityIfOnIsland();
 
@@ -205,7 +214,7 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
         _stunnedCooldown = 0f;
     }
 
-    private bool OnIce()
+    public bool CheckIfOnIce()
     {
         RaycastHit hit;
         var dir = Vector3.down;
@@ -479,5 +488,20 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
     private void OnCollisionStay(Collision other)
     {
         _islandNormal = other.GetContact(0).normal;
+    }
+
+    public bool InAir()
+    {
+        return _inAir;
+    }
+
+    public bool OnIsland()
+    {
+        return _onIce;
+    }
+
+    public bool OnIce()
+    {
+        return _onIce;
     }
 }

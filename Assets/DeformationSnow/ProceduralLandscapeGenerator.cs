@@ -22,8 +22,7 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
     private readonly HashSet<Vector3> _planeExistsByPosition = new HashSet<Vector3>();
     private readonly HashSet<Vector3> _itemExistsByPosition = new HashSet<Vector3>();
     private readonly HashSet<Vector3> _forrestExistsByPosition = new HashSet<Vector3>();
-
-
+    
     void Start()
     {
         CreateNewPlane(Vector3.zero);

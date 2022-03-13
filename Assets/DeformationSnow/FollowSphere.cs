@@ -10,38 +10,64 @@ public class FollowSphere : MonoBehaviour
     private PlayerModeController _playerModeController;
 
     private Vector3 velocity;
+    private Vector3 velocity2;
     private Rigidbody _rigidbody;
+    private Vector2 _look;
+
+    private Vector3 _currentLookOffset;
+    private Vector3 _followPosition;
+    private Transform _followTarget;
 
     void Start()
     {
         _playerModeController = FindObjectOfType<PlayerModeController>();
         _rigidbody = ball.GetComponentInParent<Rigidbody>();
+
+        _currentLookOffset = Vector3.zero;
+        _followPosition = transform.position;
+
+        _followTarget = FindObjectOfType<PlayerFakeBall>().transform;
     }
     
-    void Update()
+    void LateUpdate()
     {
-        var target = _playerModeController.IsSnowBall() ? ball : hog;
-        // var targetPosition = target.transform.position;
-        // transform.position = new Vector3(targetPosition.x, targetPosition.y, targetPosition.z);
-
-        var follow = target.transform;
+        // Adjust based on Look controls w/ smoothing
+        var lookSmoothTime = 1f;
+        var lookOffset = new Vector3(
+            _look.x,
+            _look.y,
+            -_look.y * 2f
+            ) * .02f;
+        var currentLookOffset = Vector3.SmoothDamp(_currentLookOffset, lookOffset, ref velocity2, lookSmoothTime);
+        _currentLookOffset = new Vector3(
+            Mathf.Clamp(currentLookOffset.x, -2f, 2f),
+            Mathf.Clamp(currentLookOffset.y, -4f, 4f),
+            Mathf.Clamp(currentLookOffset.z, -2f, 2f)
+        );
+        // Debug.Log(_look + ", " + lookOffset + ", " + _currentLookOffset);
         
-        var smoothTime = .25f;
+        // Follow player w/ smoothing
+        // var target = (_playerModeController.IsSnowBall() ? ball : hog).transform;
+        var target = _followTarget;
         
-        var actualPosition = follow.position;
-        var velocity = _rigidbody.velocity;
-        var flatVelocity = new Vector3(velocity.x, 0, velocity.z) * .25f;
-        var transposedFollow = new Vector3(actualPosition.x, actualPosition.y + _rigidbody.velocity.magnitude * .25f, actualPosition.z) + flatVelocity;
-
-        // Define a target position above and behind the target transform
-        Vector3 targetPosition = follow.TransformPoint(new Vector3(0, 0, 0));
-     
-        // Smoothly move the camera towards that target position
-        var dampenedPosition = Vector3.SmoothDamp(transform.position, transposedFollow, ref velocity, smoothTime);
-        transform.position = new Vector3(
+        var smoothTime = .6f;
+        var actualPosition = target.position;
+        var bodyVelocity = _rigidbody.velocity;
+        var flatVelocity = new Vector3(bodyVelocity.x, 0, bodyVelocity.z) * .25f;
+        var transposedFollow = new Vector3(actualPosition.x, actualPosition.y + bodyVelocity.magnitude * .25f, actualPosition.z) + flatVelocity;
+        var dampenedPosition = Vector3.SmoothDamp(_followPosition, transposedFollow, ref velocity, smoothTime);
+        _followPosition = new Vector3(
             dampenedPosition.x,
             dampenedPosition.y,
             dampenedPosition.z
         );
+        
+        // Position follow sphere according to both player-following & look-adjustment
+        transform.position = _followPosition + _currentLookOffset;
+    }
+
+    public void SetLook(Vector2 look)
+    {
+        _look = look;
     }
 }

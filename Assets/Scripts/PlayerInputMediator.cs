@@ -19,6 +19,11 @@ public class PlayerInputMediator : MonoBehaviour
     {
         _currentPlayerInputReceiver.OnMove(value);
     }
+    
+    public void OnLook(InputValue value)
+    {
+        _currentPlayerInputReceiver.OnLook(value);
+    }
 
     public void OnJump(InputValue value)
     {
