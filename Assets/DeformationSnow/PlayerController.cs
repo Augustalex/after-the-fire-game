@@ -347,7 +347,8 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
         {
             _moving = true;
 
-            var shiftBoost = Boosting() ? data.shiftBoost : 0f;
+            var islandBoostMultiplier = _onIsland ? 2f : 1f;
+            var shiftBoost = Boosting() ? (data.shiftBoost * islandBoostMultiplier) : 0f;
             var minSpeed = 3f;
             var startBoost = (Mathf.Max(0, minSpeed - _rigidbody.velocity.magnitude) / minSpeed) * data.startBoost;
             var inAirPenalty = _inAir ? .3f : 1f;
