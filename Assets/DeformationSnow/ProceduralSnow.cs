@@ -46,15 +46,7 @@ public class ProceduralSnow : MonoBehaviour
         _playerModeController = FindObjectOfType<PlayerModeController>();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            SetStartHeight();
-        }        
-    }
-
-    private void FixedUpdate()
+    private void LateUpdate()
     {
         if (!_doneGenerating) return;
         if (!_playerModeController.IsSnowBall()) return;
@@ -217,7 +209,7 @@ public class ProceduralSnow : MonoBehaviour
         var boostFactor = Mathf.Clamp(_player.BoostJuice() / 3f, 0f, 1f);
 
         var maxSizeReached = _playerGrower.MaxSizeReached();
-        var playerFalling = velocityVector.y < -4f;
+        var playerFalling = false; //velocityVector.y < -4f;
         var playerPreviousPosition = _player.GetPreviousPosition();
 
         Matrix4x4 localToWorld = transform.localToWorldMatrix;

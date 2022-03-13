@@ -25,6 +25,9 @@ public class PlayerModeController : MonoBehaviour
     private bool _intro;
     private PlayerInputMediator _playerInputMediator;
 
+    public bool intro = true;
+    private GameObject _fakeBallFollower;
+
     private void Awake()
     {
         _hogCharacterController = hogRoot.GetComponent<CharacterController>();
@@ -39,9 +42,15 @@ public class PlayerModeController : MonoBehaviour
         _playerInputMediator = GetComponent<PlayerInputMediator>();
 
         SetToBallMode();
-        _ballController.IntroStun();
 
-        StartCoroutine(ExitIntroScene());
+        if (intro)
+        {
+            _ballController.IntroStun();
+
+            StartCoroutine(ExitIntroScene());
+        }
+
+        _fakeBallFollower = FindObjectOfType<PlayerFakeBall>().gameObject;
     }
 
     private IEnumerator ExitIntroScene()
@@ -63,8 +72,16 @@ public class PlayerModeController : MonoBehaviour
 
         if (_isBall)
         {
-            hogRoot.transform.position = ballRootTransform.position;
-            hogRoot.transform.rotation = ballRootTransform.rotation;
+            if (_fakeBallFollower)
+            {
+                hogRoot.transform.position = _fakeBallFollower.transform.position;
+                hogRoot.transform.rotation = _fakeBallFollower.transform.rotation;
+            }
+            else
+            {
+                hogRoot.transform.position = ballRootTransform.position;
+                hogRoot.transform.rotation = ballRootTransform.rotation;
+            }
         }
         else
         {

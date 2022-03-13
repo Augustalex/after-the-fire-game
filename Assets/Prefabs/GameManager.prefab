@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7137683056462604309}
   - component: {fileID: 4510100337984911653}
+  - component: {fileID: 623522481}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -51,5 +52,18 @@ MonoBehaviour:
   - {fileID: 0}
   player: {fileID: 0}
   finishPosition: {x: -11.8, y: 9, z: -22.75}
-  victoryText: Yay! You healed the forest! This is the best beetle stew we ever had.
-    We forgive you.
+  partyMode: {fileID: 0}
+  victoryText: We got 4 beetles now, let's go finish that stew at home!
+  quest1BeetlesToCollect: 4
+--- !u!114 &623522481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4217614811837087987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daf55cb569424475a55ff27bd52fb9e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

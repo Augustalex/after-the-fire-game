@@ -1440,6 +1440,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   introCamera: {fileID: 327137772}
   playerCamera: {fileID: 3694235018270355257}
+  telescopeCamera: {fileID: 0}
 --- !u!1 &3832124750372394924
 GameObject:
   m_ObjectHideFlags: 0
@@ -2309,11 +2310,11 @@ PrefabInstance:
       objectReference: {fileID: 5594895419199881356}
     - target: {fileID: 6343968099055968757, guid: 52c25ace14df3ff4faebb81cf00366dd, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.7
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6343968099055968757, guid: 52c25ace14df3ff4faebb81cf00366dd, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7865230829800336094, guid: 52c25ace14df3ff4faebb81cf00366dd, type: 3}
       propertyPath: m_Name

@@ -18,7 +18,7 @@ public class PlayerGrower : MonoBehaviour
 
     private void Awake()
     {
-        ballMeshRenderer = GetComponentInChildren<MeshRenderer>();
+        // ballMeshRenderer = GetComponentInChildren<MeshRenderer>();
     }
 
     void Start()
@@ -27,6 +27,8 @@ public class PlayerGrower : MonoBehaviour
         _controller = GetComponentInParent<PlayerController>();
 
         _originalSize = transform.localScale;
+
+        ballMeshRenderer = FindObjectOfType<PlayerFakeBall>().GetComponent<MeshRenderer>();
     }
 
     void Update()

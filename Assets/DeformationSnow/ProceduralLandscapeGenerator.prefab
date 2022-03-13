@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2857213956155658589
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2857213956155658591}
+  - component: {fileID: 2857213956155658588}
+  m_Layer: 0
+  m_Name: ProceduralLandscapeGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2857213956155658591
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2857213956155658589}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2857213956155658588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2857213956155658589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8f5b5b9c63eddc42b4ef1c3088bc62d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  generationData: {fileID: 11400000, guid: 334a1a4dba329da458af958f3f1b0094, type: 2}
+  wildNpcTemplate: {fileID: 532401367002248794, guid: dd95fcfc45235534db522b8d93bf527d, type: 3}
+  waySignTemplate: {fileID: 5748346832177369458, guid: cce279c76abcd6f4982aa62a8c54d23b, type: 3}
+  terrainTemplate: {fileID: 3176813460889869157, guid: 36cf415baf755dd4791bd59b9deabd10, type: 3}
+  tinyIslandTemplate: {fileID: 6392544963753918824, guid: 23c668fca67805149bba68c8f13de835, type: 3}
+  followTarget: {fileID: 0}
