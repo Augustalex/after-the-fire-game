@@ -40,28 +40,23 @@ public class FollowSphere : MonoBehaviour
             ) * .02f;
         var currentLookOffset = Vector3.SmoothDamp(_currentLookOffset, lookOffset, ref velocity2, lookSmoothTime);
         _currentLookOffset = new Vector3(
-            Mathf.Clamp(currentLookOffset.x, -2f, 2f),
-            Mathf.Clamp(currentLookOffset.y, -4f, 4f),
-            Mathf.Clamp(currentLookOffset.z, -2f, 2f)
+            Mathf.Clamp(currentLookOffset.x, -6f, 6f),
+            Mathf.Clamp(currentLookOffset.y, -1f, 36f),
+            Mathf.Clamp(currentLookOffset.z, -2f, 18f)
         );
-        
+        Debug.Log("offset: " + _currentLookOffset);
         
         // Follow player w/ smoothing
         
         // var target = (_playerModeController.IsSnowBall() ? ball : hog).transform;
         var target = _followTarget;
         
-        var smoothTime = .6f;
+        var smoothTime = .8f;
         var actualPosition = target.position;
         var bodyVelocity = _rigidbody.velocity;
         var flatVelocity = new Vector3(bodyVelocity.x, 0, bodyVelocity.z) * .25f;
         var transposedFollow = new Vector3(actualPosition.x, actualPosition.y + bodyVelocity.magnitude * .25f, actualPosition.z) + flatVelocity;
-        var dampenedPosition = Vector3.SmoothDamp(_followPosition, transposedFollow, ref velocity, smoothTime);
-        _followPosition = new Vector3(
-            dampenedPosition.x,
-            dampenedPosition.y,
-            dampenedPosition.z
-        );
+        _followPosition = Vector3.SmoothDamp(_followPosition, transposedFollow, ref velocity, smoothTime);
         
         // Position follow sphere according to both player-following & look-adjustment
         transform.position = _followPosition + _currentLookOffset;
