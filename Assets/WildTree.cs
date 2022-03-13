@@ -22,7 +22,8 @@ public class WildTree : MonoBehaviour
     private double _fallingCooldown;
 
     private const float HarvestTime = 60 * 10;
-    private float _harvestedAt = 0f;
+    private float _harvestedAt = -9999f; // Should be ready to harvest!
+    private bool _readyToDrop = false; // Set when tree hit - but waiting for "Drop" to be triggered
 
     private void Start()
     {
@@ -50,10 +51,9 @@ public class WildTree : MonoBehaviour
 
                 if (_swings.Count == 1)
                 {
-                    var timeSinceLastHarvest = Time.time - _harvestedAt;
-                    if (timeSinceLastHarvest > HarvestTime)
+                    if (_readyToDrop)
                     {
-                        _harvestedAt = Time.time;
+                        _readyToDrop = false;
                         
                         DropItem();
                     }
@@ -108,13 +108,29 @@ public class WildTree : MonoBehaviour
                 Shake();
                 other.collider.GetComponentInChildren<PlayerController>().HitTree();
                 grower.ReleaseSnow();
-                SfxManager.Instance.PlaySfx("collideWithTreeSeedDrop");
+
+                if (ReadyToHarvest())
+                {
+                    _harvestedAt = Time.time;
+                    _readyToDrop = true;
+                    SfxManager.Instance.PlaySfx("collideWithTreeSeedDrop");
+                }
+                else
+                {
+                    SfxManager.Instance.PlaySfx("collideWithTree", other.rigidbody.velocity.magnitude * 0.05f, true);
+                }
             }
             else
             {
                 SfxManager.Instance.PlaySfx("collideWithTree", other.rigidbody.velocity.magnitude * 0.05f, true);
             }
         }
+    }
+
+    private bool ReadyToHarvest()
+    {
+        var timeSinceLastHarvest = Time.time - _harvestedAt;
+        return timeSinceLastHarvest > HarvestTime;
     }
 
     private void Shake()
