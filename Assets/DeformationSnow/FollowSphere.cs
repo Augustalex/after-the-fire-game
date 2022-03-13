@@ -55,11 +55,11 @@ public class FollowSphere : MonoBehaviour
         _yCurrentLookOffset = Mathf.SmoothDamp(_yCurrentLookOffset, _targetLookY, ref yLookVelocity, yLookSmoothTime);
 
         // Final Look offset
+        var DISABLE_PAN = true; 
         var scaledLookOffset =
-            Vector3.Scale(new Vector3(_currentLookOffset.x, _yCurrentLookOffset, _currentLookOffset.z),
+            Vector3.Scale(new Vector3(DISABLE_PAN ? 0 : 1, _yCurrentLookOffset, DISABLE_PAN ? 0 : 1),
                 _lookScale * LookGlobalScale);
 
-        
         // Follow player w/ smoothing
 
         // var target = (_playerModeController.IsSnowBall() ? ball : hog).transform;
