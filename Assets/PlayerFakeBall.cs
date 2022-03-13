@@ -32,7 +32,6 @@ public class PlayerFakeBall : MonoBehaviour
         var actualPosition = follow.position;
         var smoothTime = .06f - .03f * Mathf.Clamp(_ballBody.velocity.magnitude / 40f, 0f, 1f);
 
-        // var flatSmoothTime = smoothTime * .5f;
         var flatSmoothTime = 0f;
         if (_playerController.OnIsland())
         {
@@ -73,7 +72,6 @@ public class PlayerFakeBall : MonoBehaviour
         }
         _dampedHeightSmoothTime = Mathf.SmoothDamp(_dampedHeightSmoothTime, heightSmoothTime, ref ySmoothingVelocity, _playerController.InAir() ? 0f : .12f); // Smoothing out changing smooth times :) Except when in air, that should feel VERY direct!
         _dampedHeightPosition = Mathf.SmoothDamp(_dampedHeightPosition, actualPosition.y, ref yVelocity, _dampedHeightSmoothTime, float.PositiveInfinity, Time.deltaTime); 
-        Debug.Log("heightSmoothTime: " + _dampedHeightSmoothTime + ", height: " + _dampedHeightPosition);
         
         transform.position = new Vector3(
             _dampedFlatPosition.x,
