@@ -24,16 +24,58 @@ public class TelescopeInteractionController : MonoBehaviour
         {
             if (_telescopeOn)
             {
-                _telescopeOn = false;
-                CameraModeController.Instance.SetToPlayerCamera();
-                _sky.FadeOut();
+                TurnOff();
             }
             else
             {
-                _telescopeOn = true;
-                CameraModeController.Instance.SetToTelescopeCamera();
-                _sky.FadeIn();
+                TurnOn();
             }
+        }
+    }
+
+    private void TurnOn()
+    {
+        if (_telescopeOn) return;
+        
+        _telescopeOn = true;
+        CameraModeController.Instance.SetToTelescopeCamera();
+        _sky.FadeIn();
+    }
+
+    public void TurnOff()
+    {
+        if (!_telescopeOn) return;
+        
+        _telescopeOn = false;
+        CameraModeController.Instance.SetToPlayerCamera();
+        _sky.FadeOut();
+    }
+
+    // private void OnTriggerStay(Collider other)
+    // {
+    //     if (other.CompareTag("Player") || other.CompareTag("PlayerHog"))
+    //     {
+    //         other.GetComponentInParent<PlayerModeController>().NearTelescope();
+    //     }
+    // }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("PlayerHog"))
+        {
+            TurnOn();
+        }
+        else if (other.CompareTag("Player"))
+        {
+            TurnOff();
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("PlayerHog"))
+        {
+            TurnOff();
         }
     }
 }
