@@ -44,9 +44,10 @@ public class FollowSphere : MonoBehaviour
             Mathf.Clamp(currentLookOffset.y, -4f, 4f),
             Mathf.Clamp(currentLookOffset.z, -2f, 2f)
         );
-        // Debug.Log(_look + ", " + lookOffset + ", " + _currentLookOffset);
+        
         
         // Follow player w/ smoothing
+        
         // var target = (_playerModeController.IsSnowBall() ? ball : hog).transform;
         var target = _followTarget;
         
