@@ -21,7 +21,8 @@ public class WildTree : MonoBehaviour
     private bool _falling;
     private double _fallingCooldown;
 
-    private bool _harvested = false;
+    private const float HarvestTime = 60 * 10;
+    private float _harvestedAt = 0f;
 
     private void Start()
     {
@@ -49,9 +50,10 @@ public class WildTree : MonoBehaviour
 
                 if (_swings.Count == 1)
                 {
-                    if (!_harvested)
+                    var timeSinceLastHarvest = Time.time - _harvestedAt;
+                    if (timeSinceLastHarvest > HarvestTime)
                     {
-                        _harvested = true;
+                        _harvestedAt = Time.time;
                         
                         DropItem();
                     }
