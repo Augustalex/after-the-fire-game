@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
     private float _worldLoadCooldown;
     private float _moveTime;
     private bool _onIce;
-    
+
     private float _wentInAirAt;
     private bool _touchingSnow;
     private Vector3 _islandNormal;
@@ -50,7 +50,8 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
         _rigidbody = GetComponent<Rigidbody>();
         _trailParticles = snowParticles.emission;
 
-        _followPlayer = FindObjectOfType<FollowSphere>(); // TODO: Set reference from Editor? Will there really only be 1 follow sphere ever?
+        _followPlayer =
+            FindObjectOfType<FollowSphere>(); // TODO: Set reference from Editor? Will there really only be 1 follow sphere ever?
     }
 
     public void IntroStun()
@@ -155,10 +156,10 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
         {
             if (!_inAir)
             {
-                HandleJump();
                 HandleBoosting();
             }
 
+            HandleJump();
             HandleMoving();
         }
 
@@ -319,7 +320,9 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
     private void ApplyInAirEffects()
     {
         var inAirDuration = Time.time - _wentInAirAt;
-        var inAirTimeMultiplier = Mathf.Clamp(1 + Mathf.Pow(inAirDuration * data.gravityMultiplierBase, data.gravityMultiplierGrowthExponent), 1, data.gravityMultiplierMax);
+        var inAirTimeMultiplier =
+            Mathf.Clamp(1 + Mathf.Pow(inAirDuration * data.gravityMultiplierBase, data.gravityMultiplierGrowthExponent),
+                1, data.gravityMultiplierMax);
         var downForce = data.gravity * inAirTimeMultiplier;
 
         _rigidbody.drag = data.inAirDrag;
@@ -387,7 +390,8 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
     {
         if (_onIce)
         {
-            return currentMovement * data.onIceMovementMultiplier + Random.insideUnitSphere * Random.Range(data.onIceMinRandomMotion, data.onIceMaxRandomMotion);
+            return currentMovement * data.onIceMovementMultiplier + Random.insideUnitSphere *
+                Random.Range(data.onIceMinRandomMotion, data.onIceMaxRandomMotion);
         }
         else
         {
@@ -406,16 +410,20 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
 
         if (_jumpThisFrame && _inAirCooldown <= 0f)
         {
-            var grounded = Physics.OverlapSphere(transform.position, transform.localScale.x * 2f).Length > 1;
-            Debug.Log("GROUNDED: " + grounded);
-            if (grounded)
-            {
-                _inAirCooldown = 1f;
-                _inAir = true;
-                _wentInAirAt = Time.time;
+            var totalRadius = transform.localScale.x * 2f;
+            var grounded = Physics.OverlapSphere(transform.position, totalRadius).Length > 1;
 
-                _rigidbody.AddForce(Vector3.up * data.jumpForce + direction * data.jumpDirectionalPush,
-                    ForceMode.Impulse);
+            if (_inAirCooldown <= 0f)
+            {
+                if (grounded)
+                {
+                    _inAirCooldown = 1f;
+                    _inAir = true;
+                    _wentInAirAt = Time.time;
+
+                    _rigidbody.AddForce(Vector3.up * data.jumpForce + direction * data.jumpDirectionalPush,
+                        ForceMode.Impulse);
+                }
             }
         }
     }
@@ -423,10 +431,12 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
     private void AddExtraGravityIfOnIsland()
     {
         _onIsland = false;
-        if (Physics.OverlapSphere(transform.position, transform.localScale.x * .75f).Any(hit => hit.CompareTag("Island")))
+        if (Physics.OverlapSphere(transform.position, transform.localScale.x * .75f)
+            .Any(hit => hit.CompareTag("Island")))
         {
             _onIsland = true;
-            _rigidbody.AddForce(-_islandNormal * data.extraDownwardForceOnIsland * Time.deltaTime, ForceMode.Acceleration);
+            _rigidbody.AddForce(-_islandNormal * data.extraDownwardForceOnIsland * Time.deltaTime,
+                ForceMode.Acceleration);
         }
     }
 
