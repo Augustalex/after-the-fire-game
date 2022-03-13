@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 471bf4f3745146a981d0d9ebddf30742, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  shiftBoost: 2000
-  speed: 2000
+  shiftBoost: 1000
+  speed: 1800
   startBoost: 30000
   inAirDrag: 1
   onIceDrag: 0
