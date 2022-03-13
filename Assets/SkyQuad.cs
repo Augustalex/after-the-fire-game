@@ -10,7 +10,7 @@ public class SkyQuad : MonoBehaviour
     private bool _fadingOut;
     private float _originalFogDensity;
 
-    void Start()
+    void Awake()
     {
         _meshRenderer = GetComponent<MeshRenderer>();
         
