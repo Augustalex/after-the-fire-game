@@ -21,6 +21,8 @@ public class WildTree : MonoBehaviour
     private bool _falling;
     private double _fallingCooldown;
 
+    private bool _harvested = false;
+
     private void Start()
     {
         _zeroRotation = transform.rotation;
@@ -47,7 +49,12 @@ public class WildTree : MonoBehaviour
 
                 if (_swings.Count == 1)
                 {
-                    DropItem();
+                    if (!_harvested)
+                    {
+                        _harvested = true;
+                        
+                        DropItem();
+                    }
                 }
 
                 if (_swings.Count == 0)
