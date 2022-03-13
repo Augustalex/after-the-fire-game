@@ -17,6 +17,8 @@ public class PlayerFakeBall : MonoBehaviour
     private float _dampedHeightSmoothTime;
     private float _dampedFlatSmoothTime;
 
+    private const float FlatSmoothTimeScale = .6f;
+
     void Start()
     {
         _ballBody = GetComponentInParent<PlayerModeController>().ballRoot.GetComponentInChildren<Rigidbody>();
@@ -51,7 +53,7 @@ public class PlayerFakeBall : MonoBehaviour
         }
         _dampedFlatSmoothTime = Mathf.SmoothDamp(_dampedFlatSmoothTime, flatSmoothTime, ref flatSmoothingVelocity, .5f); // Smoothing out changing smooth times :)
         var flatActualPosition = new Vector3(actualPosition.x, 0, actualPosition.z);
-        _dampedFlatPosition = Vector3.SmoothDamp(_dampedFlatPosition, flatActualPosition, ref velocity, _dampedFlatSmoothTime);
+        _dampedFlatPosition = Vector3.SmoothDamp(_dampedFlatPosition, flatActualPosition, ref velocity, _dampedFlatSmoothTime * FlatSmoothTimeScale);
 
         var heightSmoothTime = 0f;
         if (_playerController.OnIce() || _playerController.OnIsland())
