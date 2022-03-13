@@ -28,7 +28,7 @@ public class PlayerCameraLookController : MonoBehaviour
         var yLookSmoothTime = .5f;
         _yCurrentLookOffset = Mathf.SmoothDamp(_yCurrentLookOffset, targetLookY, ref yLookVelocity, yLookSmoothTime);
         
-        _camera.m_Tilt = _yCurrentLookOffset * 40f;
+        _camera.m_Tilt = _yCurrentLookOffset * 30f;
               
         // Pan controls
         var lookSmoothTime = 1f;
