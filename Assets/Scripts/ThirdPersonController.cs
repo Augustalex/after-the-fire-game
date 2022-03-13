@@ -49,6 +49,7 @@ public class ThirdPersonController : MonoBehaviour, IPlayerInputReceiver
     private bool _hasAnimator;
     private float _stunnedCooldown;
     private FollowSphere _followPlayer;
+    private PlayerCameraLookController _lookController;
 
     private void Awake()
     {
@@ -70,7 +71,9 @@ public class ThirdPersonController : MonoBehaviour, IPlayerInputReceiver
         _controller = GetComponent<CharacterController>();
 
         _followPlayer = FindObjectOfType<FollowSphere>(); // TODO: Set reference from Editor? Will there really only be 1 follow sphere ever?
-
+        _lookController =
+            FindObjectOfType<PlayerCameraLookController>(); // TODO: Set reference from Editor?
+        
         // reset our timeouts on start
         _jumpTimeoutDelta = JumpTimeout;
         _fallTimeoutDelta = FallTimeout;
@@ -108,6 +111,7 @@ public class ThirdPersonController : MonoBehaviour, IPlayerInputReceiver
     {
         var look = value.Get<Vector2>();
         _followPlayer.SetLook(look);
+        _lookController.SetLook(look);
     }
 
     public void OnJump(InputValue value)

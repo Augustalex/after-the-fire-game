@@ -48,12 +48,18 @@ public class FollowSphere : MonoBehaviour
         _currentLookOffset = Vector3.SmoothDamp(_currentLookOffset, lookOffset, ref flatLookVelocity, lookSmoothTime);
         // _currentLookOffset = new Vector3( Mathf.Clamp(currentLookOffset.x, -6f, 6f), 0, Mathf.Clamp(currentLookOffset.z, -2f, 18f));
 
-        // Zoom controls
-        var lookYDelta = _look.y * LookNormalizationScale * (Time.deltaTime);
-        _targetLookY = Mathf.Clamp(_targetLookY + lookYDelta, -.1f, 1f);
+        // PERSISTENT Zoom controls
+        // var lookYDelta = _look.y * LookNormalizationScale * (Time.deltaTime);
+        // _targetLookY = Mathf.Clamp(_targetLookY + lookYDelta, -.1f, 1f);
+        // var yLookSmoothTime = .5f;
+        // _yCurrentLookOffset = Mathf.SmoothDamp(_yCurrentLookOffset, _targetLookY, ref yLookVelocity, yLookSmoothTime);
+        
+        // DYNAMIC Zoom controls
+        var targetLookY = Mathf.Clamp(_look.y * LookNormalizationScale, -.1f, 1f);
         var yLookSmoothTime = .5f;
-        _yCurrentLookOffset = Mathf.SmoothDamp(_yCurrentLookOffset, _targetLookY, ref yLookVelocity, yLookSmoothTime);
+        _yCurrentLookOffset = Mathf.SmoothDamp(_yCurrentLookOffset, targetLookY, ref yLookVelocity, yLookSmoothTime);
 
+        
         // Final Look offset
         var DISABLE_PAN = true; 
         var scaledLookOffset =
@@ -78,6 +84,7 @@ public class FollowSphere : MonoBehaviour
 
         // Position follow sphere according to both player-following & look-adjustment
         transform.position = _followPosition + scaledLookOffset;
+        // transform.position = _followPosition;
     }
 
     private float ModifyZVelocityOffset(float bodyVelocityZ)

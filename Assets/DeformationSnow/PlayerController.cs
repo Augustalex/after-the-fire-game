@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
     private bool _touchingSnow;
     private Vector3 _islandNormal;
     private FollowSphere _followPlayer;
+    private PlayerCameraLookController _lookController;
 
     void Start()
     {
@@ -52,6 +53,8 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
 
         _followPlayer =
             FindObjectOfType<FollowSphere>(); // TODO: Set reference from Editor? Will there really only be 1 follow sphere ever?
+        _lookController =
+            FindObjectOfType<PlayerCameraLookController>(); // TODO: Set reference from Editor?
     }
 
     public void IntroStun()
@@ -69,6 +72,7 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
     {
         var look = value.Get<Vector2>();
         _followPlayer.SetLook(look);
+        _lookController.SetLook(look);
     }
 
     public void OnJump(InputValue value)
