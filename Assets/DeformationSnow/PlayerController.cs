@@ -404,10 +404,10 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
     {
         var direction = GetMoveDirection();
 
-        if (_jumpThisFrame)
+        if (_jumpThisFrame && _inAirCooldown <= 0f)
         {
-            var grounded = Physics.OverlapSphere(transform.position, transform.localScale.x * .6f).Length > 1;
-
+            var grounded = Physics.OverlapSphere(transform.position, transform.localScale.x * 2f).Length > 1;
+            Debug.Log("GROUNDED: " + grounded);
             if (grounded)
             {
                 _inAirCooldown = 1f;

@@ -17,16 +17,16 @@ MonoBehaviour:
   startBoost: 30000
   inAirDrag: 1
   onIceDrag: 0
-  highSpeedDragVelocityThreshold: 10
-  highSpeedDrag: 1
-  boostDrag: 1
+  highSpeedDragVelocityThreshold: 35
+  highSpeedDrag: 2
+  boostDrag: 2
   movingDrag: 1
   stillDrag: 1
   gravity: 150
   gravityMultiplierBase: 4
   gravityMultiplierGrowthExponent: 1.5
   gravityMultiplierMax: 10
-  jumpForce: 30
+  jumpForce: 20
   jumpDirectionalPush: 5
   extraDownwardForceOnIsland: 200
   onIceMovementMultiplier: 0.6
