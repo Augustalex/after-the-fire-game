@@ -51,7 +51,7 @@ public class FollowSphere : MonoBehaviour
         // var target = (_playerModeController.IsSnowBall() ? ball : hog).transform;
         var target = _followTarget;
         
-        var smoothTime = .8f;
+        var smoothTime = .7f;
         var actualPosition = target.position;
         var bodyVelocity = _rigidbody.velocity;
         var flatVelocity = new Vector3(bodyVelocity.x, 0, bodyVelocity.z) * .25f;
