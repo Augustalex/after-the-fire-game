@@ -33,6 +33,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "LongJump",
+                    "type": "Button",
+                    "id": "f60584a1-9e2b-49c9-8ce1-00832c806503",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Sprint",
                     "type": "PassThrough",
                     "id": "980e881e-182c-404c-8cbf-3d09fdb48fef",
@@ -353,6 +362,28 @@
                     "processors": "",
                     "groups": "Xbox Controller",
                     "action": "Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e3f5f7e0-5364-46f5-854f-fae26ae44681",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "LongJump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "60c15b87-bae3-49ab-beb7-8c7f04556195",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "LongJump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

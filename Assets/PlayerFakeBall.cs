@@ -51,6 +51,8 @@ public class PlayerFakeBall : MonoBehaviour
         {
             flatSmoothTime = Mathf.Clamp(smoothTime, 0f, 1f);
         }
+
+        flatSmoothTime = 0f;
         _dampedFlatSmoothTime = Mathf.SmoothDamp(_dampedFlatSmoothTime, flatSmoothTime, ref flatSmoothingVelocity, .5f, Mathf.Infinity, Time.smoothDeltaTime); // Smoothing out changing smooth times :)
         var flatActualPosition = new Vector3(actualPosition.x, 0, actualPosition.z);
         _dampedFlatPosition = Vector3.SmoothDamp(_dampedFlatPosition, flatActualPosition, ref velocity, _dampedFlatSmoothTime * FlatSmoothTimeScale, Mathf.Infinity, Time.smoothDeltaTime);

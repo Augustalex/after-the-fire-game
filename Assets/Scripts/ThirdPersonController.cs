@@ -118,6 +118,11 @@ public class ThirdPersonController : MonoBehaviour, IPlayerInputReceiver
         // When in walk mode - the player cannot jump
     }
 
+    public void OnLongJump(InputValue value)
+    {
+        // When in walk mode - the player cannot jump
+    }
+
     public void OnSprint(InputValue value)
     {
         if (value.isPressed)

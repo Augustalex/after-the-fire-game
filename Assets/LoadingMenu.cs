@@ -19,8 +19,8 @@ public class LoadingMenu : MonoBehaviour
     private static readonly List<string> _fixedTexts = new List<string>
     {
         "Too slow",
-        "gooosh",
-        "roflmao",
+        "infuriating?",
+        "why? why... why!",
         "almost there..."
     };
 

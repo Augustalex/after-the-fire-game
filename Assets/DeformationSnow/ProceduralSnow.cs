@@ -155,7 +155,7 @@ public class ProceduralSnow : MonoBehaviour
         Vector3 vertex, Vector3 worldVertex, float staticDigSpeed, float playerScaleX, bool playerBoosting,
         bool playerFalling, float boostFactor)
     {
-        var steps = 1f;
+        var steps = 8f;
 
         var direction = (currentPosition - previousPosition).normalized;
         var length = Vector3.Distance(previousPosition, currentPosition);

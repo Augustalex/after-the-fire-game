@@ -8,6 +8,8 @@ public interface IPlayerInputReceiver
     public void OnLook(InputValue value);
 
     public void OnJump(InputValue value);
+    
+    public void OnLongJump(InputValue value);
 
     public void OnSprint(InputValue value);
 

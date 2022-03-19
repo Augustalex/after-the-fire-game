@@ -45,6 +45,9 @@ public class PlayerController : MonoSingleton<PlayerController>, IPlayerInputRec
     private Vector3 _islandNormal;
     private FollowSphere _followPlayer;
     private PlayerCameraLookController _lookController;
+    private bool _longJumpThisFrame;
+    private float _shortJumpTriggered;
+    private bool _trackingShortJump;
 
     void Start()
     {
@@ -78,7 +81,15 @@ public class PlayerController : MonoSingleton<PlayerController>, IPlayerInputRec
 
     public void OnJump(InputValue value)
     {
-        _jumpThisFrame = value.isPressed;
+        if (value.isPressed)
+        {
+            _jumpThisFrame = true;
+        }
+    }
+
+    public void OnLongJump(InputValue value)
+    {
+        _longJumpThisFrame = value.isPressed;
     }
 
     public void OnSprint(InputValue value)
@@ -130,6 +141,7 @@ public class PlayerController : MonoSingleton<PlayerController>, IPlayerInputRec
 
     void Update()
     {
+        TrackShortJump();
         TrackIsTouchingSnow();
         TrackIsInAir();
 
@@ -189,7 +201,18 @@ public class PlayerController : MonoSingleton<PlayerController>, IPlayerInputRec
 
         _previousPosition = transform.position;
         _jumpThisFrame = false;
+        _longJumpThisFrame = false;
         if (!_inAir && _inAirLastFrame) _inAirLastFrame = false;
+    }
+
+    private void TrackShortJump()
+    {
+        // if (_trackingShortJump && Time.time - _shortJumpTriggered > .3f)
+        // {
+        //     Debug.Log("TRACK SHORT DONE");
+        //     _jumpThisFrame = true;
+        //     _trackingShortJump = false;
+        // }
     }
 
     private void TrackIsTouchingSnow()
@@ -414,7 +437,7 @@ public class PlayerController : MonoSingleton<PlayerController>, IPlayerInputRec
     {
         var direction = GetMoveDirection();
 
-        if (_jumpThisFrame && _inAirCooldown <= 0f)
+        if (_jumpThisFrame)
         {
             var totalRadius = transform.localScale.x * 2f;
             var grounded = Physics.OverlapSphere(transform.position, totalRadius).Length > 1;
@@ -423,14 +446,32 @@ public class PlayerController : MonoSingleton<PlayerController>, IPlayerInputRec
             {
                 if (grounded)
                 {
-                    _inAirCooldown = 1f;
+                    _inAirCooldown = .5f;
                     _inAir = true;
                     _wentInAirAt = Time.time;
 
-                    _rigidbody.AddForce(Vector3.up * data.jumpForce + direction * data.jumpDirectionalPush,
-                        ForceMode.Impulse);
+                    if (_jumpThisFrame)
+                    {
+                        Debug.Log("SHORT JUMP!");
+                    }
+
+                    var force = Vector3.up * data.jumpForce * .75f + direction * .5f * data.jumpDirectionalPush;
+                    _rigidbody.AddForce(force, ForceMode.Impulse);
                 }
             }
+        }
+
+        if (_longJumpThisFrame && (_inAirCooldown > 0 || _jumpThisFrame))
+        {
+            _inAirCooldown = 1f;
+
+            if (_longJumpThisFrame)
+            {
+                Debug.Log("LONG JUMP!");
+            }
+
+            var force = Vector3.up * data.jumpForce * .75f + direction * .75f * data.jumpDirectionalPush;
+            _rigidbody.AddForce(force, ForceMode.Impulse);
         }
     }
 
