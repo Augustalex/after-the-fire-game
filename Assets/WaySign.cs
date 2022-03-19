@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Cinemachine;
 using UnityEngine;
 
@@ -17,6 +18,8 @@ public class WaySign : MonoBehaviour
     private double _fallingCooldown = 10f;
 
     public bool destroyRigidbody = true;
+    public bool destroyOverlappingTrees = true;
+    private bool _destroyedTrees;
 
     private void Start()
     {
@@ -29,6 +32,11 @@ public class WaySign : MonoBehaviour
         if (destroyRigidbody)
         {
             DestroyRigidbodyWhenFirmlyGrounded();
+        }
+
+        if (destroyOverlappingTrees)
+        {
+            DestroyOverlappingTrees();
         }
 
         if (_swings.Count > 0)
@@ -50,6 +58,20 @@ public class WaySign : MonoBehaviour
                     transform.rotation = _zeroRotation;
                 }
             }
+        }
+    }
+
+    private void DestroyOverlappingTrees()
+    {
+        if (!_falling && !_destroyedTrees)
+        {
+            var hits = Physics.OverlapSphere(transform.position, 2f).Where(hit => hit.CompareTag("Tree"));
+            foreach (var hit in hits)
+            {
+                Destroy(hit.gameObject);
+            }
+
+            _destroyedTrees = true;
         }
     }
 
