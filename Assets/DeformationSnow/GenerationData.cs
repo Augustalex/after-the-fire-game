@@ -2,7 +2,7 @@
 
 namespace DeformationSnow
 {
-    [CreateAssetMenu(fileName = "GenerationData", menuName = "Static Data", order = 0)]
+    [CreateAssetMenu(fileName = "GenerationData", menuName = "GenerationData", order = 0)]
     public class GenerationData : ScriptableObject
     {
         public float heightOffset = -1f;

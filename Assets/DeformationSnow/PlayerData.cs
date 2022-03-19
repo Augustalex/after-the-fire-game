@@ -2,7 +2,7 @@
 
 namespace DeformationSnow
 {
-    [CreateAssetMenu(fileName = "PlayerData", menuName = "Static Data", order = 0)]
+    [CreateAssetMenu(fileName = "PlayerData", menuName = "PlayerData", order = 0)]
     public class PlayerData : ScriptableObject
     {
         public float shiftBoost = 100f;

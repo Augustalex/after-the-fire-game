@@ -112,7 +112,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   recalculateNormals: 1
   snowHeight: 9
-  generationData: {fileID: 0}
+  generationData: {fileID: 11400000, guid: 334a1a4dba329da458af958f3f1b0094, type: 2}
+  snowDeformationData: {fileID: 11400000, guid: 8bda16ec9d621964b8d23d381a1812da, type: 2}
 --- !u!114 &5766340276581437026
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -32,6 +32,7 @@ public class ProceduralSnow : MonoBehaviour
     private bool _setup;
     private PlayerModeController _playerModeController;
     public GenerationData generationData;
+    public SnowDeformationData snowDeformationData;
 
     private const int VectorRowCount = 42;
 
@@ -252,11 +253,11 @@ public class ProceduralSnow : MonoBehaviour
                 float staticSpeed;
                 Vector3 playerMorphPoint;
 
-                if (playerFalling)
-                {
-                    playerMorphPoint = playerPosition + velocityVector.normalized * -.2f;
-                    staticSpeed = playerScaleX * velocity * .4f;
-                }
+                // if (playerFalling)
+                // {
+                //     playerMorphPoint = playerPosition + velocityVector.normalized * -.2f;
+                //     staticSpeed = playerScaleX * velocity * .4f;
+                // }
                 // else if (!playerMoving)
                 // {
                 //     playerMorphPoint = playerPosition + velocityVector.normalized * -.05f;
@@ -271,7 +272,7 @@ public class ProceduralSnow : MonoBehaviour
                 // }
                 // else
                 // {
-                    playerMorphPoint = playerPosition + velocityVector * Time.fixedDeltaTime * 6f;
+                    playerMorphPoint = playerPosition + velocityVector * Time.fixedDeltaTime * snowDeformationData.interpolationVelocityMultiplier;
 
                     if (maxSizeReached)
                     {
@@ -336,7 +337,7 @@ public class ProceduralSnow : MonoBehaviour
 
         // Debug.Log("PASS TOTAL: " + passTotal);
 
-        if (_meshPasses.Count > 11) // Rendered mesh is a few frames behind - this enables us to precalculate the collision, and corresponding rigidbody events, while rendering a smooth output
+        if (_meshPasses.Count > snowDeformationData.renderFrameLag) // Rendered mesh is a few frames behind - this enables us to precalculate the collision, and corresponding rigidbody events, while rendering a smooth output
         {
             _mesh.vertices = _meshPasses.Dequeue();
 
