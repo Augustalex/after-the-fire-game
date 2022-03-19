@@ -3,8 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-/* Note: animations are called via the controller for both the character and capsule using animator null checks
- */
+/* Note: animations are called via the controller for both the character and capsule using animator null checks */
 
 [RequireComponent(typeof(CharacterController))]
 public class ThirdPersonController : MonoBehaviour, IPlayerInputReceiver
@@ -29,8 +28,7 @@ public class ThirdPersonController : MonoBehaviour, IPlayerInputReceiver
 
     [Tooltip("What layers the character uses as ground")]
     public LayerMask GroundLayers;
-
-
+    
     // player
     private Vector2 _move;
     private float _speed;

@@ -27,7 +27,7 @@ MonoBehaviour:
   gravityMultiplierGrowthExponent: 1.5
   gravityMultiplierMax: 10
   jumpForce: 20
-  jumpDirectionalPush: 5
+  jumpDirectionalPush: 7.5
   extraDownwardForceOnIsland: 200
   onIceMovementMultiplier: 0.6
   onIceMinRandomMotion: 100

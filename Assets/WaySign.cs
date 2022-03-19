@@ -16,6 +16,8 @@ public class WaySign : MonoBehaviour
     private bool _falling = true;
     private double _fallingCooldown = 10f;
 
+    public bool destroyRigidbody = true;
+
     private void Start()
     {
         _zeroRotation = transform.rotation;
@@ -24,7 +26,10 @@ public class WaySign : MonoBehaviour
 
     void Update()
     {
-        DestroyRigidbodyWhenFirmlyGrounded();
+        if (destroyRigidbody)
+        {
+            DestroyRigidbodyWhenFirmlyGrounded();
+        }
 
         if (_swings.Count > 0)
         {

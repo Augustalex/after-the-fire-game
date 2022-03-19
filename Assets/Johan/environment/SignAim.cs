@@ -13,6 +13,13 @@ public class SignAim : MonoBehaviour
         
         Vector3 direction = target.transform.position - transform.position;
         Quaternion rotation = Quaternion.LookRotation(direction);
-        transform.rotation = rotation;
+
+        var currenRotation = transform.rotation;
+        transform.rotation = new Quaternion(
+            currenRotation.x,
+            rotation.y,
+            currenRotation.z,
+            currenRotation.w
+            );
     }
 }
