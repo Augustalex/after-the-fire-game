@@ -80,7 +80,6 @@ public class Island : MonoBehaviour
         if (currentState == State.FertileSoil)
         {
             StartCoroutine(CompleteSoon());
-            GameManager.Instance.OnIslandCompleted(this);
             currentState = State.LushGreens;
         }
     }

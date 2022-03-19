@@ -35,7 +35,7 @@ public class GameManager : MonoSingleton<GameManager>
     }
 
     public string victoryText =
-        "Yay! You healed the forest! This is the best beetle stew we ever had. We forgive you.";
+        "We got 4 beetles now, let's go finish that stew at home!";
 
     private int _islandsCompleted;
 
