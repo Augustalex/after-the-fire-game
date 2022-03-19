@@ -50,7 +50,7 @@ public class LoadingMenu : MonoBehaviour
     {
         if (_cooldown < 0)
         {
-            _cooldown = 1.75f;
+            _cooldown = 1.5f;
 
             _textLength += 1;
             if (_textLength > _fullText.Length)

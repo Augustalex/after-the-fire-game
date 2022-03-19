@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Cinemachine;
+using Core;
 using DeformationSnow;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,7 +10,7 @@ using Random = UnityEngine.Random;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
-public class PlayerController : MonoBehaviour, IPlayerInputReceiver
+public class PlayerController : MonoSingleton<PlayerController>, IPlayerInputReceiver
 {
     public PlayerData data;
 
@@ -349,7 +350,7 @@ public class PlayerController : MonoBehaviour, IPlayerInputReceiver
 
             var islandBoostMultiplier = _onIsland ? 2f : 1f;
             var shiftBoost = Boosting() ? (data.shiftBoost * islandBoostMultiplier) : 0f;
-            var minSpeed = 3f;
+            var minSpeed = data.minSpeed;
             var startBoost = (Mathf.Max(0, minSpeed - _rigidbody.velocity.magnitude) / minSpeed) * data.startBoost;
             var inAirPenalty = _inAir ? .3f : 1f;
 

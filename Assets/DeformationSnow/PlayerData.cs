@@ -8,6 +8,7 @@ namespace DeformationSnow
         public float shiftBoost = 100f;
         public float speed = 1400f;
         public float startBoost = 2500f;
+        public float minSpeed = 9f;
         
         // Draft - in prio order from top to bottom
         public float inAirDrag = 1f;

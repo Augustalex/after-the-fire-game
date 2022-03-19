@@ -59,15 +59,15 @@ public class ProceduralSnow : MonoBehaviour
         if (!_playerModeController.IsSnowBall()) return;
         if (!_setup)
         {
-            _player = FindObjectOfType<PlayerController>();
+            _player = PlayerController.Instance;
             _playerGrower = _player.GetComponentInChildren<PlayerGrower>();
             _playerRigidbody = _playerGrower.GetComponent<SphereCollider>().attachedRigidbody;
             _setup = true;
         }
 
         if (Vector3.Distance(_player.transform.position, transform.position) <
-            (ProceduralLandscapeGenerator.GridSize) + GridCullingMargin)
-        {
+       
+            (ProceduralLandscapeGenerator.GridSize) + GridCullingMargin) {
             DeformVerticies();
         }
     }

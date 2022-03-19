@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e839038e45ee479d9589cf07776a4ccf, type: 3}
   m_Name: SnowDeformationData
   m_EditorClassIdentifier: 
-  renderFrameLag: 10
-  interpolationVelocityMultiplier: 6
+  renderFrameLag: 9
+  interpolationVelocityMultiplier: 4

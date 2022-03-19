@@ -39,9 +39,9 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
         var alignedPosition = AlignToGrid(followTargetPosition);
 
         var lookAhead = 4;
-        for (var y = -lookAhead; y <= lookAhead - 12; y++)
+        for (var y = -lookAhead; y <= lookAhead; y++)
         {
-            for (var x = -(lookAhead - 12); x <= lookAhead; x++)
+            for (var x = -lookAhead; x <= lookAhead; x++)
             {
                 var newPosition = new Vector3(alignedPosition.x - GridSize * x, 0, alignedPosition.z - GridSize * y);
                 var existingPlane =
@@ -59,12 +59,12 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
     {
         _generatingInitialPlane = true;
         
-        var alignedPosition = AlignToGrid(Vector3.zero);
+        var alignedPosition = AlignToGrid(new Vector3(6, 0, 6));
 
         var lookAhead = 32;
-        for (var y = -lookAhead; y <= lookAhead; y++)
+        for (var y = -(lookAhead - 12); y <= lookAhead; y++)
         {
-            for (var x = -lookAhead; x <= lookAhead; x++)
+            for (var x = -lookAhead; x <= lookAhead - 12; x++)
             {
                 var newPosition = new Vector3(alignedPosition.x - GridSize * x, 0, alignedPosition.z - GridSize * y);
                 var existingPlane =
@@ -75,7 +75,7 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
                     CreateNewPlane(newPosition);
                 }
 
-                if (Mathf.Abs(x) % 3 == 0)
+                if (Mathf.Abs(x) % 5 == 0)
                 {
                     yield return new WaitForEndOfFrame();
                 }
@@ -83,8 +83,6 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
             
             yield return new WaitForEndOfFrame();
         }
-        
-        yield return new WaitForSeconds(5);
         
         _generatingInitialPlane = false;
         _doneGenerating = true;
