@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4f87b08adde5684797a7bb7376ad4f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyRigidbody: 1
 --- !u!54 &4384409111682126006
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -145,7 +146,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -9087645320176602175, guid: be2f634e48cda7244b3e68512630267c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8788076128805308467, guid: be2f634e48cda7244b3e68512630267c, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -201,7 +202,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: fe4ea8804a643234f823918f611b75e8, type: 2}
     - target: {fileID: -6994207363771753511, guid: be2f634e48cda7244b3e68512630267c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.38
+      value: 3.32
       objectReference: {fileID: 0}
     - target: {fileID: -6814932295977031298, guid: be2f634e48cda7244b3e68512630267c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -209,7 +210,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -6814932295977031298, guid: be2f634e48cda7244b3e68512630267c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.9499999
+      value: -0.86
       objectReference: {fileID: 0}
     - target: {fileID: -5089164550573030026, guid: be2f634e48cda7244b3e68512630267c, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -222,6 +223,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: be2f634e48cda7244b3e68512630267c, type: 3}
       propertyPath: m_Name
       value: signs
+      objectReference: {fileID: 0}
+    - target: {fileID: 1310031594365648037, guid: be2f634e48cda7244b3e68512630267c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.61
       objectReference: {fileID: 0}
     - target: {fileID: 2353439554412755236, guid: be2f634e48cda7244b3e68512630267c, type: 3}
       propertyPath: m_Materials.Array.data[0]

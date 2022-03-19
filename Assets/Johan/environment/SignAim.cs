@@ -19,7 +19,7 @@ public class SignAim : MonoBehaviour
             currenRotation.x,
             rotation.y,
             currenRotation.z,
-            currenRotation.w
+            rotation.w
             );
     }
 }

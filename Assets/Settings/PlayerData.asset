@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 471bf4f3745146a981d0d9ebddf30742, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  shiftBoost: 700
+  shiftBoost: 750
   speed: 1900
   startBoost: 50000
   inAirDrag: 1
