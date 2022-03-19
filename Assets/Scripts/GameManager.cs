@@ -1,4 +1,6 @@
-﻿using Core;
+﻿using System.Collections;
+using System.Collections.Generic;
+using Core;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -45,7 +47,6 @@ public class GameManager : MonoSingleton<GameManager>
 
     public int Quest1SetProgress()
     {
-        
         Quest1Progress++;
         if (Quest1Progress == quest1BeetlesToCollect)
         {
@@ -61,15 +62,15 @@ public class GameManager : MonoSingleton<GameManager>
         if (_islandsCompleted >= 4)
         {
             Quest1AllBeetlesCollected = true;
-            UIManager.Instance.SetSubtitle(victoryText);
             partyMode.SetActive(true);
-            // Set till hog
-            // Set hog post till start position
+
+            StartCoroutine(ShowVictoryTextSomeTimeAfterGotLastBeetle());
         }
     }
 
-    public void OnIslandCompleted(Island island)
+    private IEnumerator ShowVictoryTextSomeTimeAfterGotLastBeetle()
     {
-        OnIslandCompleted();
+        yield return new WaitForSeconds(8);
+        UIManager.Instance.SetSubtitle(victoryText);
     }
 }

@@ -68,6 +68,7 @@ public class Npc : MonoBehaviour
                 
                 var playerInventory = other.GetComponentInParent<PlayerInventory>();
                 playerInventory.RegisterPickedUpWorm();
+                GameManager.Instance.OnIslandCompleted();
             }
             
             var text = allCompletedText.Replace("#", numberOfConesToFetch.ToString());
