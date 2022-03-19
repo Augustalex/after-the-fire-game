@@ -184,7 +184,7 @@ public class PlayerController : MonoSingleton<PlayerController>, IPlayerInputRec
         {
             DisableTrailParticles();
         }
-        else
+        else if(_touchingSnow && !_onIsland && !_inAir)
         {
             EnableTrailParticles();
         }
