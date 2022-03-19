@@ -59,8 +59,24 @@ public class WildNpc : MonoBehaviour
                 _showingText = Random.value < .5f ? text2 : text;
             }
 
+            RotateTowards(other.gameObject);
+
             UIManager.Instance.SetSubtitle(_showingText);
         }
+    }
+
+    private void RotateTowards(GameObject other)
+    {
+        var originalRotation = transform.rotation.eulerAngles;
+
+        transform.LookAt(other.transform.position, Vector3.up);
+        var newRotation = transform.rotation.eulerAngles;
+
+        transform.rotation = Quaternion.Euler(
+            originalRotation.x,
+            newRotation.y,
+            originalRotation.z
+        );
     }
 
     private void OnTriggerExit(Collider other)
