@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PlayerGrower : MonoBehaviour
 {
-    public MeshRenderer ballMeshRenderer;
-
     private Rigidbody _rigidbody;
     private PlayerController _controller;
     private bool _maxSizeReached;
@@ -13,13 +11,10 @@ public class PlayerGrower : MonoBehaviour
     private bool _visible;
     private bool _onIsland;
     private bool _onSnow;
+    
+    private MeshRenderer _ballMeshRenderer;
 
     private const float MaxSize = 2f;
-
-    private void Awake()
-    {
-        // ballMeshRenderer = GetComponentInChildren<MeshRenderer>();
-    }
 
     void Start()
     {
@@ -28,7 +23,7 @@ public class PlayerGrower : MonoBehaviour
 
         _originalSize = transform.localScale;
 
-        ballMeshRenderer = FindObjectOfType<PlayerFakeBall>().GetComponent<MeshRenderer>();
+        _ballMeshRenderer = FindObjectOfType<PlayerFakeBall>().GetComponent<MeshRenderer>();
     }
 
     void Update()
@@ -99,7 +94,7 @@ public class PlayerGrower : MonoBehaviour
 
     private void SetVisible()
     {
-        ballMeshRenderer.enabled = true;
+        _ballMeshRenderer.enabled = true;
 
         if (!_visible)
         {
@@ -112,7 +107,7 @@ public class PlayerGrower : MonoBehaviour
     private void SetInvisible()
     {
         _visible = false;
-        ballMeshRenderer.enabled = false;
+        _ballMeshRenderer.enabled = false;
     }
 
     private bool OnIsland()
@@ -154,4 +149,14 @@ public class PlayerGrower : MonoBehaviour
     }
 
     public static float InCirc(float t) => -((float) Math.Sqrt(1 - t * t) - 1);
+
+    public void PrepareForWalkingMode()
+    {
+        SetInvisible();
+    }
+
+    public void PrepareForBallMode()
+    {
+        // SetVisible();
+    }
 }

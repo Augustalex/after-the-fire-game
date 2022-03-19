@@ -135,6 +135,7 @@ public class PlayerModeController : MonoBehaviour
         // _ballRigidbody.isKinematic = false;
         _ballCollider.enabled = true;
         ballRoot.SetActive(true);
+        _ballGrower.PrepareForBallMode();
 
         _ballController.PrepareForStartRolling();
 
@@ -153,6 +154,7 @@ public class PlayerModeController : MonoBehaviour
         _ballCollider.enabled = false;
         // _ballRigidbody.isKinematic = true;
         ballRoot.SetActive(false);
+        _ballGrower.PrepareForWalkingMode();
 
         var zeroRotation = Quaternion.identity;
         var currentRotation = hogRoot.transform.rotation.eulerAngles;

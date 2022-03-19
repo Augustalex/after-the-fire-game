@@ -33056,6 +33056,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hog
       objectReference: {fileID: 0}
+    - target: {fileID: 7387713727618563542, guid: 0cbcd0f3566f6b1488e0fcf057b035f2, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7387713727618563542, guid: 0cbcd0f3566f6b1488e0fcf057b035f2, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7387713727618563542, guid: 0cbcd0f3566f6b1488e0fcf057b035f2, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0cbcd0f3566f6b1488e0fcf057b035f2, type: 3}
 --- !u!114 &7387713726242090307 stripped
