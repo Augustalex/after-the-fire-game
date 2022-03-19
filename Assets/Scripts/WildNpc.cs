@@ -12,6 +12,18 @@ public class WildNpc : MonoBehaviour
     private double _fallingCooldown = 10f;
     private string _showingText = "";
 
+    private void Start()
+    {
+        var rotationY = Random.insideUnitCircle.y;
+
+        var currentRotation = transform.rotation.eulerAngles;
+        transform.rotation = Quaternion.Euler(
+            currentRotation.x,
+            rotationY,
+            currentRotation.z
+        );
+    }
+
     void Update()
     {
         DestroyRigidbodyWhenFirmlyGrounded();
@@ -32,7 +44,7 @@ public class WildNpc : MonoBehaviour
             }
         }
     }
-    
+
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player") || other.CompareTag("PlayerHog"))
