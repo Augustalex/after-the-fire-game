@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   shiftBoost: 750
-  speed: 1900
+  speed: 1200
   startBoost: 50000
   inAirDrag: 1
   onIceDrag: 0

@@ -66,7 +66,7 @@ public class PlayerModeController : MonoBehaviour
         _intro = false;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         Transform ballRootTransform = ballRoot.transform;
 

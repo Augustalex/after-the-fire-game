@@ -22,14 +22,18 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
     private readonly HashSet<Vector3> _planeExistsByPosition = new HashSet<Vector3>();
     private readonly HashSet<Vector3> _itemExistsByPosition = new HashSet<Vector3>();
     private readonly HashSet<Vector3> _forrestExistsByPosition = new HashSet<Vector3>();
-    
+    private bool _generatingInitialPlane;
+
     void Start()
     {
         CreateNewPlane(Vector3.zero);
+        StartCoroutine(GenerateInitialPlanes());
     }
 
     void Update()
     {
+        if (_generatingInitialPlane) return;
+        
         var followTargetPosition = followTarget.position;
         var alignedPosition = AlignToGrid(followTargetPosition);
 
@@ -48,6 +52,33 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
                 }
             }
         }
+    }
+
+    private IEnumerator GenerateInitialPlanes()
+    {
+        _generatingInitialPlane = true;
+        
+        var alignedPosition = AlignToGrid(Vector3.zero);
+
+        var lookAhead = 24;
+        for (var y = -lookAhead; y <= lookAhead; y++)
+        {
+            for (var x = -lookAhead; x <= lookAhead; x++)
+            {
+                var newPosition = new Vector3(alignedPosition.x - GridSize * x, 0, alignedPosition.z - GridSize * y);
+                var existingPlane =
+                    _planeExistsByPosition.Contains(newPosition);
+
+                if (!existingPlane)
+                {
+                    CreateNewPlane(newPosition);
+                }
+                
+                yield return new WaitForEndOfFrame();
+            }
+        }
+
+        _generatingInitialPlane = false;
     }
 
     private void CreateNewPlane(Vector3 nextPlanePosition)
@@ -85,7 +116,7 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
 
     private bool CanGenerateForrestOnPosition(Vector3 unalignedPosition)
     {
-        return !_itemExistsByPosition.Contains(AlignToForrestGrid(unalignedPosition)) && 
+        return !_itemExistsByPosition.Contains(AlignToForrestGrid(unalignedPosition)) &&
                !_forrestExistsByPosition.Contains(AlignToForrestGrid(unalignedPosition)) &&
                !Physics.OverlapSphere(AlignToGrid(unalignedPosition), 20f).Any(s => s.CompareTag("Island"));
     }
@@ -101,7 +132,7 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
     {
         var alignedPosition = AlignToItemGrid(terrain.transform.position);
         _itemExistsByPosition.Add(alignedPosition);
-        
+
         var npc = Instantiate(wildNpcTemplate);
         npc.transform.position = alignedPosition + Vector3.up * 6f;
     }
@@ -110,7 +141,7 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
     {
         var alignedPosition = AlignToItemGrid(terrain.transform.position);
         _itemExistsByPosition.Add(alignedPosition);
-        
+
         var waySign = Instantiate(waySignTemplate);
         waySign.transform.position = alignedPosition + Vector3.up * 6f;
     }
@@ -138,7 +169,7 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
             0f,
             position.z - (position.z % ItemGridSize));
     }
-    
+
     private static Vector3 AlignToForrestGrid(Vector3 position)
     {
         return new Vector3(

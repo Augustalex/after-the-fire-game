@@ -38,14 +38,14 @@ public class FollowSphere : MonoBehaviour
         _followTarget = FindObjectOfType<PlayerFakeBall>().transform;
     }
 
-    void LateUpdate()
+    void FixedUpdate() // If not FixedUpdate, SmoothDamp will produce jittering artifacts
     {
         // Adjust camera based on Look controls w/ smoothing
         
         // Pan controls
         var lookSmoothTime = 1f;
         var lookOffset = new Vector3(_look.x, 0, -_look.y) * LookNormalizationScale;
-        _currentLookOffset = Vector3.SmoothDamp(_currentLookOffset, lookOffset, ref flatLookVelocity, lookSmoothTime);
+        _currentLookOffset = Vector3.SmoothDamp(_currentLookOffset, lookOffset, ref flatLookVelocity, lookSmoothTime, Mathf.Infinity, Time.smoothDeltaTime);
         // _currentLookOffset = new Vector3( Mathf.Clamp(currentLookOffset.x, -6f, 6f), 0, Mathf.Clamp(currentLookOffset.z, -2f, 18f));
 
         // PERSISTENT Zoom controls
@@ -57,7 +57,7 @@ public class FollowSphere : MonoBehaviour
         // DYNAMIC Zoom controls
         var targetLookY = Mathf.Clamp(_look.y * LookNormalizationScale, -.1f, 1f);
         var yLookSmoothTime = .5f;
-        _yCurrentLookOffset = Mathf.SmoothDamp(_yCurrentLookOffset, targetLookY, ref yLookVelocity, yLookSmoothTime);
+        _yCurrentLookOffset = Mathf.SmoothDamp(_yCurrentLookOffset, targetLookY, ref yLookVelocity, yLookSmoothTime, Mathf.Infinity, Time.smoothDeltaTime);
 
         
         // Final Look offset
@@ -80,7 +80,7 @@ public class FollowSphere : MonoBehaviour
         var transposedFollow =
             new Vector3(actualPosition.x, actualPosition.y + heightVelocity, actualPosition.z) +
             flatVelocity;
-        _followPosition = Vector3.SmoothDamp(_followPosition, transposedFollow, ref velocity, smoothTime);
+        _followPosition = Vector3.SmoothDamp(_followPosition, transposedFollow, ref velocity, smoothTime, Mathf.Infinity, Time.smoothDeltaTime);
 
         // Position follow sphere according to both player-following & look-adjustment
         transform.position = _followPosition + scaledLookOffset;

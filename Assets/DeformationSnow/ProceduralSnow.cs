@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using DeformationSnow;
 using UnityEngine;
@@ -14,6 +15,9 @@ public class ProceduralSnow : MonoBehaviour
     private bool _started;
     private MeshFilter _meshFilter;
     private Mesh _mesh;
+    private Mesh _virtualMesh;
+
+    private Queue<Vector3[]> _meshPasses = new Queue<Vector3[]>();
 
     private Rigidbody _playerRigidbody;
 
@@ -39,6 +43,8 @@ public class ProceduralSnow : MonoBehaviour
         _meshFilter = GetComponent<MeshFilter>();
         _meshCollider = GetComponent<MeshCollider>();
         _mesh = _meshFilter.mesh;
+        _virtualMesh = (Mesh) Instantiate(_mesh);
+        _virtualMesh.vertices = _mesh.vertices;
     }
 
     private void Start()
@@ -46,7 +52,7 @@ public class ProceduralSnow : MonoBehaviour
         _playerModeController = FindObjectOfType<PlayerModeController>();
     }
 
-    private void LateUpdate()
+    private void Update()
     {
         if (!_doneGenerating) return;
         if (!_playerModeController.IsSnowBall()) return;
@@ -88,12 +94,13 @@ public class ProceduralSnow : MonoBehaviour
         _originalVertices = vertices.Select(v => new Vector3(v.x, v.y, v.z)).ToArray();
 
         _mesh.vertices = vertices;
-
-        if (recalculateNormals)
-            _mesh.RecalculateNormals();
+        _mesh.RecalculateNormals();
         _mesh.RecalculateBounds();
 
-        _meshCollider.sharedMesh = _mesh;
+        _virtualMesh.vertices = vertices;
+        _virtualMesh.RecalculateNormals();
+        _virtualMesh.RecalculateBounds();
+        _meshCollider.sharedMesh = _virtualMesh;
     }
 
     private float PerlinNoiseHeight(Vector3 worldVertex, FractalNoise noise)
@@ -103,17 +110,18 @@ public class ProceduralSnow : MonoBehaviour
         var perlinNoise = noise.BrownianMotion(worldVertex.x * noiseScale, worldVertex.z * noiseScale) * noiseAmplitude;
 
         var totalNoise = perlinNoise + generationData.perlinNoiseOffset;
-        
+
         return generationData.heightOffset - totalNoise;
     }
-    
+
     private float MixedNoiseHeight(Vector3 worldVertex, FractalNoise noise)
     {
         var cellNoiseScale = generationData.cellNoiseScale;
         var cellNoiseAmplitude = generationData.cellNoiseAmplitude;
         FastNoiseLite cellNoise = new FastNoiseLite();
         cellNoise.SetNoiseType(FastNoiseLite.NoiseType.Cellular);
-        var cellNoiseResult = cellNoise.GetNoise(worldVertex.x * cellNoiseScale, worldVertex.z * cellNoiseScale) * cellNoiseAmplitude;
+        var cellNoiseResult = cellNoise.GetNoise(worldVertex.x * cellNoiseScale, worldVertex.z * cellNoiseScale) *
+                              cellNoiseAmplitude;
 
         var noiseScale = generationData.perlinNoiseScale;
         var noiseAmplitude = generationData.perlinNoiseAmplitude;
@@ -121,14 +129,15 @@ public class ProceduralSnow : MonoBehaviour
 
         var totalNoise = Mathf.Min((-cellNoiseResult + generationData.cellNoiseOffset),
             (perlinNoise + generationData.perlinNoiseOffset));
-        
+
         return generationData.heightOffset - totalNoise;
     }
+
     private float MultipliedMixedNoiseHeight(Vector3 worldVertex, FractalNoise noise)
     {
         FastNoiseLite cellNoise = new FastNoiseLite();
         cellNoise.SetNoiseType(FastNoiseLite.NoiseType.Cellular);
-        
+
         var cellNoiseScale = generationData.cellNoiseScale;
         var cellNoiseResult = cellNoise.GetNoise(worldVertex.x * cellNoiseScale, worldVertex.z * cellNoiseScale);
 
@@ -137,10 +146,10 @@ public class ProceduralSnow : MonoBehaviour
 
         var noiseAmplitude = generationData.perlinNoiseAmplitude;
         var totalNoise = ((1 - cellNoiseResult) * perlinNoise) * noiseAmplitude + generationData.perlinNoiseOffset;
-        
+
         return generationData.heightOffset - totalNoise;
     }
-    
+
     private float InterpolatedDeform(Vector3 previousPosition, Vector3 currentPosition, Vector3 originalVertex,
         Vector3 vertex, Vector3 worldVertex, float staticDigSpeed, float playerScaleX, bool playerBoosting,
         bool playerFalling, float boostFactor)
@@ -214,9 +223,9 @@ public class ProceduralSnow : MonoBehaviour
 
         Matrix4x4 localToWorld = transform.localToWorldMatrix;
 
-        var currentVerticies = _mesh.vertices;
-        // var vertices = new Vector3[currentVerticies.Length];
-        var vertices = currentVerticies;
+        var currentVerticies = _virtualMesh.vertices;
+        var vertices = new Vector3[currentVerticies.Length];
+        // var vertices = currentVerticies;
 
         var passUntil = -1;
 
@@ -248,21 +257,21 @@ public class ProceduralSnow : MonoBehaviour
                     playerMorphPoint = playerPosition + velocityVector.normalized * -.2f;
                     staticSpeed = playerScaleX * velocity * .4f;
                 }
-                else if (!playerMoving)
-                {
-                    playerMorphPoint = playerPosition + velocityVector.normalized * -.05f;
-                    staticSpeed = playerScaleX * velocity * .2f;
-                }
-                else if (playerBoosting)
-                {
-                    playerMorphPoint = playerPosition + velocityVector * Time.fixedDeltaTime * 3f;
-
-                    var boostSpeed = .1f;
-                    staticSpeed = playerScaleX * velocity * boostSpeed;
-                }
-                else
-                {
-                    playerMorphPoint = playerPosition + velocityVector * (Time.fixedDeltaTime * 1.5f);
+                // else if (!playerMoving)
+                // {
+                //     playerMorphPoint = playerPosition + velocityVector.normalized * -.05f;
+                //     staticSpeed = playerScaleX * velocity * .2f;
+                // }
+                // else if (playerBoosting)
+                // {
+                //     playerMorphPoint = playerPosition + velocityVector * Time.fixedDeltaTime * 4f;
+                //
+                //     var boostSpeed = .1f;
+                //     staticSpeed = playerScaleX * velocity * boostSpeed;
+                // }
+                // else
+                // {
+                    playerMorphPoint = playerPosition + velocityVector * Time.fixedDeltaTime * 6f;
 
                     if (maxSizeReached)
                     {
@@ -274,7 +283,7 @@ public class ProceduralSnow : MonoBehaviour
                         var moveTimeFactorSpeed = .3f + (moveTimeFactor * .3f);
                         staticSpeed = playerScaleX * velocity * moveTimeFactorSpeed;
                     }
-                }
+                // }
 
                 staticSpeed *= speedScale;
 
@@ -326,13 +335,21 @@ public class ProceduralSnow : MonoBehaviour
         }
 
         // Debug.Log("PASS TOTAL: " + passTotal);
-        _mesh.vertices = vertices;
 
-        if (recalculateNormals)
+        if (_meshPasses.Count > 11) // Rendered mesh is a few frames behind - this enables us to precalculate the collision, and corresponding rigidbody events, while rendering a smooth output
+        {
+            _mesh.vertices = _meshPasses.Dequeue();
+
             _mesh.RecalculateNormals();
-        _mesh.RecalculateBounds();
+            _mesh.RecalculateBounds();
+        }
 
-        _meshCollider.sharedMesh = _mesh;
+        _meshPasses.Enqueue(vertices);
+
+        _virtualMesh.vertices = vertices;
+        _virtualMesh.RecalculateBounds();
+        _virtualMesh.RecalculateNormals();
+        _meshCollider.sharedMesh = _virtualMesh;
     }
 
 
@@ -475,11 +492,17 @@ public class ProceduralSnow : MonoBehaviour
         _meshFilter.mesh = mesh;
         _mesh = mesh;
 
-        if (recalculateNormals)
-            _mesh.RecalculateNormals();
+        _mesh.RecalculateNormals();
         _mesh.RecalculateBounds();
 
-        _meshCollider.sharedMesh = _mesh;
+        _virtualMesh = (Mesh) Instantiate(_mesh);
+        _virtualMesh.vertices = _mesh.vertices;
+        _virtualMesh.triangles = _mesh.triangles;
+        _virtualMesh.uv = _mesh.uv;
+        _virtualMesh.RecalculateNormals();
+        _virtualMesh.RecalculateBounds();
+
+        _meshCollider.sharedMesh = _virtualMesh;
 
         SetStartHeight();
 

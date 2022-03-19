@@ -29,7 +29,7 @@ public class PlayerFakeBall : MonoBehaviour
         _dampedHeightPosition = currentPosition.y;
     }
 
-    public void LateUpdate()
+    public void FixedUpdate() // If not FixedUpdate, SmoothDamp will produce jittering artifacts
     {
         var actualPosition = follow.position;
         var smoothTime = .06f - .03f * Mathf.Clamp(_ballBody.velocity.magnitude / 40f, 0f, 1f);
@@ -51,9 +51,9 @@ public class PlayerFakeBall : MonoBehaviour
         {
             flatSmoothTime = Mathf.Clamp(smoothTime, 0f, 1f);
         }
-        _dampedFlatSmoothTime = Mathf.SmoothDamp(_dampedFlatSmoothTime, flatSmoothTime, ref flatSmoothingVelocity, .5f); // Smoothing out changing smooth times :)
+        _dampedFlatSmoothTime = Mathf.SmoothDamp(_dampedFlatSmoothTime, flatSmoothTime, ref flatSmoothingVelocity, .5f, Mathf.Infinity, Time.smoothDeltaTime); // Smoothing out changing smooth times :)
         var flatActualPosition = new Vector3(actualPosition.x, 0, actualPosition.z);
-        _dampedFlatPosition = Vector3.SmoothDamp(_dampedFlatPosition, flatActualPosition, ref velocity, _dampedFlatSmoothTime * FlatSmoothTimeScale);
+        _dampedFlatPosition = Vector3.SmoothDamp(_dampedFlatPosition, flatActualPosition, ref velocity, _dampedFlatSmoothTime * FlatSmoothTimeScale, Mathf.Infinity, Time.smoothDeltaTime);
 
         var heightSmoothTime = 0f;
         if (_playerController.OnIce() || _playerController.OnIsland())
@@ -73,7 +73,7 @@ public class PlayerFakeBall : MonoBehaviour
             heightSmoothTime = smoothTime;
         }
         _dampedHeightSmoothTime = Mathf.SmoothDamp(_dampedHeightSmoothTime, heightSmoothTime, ref ySmoothingVelocity, _playerController.InAir() ? 0f : .12f); // Smoothing out changing smooth times :) Except when in air, that should feel VERY direct!
-        _dampedHeightPosition = Mathf.SmoothDamp(_dampedHeightPosition, actualPosition.y, ref yVelocity, _dampedHeightSmoothTime, float.PositiveInfinity, Time.deltaTime); 
+        _dampedHeightPosition = Mathf.SmoothDamp(_dampedHeightPosition, actualPosition.y, ref yVelocity, _dampedHeightSmoothTime); 
         
         transform.position = new Vector3(
             _dampedFlatPosition.x,
