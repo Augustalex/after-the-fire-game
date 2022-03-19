@@ -23,6 +23,7 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
     private readonly HashSet<Vector3> _itemExistsByPosition = new HashSet<Vector3>();
     private readonly HashSet<Vector3> _forrestExistsByPosition = new HashSet<Vector3>();
     private bool _generatingInitialPlane;
+    private bool _doneGenerating;
 
     void Start()
     {
@@ -38,9 +39,9 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
         var alignedPosition = AlignToGrid(followTargetPosition);
 
         var lookAhead = 4;
-        for (var y = -lookAhead; y <= lookAhead; y++)
+        for (var y = -lookAhead; y <= lookAhead - 12; y++)
         {
-            for (var x = -lookAhead; x <= lookAhead; x++)
+            for (var x = -(lookAhead - 12); x <= lookAhead; x++)
             {
                 var newPosition = new Vector3(alignedPosition.x - GridSize * x, 0, alignedPosition.z - GridSize * y);
                 var existingPlane =
@@ -60,7 +61,7 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
         
         var alignedPosition = AlignToGrid(Vector3.zero);
 
-        var lookAhead = 24;
+        var lookAhead = 32;
         for (var y = -lookAhead; y <= lookAhead; y++)
         {
             for (var x = -lookAhead; x <= lookAhead; x++)
@@ -73,12 +74,22 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
                 {
                     CreateNewPlane(newPosition);
                 }
-                
-                yield return new WaitForEndOfFrame();
-            }
-        }
 
+                if (Mathf.Abs(x) % 3 == 0)
+                {
+                    yield return new WaitForEndOfFrame();
+                }
+            }
+            
+            yield return new WaitForEndOfFrame();
+        }
+        
+        yield return new WaitForSeconds(5);
+        
         _generatingInitialPlane = false;
+        _doneGenerating = true;
+        
+        yield break;
     }
 
     private void CreateNewPlane(Vector3 nextPlanePosition)
@@ -176,5 +187,10 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
             position.x - (position.x % ForrestGridSize),
             0f,
             position.z - (position.z % ForrestGridSize));
+    }
+
+    public bool IsReady()
+    {
+        return _doneGenerating;
     }
 }
