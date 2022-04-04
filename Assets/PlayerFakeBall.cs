@@ -31,57 +31,59 @@ public class PlayerFakeBall : MonoBehaviour
 
     public void FixedUpdate() // If not FixedUpdate, SmoothDamp will produce jittering artifacts
     {
-        var actualPosition = follow.position;
-        var smoothTime = .06f - .03f * Mathf.Clamp(_ballBody.velocity.magnitude / 40f, 0f, 1f);
-
-        var flatSmoothTime = 0f;
-        if (_playerController.OnIsland())
-        {
-            flatSmoothTime = .0f;
-        }
-        else if (_playerController.InAir() || _playerController.OnIce())
-        {
-            flatSmoothTime = .0f;
-        }
-        else if (_dampedHeightPosition < actualPosition.y - 1f)
-        {
-            flatSmoothTime = .03f;
-        }
-        else
-        {
-            flatSmoothTime = Mathf.Clamp(smoothTime, 0f, 1f);
-        }
-
-        flatSmoothTime = 0f;
-        _dampedFlatSmoothTime = Mathf.SmoothDamp(_dampedFlatSmoothTime, flatSmoothTime, ref flatSmoothingVelocity, .5f, Mathf.Infinity, Time.smoothDeltaTime); // Smoothing out changing smooth times :)
-        var flatActualPosition = new Vector3(actualPosition.x, 0, actualPosition.z);
-        _dampedFlatPosition = Vector3.SmoothDamp(_dampedFlatPosition, flatActualPosition, ref velocity, _dampedFlatSmoothTime * FlatSmoothTimeScale, Mathf.Infinity, Time.smoothDeltaTime);
-
-        var heightSmoothTime = 0f;
-        if (_playerController.OnIce() || _playerController.OnIsland())
-        {
-            heightSmoothTime = .01f;
-        }
-        else if (_playerController.InAir())
-        {
-            heightSmoothTime = .01f;
-        }
-        else if (_dampedHeightPosition < actualPosition.y - .5f)
-        {
-            heightSmoothTime = .1f;
-        }
-        else
-        {
-            heightSmoothTime = smoothTime;
-        }
-        _dampedHeightSmoothTime = Mathf.SmoothDamp(_dampedHeightSmoothTime, heightSmoothTime, ref ySmoothingVelocity, _playerController.InAir() ? 0f : .12f); // Smoothing out changing smooth times :) Except when in air, that should feel VERY direct!
-        _dampedHeightPosition = Mathf.SmoothDamp(_dampedHeightPosition, actualPosition.y, ref yVelocity, _dampedHeightSmoothTime); 
-        
-        transform.position = new Vector3(
-            _dampedFlatPosition.x,
-            _dampedHeightPosition,
-            _dampedFlatPosition.z
-        );
+        // var actualPosition = follow.position;
+        // var smoothTime = .06f - .03f * Mathf.Clamp(_ballBody.velocity.magnitude / 40f, 0f, 1f);
+        //
+        // var flatSmoothTime = 0f;
+        // if (_playerController.OnIsland())
+        // {
+        //     flatSmoothTime = .0f;
+        // }
+        // else if (_playerController.InAir() || _playerController.OnIce())
+        // {
+        //     flatSmoothTime = .0f;
+        // }
+        // else if (_dampedHeightPosition < actualPosition.y - 1f)
+        // {
+        //     flatSmoothTime = .03f;
+        // }
+        // else
+        // {
+        //     flatSmoothTime = Mathf.Clamp(smoothTime, 0f, 1f);
+        // }
+        //
+        // flatSmoothTime = 0f;
+        // _dampedFlatSmoothTime = Mathf.SmoothDamp(_dampedFlatSmoothTime, flatSmoothTime, ref flatSmoothingVelocity, .5f, Mathf.Infinity, Time.smoothDeltaTime); // Smoothing out changing smooth times :)
+        // var flatActualPosition = new Vector3(actualPosition.x, 0, actualPosition.z);
+        // _dampedFlatPosition = Vector3.SmoothDamp(_dampedFlatPosition, flatActualPosition, ref velocity, _dampedFlatSmoothTime * FlatSmoothTimeScale, Mathf.Infinity, Time.smoothDeltaTime);
+        //
+        // var heightSmoothTime = 0f;
+        // if (_playerController.OnIce() || _playerController.OnIsland())
+        // {
+        //     heightSmoothTime = .01f;
+        // }
+        // else if (_playerController.InAir())
+        // {
+        //     heightSmoothTime = .01f;
+        // }
+        // else if (_dampedHeightPosition < actualPosition.y - .5f)
+        // {
+        //     heightSmoothTime = .1f;
+        // }
+        // else
+        // {
+        //     heightSmoothTime = smoothTime;
+        // }
+        // _dampedHeightSmoothTime = Mathf.SmoothDamp(_dampedHeightSmoothTime, heightSmoothTime, ref ySmoothingVelocity, _playerController.InAir() ? 0f : .12f); // Smoothing out changing smooth times :) Except when in air, that should feel VERY direct!
+        // _dampedHeightPosition = Mathf.SmoothDamp(_dampedHeightPosition, actualPosition.y, ref yVelocity, _dampedHeightSmoothTime); 
+        //
+        // transform.position = new Vector3(
+        //     _dampedFlatPosition.x,
+        //     _dampedHeightPosition,
+        //     _dampedFlatPosition.z
+        // );
+        //
+        transform.position = follow.position;
         transform.rotation = follow.rotation;
         transform.localScale = follow.localScale;
     }

@@ -155,7 +155,7 @@ public class ProceduralSnow : MonoBehaviour
         Vector3 vertex, Vector3 worldVertex, float staticDigSpeed, float playerScaleX, bool playerBoosting,
         bool playerFalling, float boostFactor)
     {
-        var steps = 6f;
+        var steps = 1f;
 
         var direction = (currentPosition - previousPosition).normalized;
         var length = Vector3.Distance(previousPosition, currentPosition);
@@ -182,7 +182,7 @@ public class ProceduralSnow : MonoBehaviour
             playerVertexAlignedPoint,
             worldVertex);
 
-        var baseHoleSize = .45f; //.55f
+        var baseHoleSize = .5f; //.45f
         var boostHoleSize = baseHoleSize + (boostFactor * .1f);
         var holeSize = playerScaleX *
                        (playerFalling ? .7f : playerBoosting ? boostHoleSize : baseHoleSize);
@@ -246,8 +246,7 @@ public class ProceduralSnow : MonoBehaviour
         {
             var vertex = currentVerticies[i];
             Vector3 worldVertex = localToWorld.MultiplyPoint3x4(vertex);
-
-
+            
             if (passUntil <= i)
             {
                 float staticSpeed;
@@ -308,7 +307,7 @@ public class ProceduralSnow : MonoBehaviour
                 }
 
                 if (pointDistance < LocalCullingDistance &&
-                    (playerMorphPoint.y - worldVertex.y) < playerScaleX * .7f)
+                    (playerMorphPoint.y - worldVertex.y) < playerScaleX * .9f)
                 {
                     vertex.y = InterpolatedDeform(playerPreviousPosition, playerMorphPoint, _originalVertices[i],
                         vertex, worldVertex, staticSpeed, playerScaleX, playerBoosting, playerFalling, boostFactor);

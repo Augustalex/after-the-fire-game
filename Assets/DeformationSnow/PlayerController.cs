@@ -438,19 +438,19 @@ public class PlayerController : MonoSingleton<PlayerController>, IPlayerInputRec
             {
                 _startedJump = true;
 
-                var force = Vector3.up * data.jumpForce * .65f + direction * .44f * data.jumpDirectionalPush;
+                var force = Vector3.up * data.jumpForce * .75f + direction * .25f * data.jumpDirectionalPush;
                 _rigidbody.AddForce(force, ForceMode.Impulse);
             }
         }
 
         if (_startedJump)
         {
-            if (timeJumping < .25f)
+            if (timeJumping < .3f)
             {
                 _inAir = true;
                 _wentInAirAt = Time.time;
 
-                var force = (Vector3.up * data.jumpForce * 200f + direction * 140f * data.jumpDirectionalPush) *
+                var force = (Vector3.up * data.jumpForce * 100f + direction * 200f * data.jumpDirectionalPush) *
                             Time.deltaTime;
                 _rigidbody.AddForce(force, ForceMode.Acceleration);
             }
