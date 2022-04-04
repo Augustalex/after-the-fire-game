@@ -28,7 +28,7 @@ public class ThirdPersonController : MonoBehaviour, IPlayerInputReceiver
 
     [Tooltip("What layers the character uses as ground")]
     public LayerMask GroundLayers;
-    
+
     // player
     private Vector2 _move;
     private float _speed;
@@ -69,10 +69,11 @@ public class ThirdPersonController : MonoBehaviour, IPlayerInputReceiver
         _hasAnimator = TryGetComponent(out _animator);
         _controller = GetComponent<CharacterController>();
 
-        _followPlayer = FindObjectOfType<FollowSphere>(); // TODO: Set reference from Editor? Will there really only be 1 follow sphere ever?
+        _followPlayer =
+            FindObjectOfType<FollowSphere>(); // TODO: Set reference from Editor? Will there really only be 1 follow sphere ever?
         _lookController =
             FindObjectOfType<PlayerCameraLookController>(); // TODO: Set reference from Editor?
-        
+
         // reset our timeouts on start
         _jumpTimeoutDelta = JumpTimeout;
         _fallTimeoutDelta = FallTimeout;
@@ -114,11 +115,6 @@ public class ThirdPersonController : MonoBehaviour, IPlayerInputReceiver
     }
 
     public void OnJump(InputValue value)
-    {
-        // When in walk mode - the player cannot jump
-    }
-
-    public void OnLongJump(InputValue value)
     {
         // When in walk mode - the player cannot jump
     }

@@ -30,11 +30,6 @@ public class PlayerInputMediator : MonoBehaviour
         _currentPlayerInputReceiver.OnJump(value);
     }
 
-    public void OnLongJump(InputValue value)
-    {
-        _currentPlayerInputReceiver.OnLongJump(value);
-    }
-
     public void OnSprint(InputValue value)
     {
         _currentPlayerInputReceiver.OnSprint(value);

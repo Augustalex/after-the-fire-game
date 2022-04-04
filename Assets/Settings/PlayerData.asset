@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 471bf4f3745146a981d0d9ebddf30742, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  shiftBoost: 900
+  shiftBoost: 1800
   speed: 1200
   startBoost: 30000
   minSpeed: 9

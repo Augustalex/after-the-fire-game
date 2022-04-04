@@ -45,9 +45,8 @@ public class PlayerController : MonoSingleton<PlayerController>, IPlayerInputRec
     private Vector3 _islandNormal;
     private FollowSphere _followPlayer;
     private PlayerCameraLookController _lookController;
-    private bool _longJumpThisFrame;
-    private float _shortJumpTriggered;
-    private bool _trackingShortJump;
+    private float _jumpTriggeredAt;
+    private bool _startedJump;
 
     void Start()
     {
@@ -81,15 +80,17 @@ public class PlayerController : MonoSingleton<PlayerController>, IPlayerInputRec
 
     public void OnJump(InputValue value)
     {
-        if (value.isPressed)
-        {
-            _jumpThisFrame = true;
-        }
-    }
+        // TODO The weirdness with movement is that there is no longer any friction so the speedy initial movement is super fast and weird !!!
 
-    public void OnLongJump(InputValue value)
-    {
-        _longJumpThisFrame = value.isPressed;
+        var jumpValue = value.Get<float>();
+        if (jumpValue > 0f)
+        {
+            if (_jumpTriggeredAt < 0) _jumpTriggeredAt = Time.time;
+        }
+        else
+        {
+            _jumpTriggeredAt = -1f;
+        }
     }
 
     public void OnSprint(InputValue value)
@@ -141,7 +142,6 @@ public class PlayerController : MonoSingleton<PlayerController>, IPlayerInputRec
 
     void Update()
     {
-        TrackShortJump();
         TrackIsTouchingSnow();
         TrackIsInAir();
 
@@ -184,7 +184,7 @@ public class PlayerController : MonoSingleton<PlayerController>, IPlayerInputRec
         {
             DisableTrailParticles();
         }
-        else if(_touchingSnow && !_onIsland && !_inAir)
+        else if (_touchingSnow && !_onIsland && !_inAir)
         {
             EnableTrailParticles();
         }
@@ -200,19 +200,7 @@ public class PlayerController : MonoSingleton<PlayerController>, IPlayerInputRec
         }
 
         _previousPosition = transform.position;
-        _jumpThisFrame = false;
-        _longJumpThisFrame = false;
         if (!_inAir && _inAirLastFrame) _inAirLastFrame = false;
-    }
-
-    private void TrackShortJump()
-    {
-        // if (_trackingShortJump && Time.time - _shortJumpTriggered > .3f)
-        // {
-        //     Debug.Log("TRACK SHORT DONE");
-        //     _jumpThisFrame = true;
-        //     _trackingShortJump = false;
-        // }
     }
 
     private void TrackIsTouchingSnow()
@@ -437,41 +425,34 @@ public class PlayerController : MonoSingleton<PlayerController>, IPlayerInputRec
     {
         var direction = GetMoveDirection();
 
-        if (_jumpThisFrame)
+        var timeJumping = Time.time - _jumpTriggeredAt;
+        if (_jumpTriggeredAt > 0 && !_startedJump && _inAirCooldown <= 0f && timeJumping < .4f)
         {
-            var totalRadius = transform.localScale.x * 2f;
-            var grounded = Physics.OverlapSphere(transform.position, totalRadius).Length > 1;
-
-            if (_inAirCooldown <= 0f)
+            if (!_inAir)
             {
-                if (grounded)
-                {
-                    _inAirCooldown = .5f;
-                    _inAir = true;
-                    _wentInAirAt = Time.time;
+                _startedJump = true;
 
-                    if (_jumpThisFrame)
-                    {
-                        Debug.Log("SHORT JUMP!");
-                    }
-
-                    var force = Vector3.up * data.jumpForce * .75f + direction * .5f * data.jumpDirectionalPush;
-                    _rigidbody.AddForce(force, ForceMode.Impulse);
-                }
+                var force = Vector3.up * data.jumpForce * .6f + direction * .4f * data.jumpDirectionalPush;
+                _rigidbody.AddForce(force, ForceMode.Impulse);
             }
         }
 
-        if (_longJumpThisFrame && (_inAirCooldown > 0 || _jumpThisFrame))
+        if (_startedJump)
         {
-            _inAirCooldown = 1f;
-
-            if (_longJumpThisFrame)
+            if (timeJumping < .25f)
             {
-                Debug.Log("LONG JUMP!");
-            }
+                _inAir = true;
+                _wentInAirAt = Time.time;
 
-            var force = Vector3.up * data.jumpForce * .75f + direction * .75f * data.jumpDirectionalPush;
-            _rigidbody.AddForce(force, ForceMode.Impulse);
+                var force = (Vector3.up * data.jumpForce * 200f + direction * 140f * data.jumpDirectionalPush) *
+                            Time.deltaTime;
+                _rigidbody.AddForce(force, ForceMode.Acceleration);
+            }
+            else
+            {
+                _inAirCooldown = .5f;
+                _startedJump = false;
+            }
         }
     }
 
