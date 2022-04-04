@@ -61,7 +61,7 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
         
         var alignedPosition = AlignToGrid(new Vector3(120, 0, 120));
 
-        var lookAhead = 32;
+        var lookAhead = 24;
         for (var y = -(lookAhead - 12); y <= lookAhead; y++)
         {
             for (var x = -lookAhead; x <= lookAhead - 12; x++)

@@ -85,6 +85,7 @@ public class PlayerController : MonoSingleton<PlayerController>, IPlayerInputRec
         var jumpValue = value.Get<float>();
         if (jumpValue > 0f)
         {
+            Debug.Log(Time.time);
             if (_jumpTriggeredAt < 0) _jumpTriggeredAt = Time.time;
         }
         else
@@ -142,6 +143,11 @@ public class PlayerController : MonoSingleton<PlayerController>, IPlayerInputRec
 
     void Update()
     {
+        if (_rigidbody.velocity.y > 1f)
+        {
+            Debug.Log("UP: " + Time.time);
+        }
+
         TrackIsTouchingSnow();
         TrackIsInAir();
 
@@ -432,7 +438,7 @@ public class PlayerController : MonoSingleton<PlayerController>, IPlayerInputRec
             {
                 _startedJump = true;
 
-                var force = Vector3.up * data.jumpForce * .6f + direction * .4f * data.jumpDirectionalPush;
+                var force = Vector3.up * data.jumpForce * .65f + direction * .44f * data.jumpDirectionalPush;
                 _rigidbody.AddForce(force, ForceMode.Impulse);
             }
         }
@@ -450,7 +456,7 @@ public class PlayerController : MonoSingleton<PlayerController>, IPlayerInputRec
             }
             else
             {
-                _inAirCooldown = .5f;
+                _inAirCooldown = 1f;
                 _startedJump = false;
             }
         }
