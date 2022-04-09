@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: SnowDeformationData
   m_EditorClassIdentifier: 
   renderFrameLag: 9
-  interpolationVelocityMultiplier: 4
+  interpolationVelocityMultiplier: 6
