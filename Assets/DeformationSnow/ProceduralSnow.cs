@@ -183,7 +183,7 @@ public class ProceduralSnow : MonoBehaviour
             worldVertex);
 
         var baseHoleSize = .5f; //.45f
-        var boostHoleSize = baseHoleSize + (boostFactor * .1f);
+        var boostHoleSize = baseHoleSize + (boostFactor * .05f);
         var holeSize = playerScaleX *
                        (playerFalling ? .7f : playerBoosting ? boostHoleSize : baseHoleSize);
         var t = Mathf.Clamp(pointDistance, 0f, holeSize);

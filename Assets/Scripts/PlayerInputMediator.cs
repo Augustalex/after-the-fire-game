@@ -19,6 +19,16 @@ public class PlayerInputMediator : MonoBehaviour
     {
         _currentPlayerInputReceiver.OnMove(value);
     }
+
+    public void OnMoveTouch(Vector2 value)
+    {
+        _currentPlayerInputReceiver.OnMoveTouch(value);
+    }
+
+    public void OnJumpTouch()
+    {
+        _currentPlayerInputReceiver.OnJumpTouch();
+    }
     
     public void OnLook(InputValue value)
     {
@@ -35,13 +45,35 @@ public class PlayerInputMediator : MonoBehaviour
         _currentPlayerInputReceiver.OnSprint(value);
     }
 
+
+    public void OnSprintStartTouch()
+    {
+        _currentPlayerInputReceiver.OnSprintStartTouch();
+    }
+
+
+    public void OnSprintEndTouch()
+    {
+        _currentPlayerInputReceiver.OnSprintEndTouch();
+    }
+
     public void OnSwitchMode(InputValue value)
     {
         _currentPlayerInputReceiver.OnSwitchMode(value);
+    }
+    
+    public void OnSwitchModeTouch()
+    {
+        _currentPlayerInputReceiver.OnSwitchModeTouch();
     }
 
     public void OnMenu(InputValue value)
     {
         _currentPlayerInputReceiver.OnMenu(value);
+    }
+
+    public IPlayerInputReceiver GetInput()
+    {
+        return _currentPlayerInputReceiver;
     }
 }

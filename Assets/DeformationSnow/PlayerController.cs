@@ -47,6 +47,8 @@ public class PlayerController : MonoSingleton<PlayerController>, IPlayerInputRec
     private PlayerCameraLookController _lookController;
     private float _jumpTriggeredAt;
     private bool _startedJump;
+    private bool _inputMove;
+    private bool _inputJump;
 
     void Start()
     {
@@ -71,6 +73,11 @@ public class PlayerController : MonoSingleton<PlayerController>, IPlayerInputRec
         _move = value.Get<Vector2>();
     }
 
+    public void OnMoveTouch(Vector2 value)
+    {
+        _move = value;
+    }
+
     public void OnLook(InputValue value)
     {
         var look = value.Get<Vector2>();
@@ -80,18 +87,35 @@ public class PlayerController : MonoSingleton<PlayerController>, IPlayerInputRec
 
     public void OnJump(InputValue value)
     {
-        // TODO The weirdness with movement is that there is no longer any friction so the speedy initial movement is super fast and weird !!!
-
         var jumpValue = value.Get<float>();
         if (jumpValue > 0f)
         {
-            Debug.Log(Time.time);
-            if (_jumpTriggeredAt < 0) _jumpTriggeredAt = Time.time;
+            OnJumpAction();
         }
         else
         {
-            _jumpTriggeredAt = -1f;
+            OnStopJumpAction();
         }
+    }
+
+    public void OnJumpTouch()
+    {
+        OnJumpAction();
+    }
+
+    public void OnStopJumpTouch()
+    {
+        OnStopJumpAction();
+    }
+
+    private void OnJumpAction()
+    {
+        if (_jumpTriggeredAt < 0) _jumpTriggeredAt = Time.time;
+    }
+
+    private void OnStopJumpAction()
+    {
+        _jumpTriggeredAt = -1f;
     }
 
     public void OnSprint(InputValue value)
@@ -99,10 +123,33 @@ public class PlayerController : MonoSingleton<PlayerController>, IPlayerInputRec
         _sprint = value.isPressed;
     }
 
+    public void OnSprintStartTouch()
+    {
+        _sprint = true;
+    }
+
+    public void OnSprintEndTouch()
+    {
+        _sprint = false;
+    }
+
     public void OnSwitchMode(InputValue value)
     {
+        if (value.isPressed)
+        {
+            SwitchModeAction();
+        }
+    }
+
+    public void OnSwitchModeTouch()
+    {
+        SwitchModeAction();
+    }
+
+    public void SwitchModeAction()
+    {
         var grounded = _touchingSnow || _onIsland;
-        if (value.isPressed && !Boosting() && grounded)
+        if (!Boosting() && grounded)
         {
             if (!_onIsland)
             {

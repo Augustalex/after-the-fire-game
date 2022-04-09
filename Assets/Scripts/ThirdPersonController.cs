@@ -107,6 +107,11 @@ public class ThirdPersonController : MonoBehaviour, IPlayerInputReceiver
         _move = value.Get<Vector2>();
     }
 
+    public void OnMoveTouch(Vector2 value)
+    {
+        _move = value;
+    }
+
     public void OnLook(InputValue value)
     {
         var look = value.Get<Vector2>();
@@ -119,6 +124,16 @@ public class ThirdPersonController : MonoBehaviour, IPlayerInputReceiver
         // When in walk mode - the player cannot jump
     }
 
+    public void OnJumpTouch()
+    {
+        // When in walk mode - the player cannot jump
+    }
+
+    public void OnStopJumpTouch()
+    {
+        // When in walk mode - the player cannot jump
+    }
+
     public void OnSprint(InputValue value)
     {
         if (value.isPressed)
@@ -127,7 +142,22 @@ public class ThirdPersonController : MonoBehaviour, IPlayerInputReceiver
         }
     }
 
+    public void OnSprintStartTouch()
+    {
+        GetComponentInParent<PlayerModeController>().SetToBallMode();
+    }
+
+    public void OnSprintEndTouch()
+    {
+        // Do nothing
+    }
+
     public void OnSwitchMode(InputValue value)
+    {
+        // When in walk mode - switching happens when player starts moving
+    }
+
+    public void OnSwitchModeTouch()
     {
         // When in walk mode - switching happens when player starts moving
     }

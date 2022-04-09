@@ -28,7 +28,8 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
     void Start()
     {
         CreateNewPlane(Vector3.zero);
-        StartCoroutine(GenerateInitialPlanes());
+        _doneGenerating = true;
+        //StartCoroutine(GenerateInitialPlanes());
     }
 
     void Update()
