@@ -35,11 +35,42 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
     void Update()
     {
         if (_generatingInitialPlane) return;
+
         
         var followTargetPosition = followTarget.position;
         var alignedPosition = AlignToGrid(followTargetPosition);
+        var lookAhead = 8;
+        if (!CheckHasGeneratedPlanes(lookAhead, alignedPosition))
+        {
+            _generatingInitialPlane = true;
+            StartCoroutine(GeneratePlanes(lookAhead, alignedPosition));
+        }
+    }
 
-        var lookAhead = 6;
+    private bool CheckHasGeneratedPlanes(int lookAhead, Vector3 alignedPosition)
+    {
+        for (var y = -lookAhead; y <= lookAhead; y++)
+        {
+            for (var x = -lookAhead; x <= lookAhead; x++)
+            {
+                var newPosition = new Vector3(alignedPosition.x - GridSize * x, 0, alignedPosition.z - GridSize * y);
+                var existingPlane =
+                    _planeExistsByPosition.Contains(newPosition);
+
+                if (!existingPlane)
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+    
+    private IEnumerator GeneratePlanes(int lookAhead, Vector3 alignedPosition)
+    {
+        _generatingInitialPlane = true;
+        
         for (var y = -lookAhead; y <= lookAhead; y++)
         {
             for (var x = -lookAhead; x <= lookAhead; x++)
@@ -52,8 +83,17 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
                 {
                     CreateNewPlane(newPosition);
                 }
+
+                if (Mathf.Abs(x) % 5 == 0)
+                {
+                    yield return new WaitForEndOfFrame();
+                }
             }
+            
+            yield return new WaitForEndOfFrame();
         }
+        
+        _generatingInitialPlane = false;
     }
 
     private IEnumerator GenerateInitialPlanes()
