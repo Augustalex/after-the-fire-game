@@ -29,6 +29,9 @@ public class PlayerModeController : MonoBehaviour
     public bool intro = true;
     private GameObject _fakeBallFollower;
 
+    // Enable when building for iOS
+    private const bool EnableTouchControls = false;
+
     private void Awake()
     {
         _hogCharacterController = hogRoot.GetComponent<CharacterController>();
@@ -75,71 +78,10 @@ public class PlayerModeController : MonoBehaviour
 
     void Update()
     {
-        var input = _playerInputMediator.GetInput();
-        foreach (Touch touch in Input.touches)
+        if (EnableTouchControls)
         {
-            // var middle = new Vector2(Screen.width * .5f, Screen.height * .5f);
-            // var current = (touch.position - middle);
-            
-            if (touch.phase == TouchPhase.Ended)
-            {
-                input.OnMoveTouch(Vector2.zero);
-                input.OnStopJumpTouch();
-                input.OnSprintEndTouch();
-                _jumping = false;
-                _move = Vector2.zero;
-                _sprinting = false;
-                _switchedMode = false;
-            }
-            else
-            {
-                if (touch.phase == TouchPhase.Began && touch.position.x < Screen.width * .2f)
-                {
-                    input.OnJumpTouch();
-                    _jumping = true;
-                }
-                else if (touch.phase == TouchPhase.Began &&  touch.position.x > Screen.width * .8f)
-                {
-                    input.OnSwitchModeTouch();
-                    _switchedMode = true;
-                }
-                else
-                {
-                    if (touch.phase == TouchPhase.Began)
-                    {
-                        _startTouch = touch.position;
-                    }
-
-                    var startMiddle = _startTouch;
-                    var circularCurrent = (touch.position - startMiddle);
-                    
-                    var max = 300f;
-                    var normalized = new Vector2(
-                        Mathf.Clamp(circularCurrent.x, -max, max),
-                        Mathf.Clamp(circularCurrent.y, -max, max)
-                        );
-                    var moveVector = normalized / max;
-
-                    if (moveVector.magnitude > .8f)
-                    {
-                        input.OnSprintStartTouch();
-                        _sprinting = true;
-                    }
-                    else
-                    {
-                        input.OnSprintEndTouch();
-                        _sprinting = false;
-                    }
-
-                    input.OnMoveTouch(moveVector);
-
-                    _move = moveVector;
-                }
-            }
+            HandleTouchControls();
         }
-
-        var text = $"Move: {_move} - Jumping: {_jumping} - switch: {_switchedMode} - sprinting: {_sprinting}";
-        UIManager.Instance.SetSubtitle(text);
     }
 
     void FixedUpdate()
@@ -307,5 +249,71 @@ public class PlayerModeController : MonoBehaviour
         {
             return _hogThirdPersonController.transform.position;
         }
+    }
+
+    private void HandleTouchControls()
+    {
+        var input = _playerInputMediator.GetInput();
+        foreach (Touch touch in Input.touches)
+        {
+            if (touch.phase == TouchPhase.Ended)
+            {
+                input.OnMoveTouch(Vector2.zero);
+                input.OnStopJumpTouch();
+                input.OnSprintEndTouch();
+                _jumping = false;
+                _move = Vector2.zero;
+                _sprinting = false;
+                _switchedMode = false;
+            }
+            else
+            {
+                if (touch.phase == TouchPhase.Began && touch.position.x < Screen.width * .2f)
+                {
+                    input.OnJumpTouch();
+                    _jumping = true;
+                }
+                else if (touch.phase == TouchPhase.Began &&  touch.position.x > Screen.width * .8f)
+                {
+                    input.OnSwitchModeTouch();
+                    _switchedMode = true;
+                }
+                else
+                {
+                    if (touch.phase == TouchPhase.Began)
+                    {
+                        _startTouch = touch.position;
+                    }
+
+                    var startMiddle = _startTouch;
+                    var circularCurrent = (touch.position - startMiddle);
+                    
+                    var max = 300f;
+                    var normalized = new Vector2(
+                        Mathf.Clamp(circularCurrent.x, -max, max),
+                        Mathf.Clamp(circularCurrent.y, -max, max)
+                    );
+                    var moveVector = normalized / max;
+
+                    if (moveVector.magnitude > .8f)
+                    {
+                        input.OnSprintStartTouch();
+                        _sprinting = true;
+                    }
+                    else
+                    {
+                        input.OnSprintEndTouch();
+                        _sprinting = false;
+                    }
+
+                    input.OnMoveTouch(moveVector);
+
+                    _move = moveVector;
+                }
+            }
+        }
+
+        var text = $"Move: {_move} - Jumping: {_jumping} - switch: {_switchedMode} - sprinting: {_sprinting}";
+        UIManager.Instance.SetSubtitle(text);
     }
 }

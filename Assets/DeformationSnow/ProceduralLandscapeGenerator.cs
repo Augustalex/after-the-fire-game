@@ -28,8 +28,8 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
     void Start()
     {
         CreateNewPlane(Vector3.zero);
-        _doneGenerating = true;
-        //StartCoroutine(GenerateInitialPlanes());
+        // _doneGenerating = true;
+        StartCoroutine(GenerateInitialPlanes());
     }
 
     void Update()
@@ -39,7 +39,7 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
         var followTargetPosition = followTarget.position;
         var alignedPosition = AlignToGrid(followTargetPosition);
 
-        var lookAhead = 4;
+        var lookAhead = 6;
         for (var y = -lookAhead; y <= lookAhead; y++)
         {
             for (var x = -lookAhead; x <= lookAhead; x++)
@@ -62,7 +62,7 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
         
         var alignedPosition = AlignToGrid(new Vector3(120, 0, 120));
 
-        var lookAhead = 24;
+        var lookAhead = 12;
         for (var y = -(lookAhead - 12); y <= lookAhead; y++)
         {
             for (var x = -lookAhead; x <= lookAhead - 12; x++)

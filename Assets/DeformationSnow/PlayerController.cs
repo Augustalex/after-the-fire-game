@@ -190,11 +190,6 @@ public class PlayerController : MonoSingleton<PlayerController>, IPlayerInputRec
 
     void Update()
     {
-        if (_rigidbody.velocity.y > 1f)
-        {
-            Debug.Log("UP: " + Time.time);
-        }
-
         TrackIsTouchingSnow();
         TrackIsInAir();
 

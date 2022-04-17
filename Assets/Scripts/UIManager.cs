@@ -62,7 +62,6 @@ public class UIManager : MonoSingleton<UIManager>
 
     public void ToggleMenu()
     {
-        Debug.Log("toggle menu");
         var eventSystem = EventSystem.current;
         startView.SetActive(!startView.activeSelf);
         settingsView.SetActive(false);
