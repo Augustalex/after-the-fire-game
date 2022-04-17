@@ -72,6 +72,11 @@ public class PlayerInputMediator : MonoBehaviour
         _currentPlayerInputReceiver.OnMenu(value);
     }
 
+    public void OnGameMenu(InputValue value)
+    {
+        GameMenuController.Instance.ToggleGameMenu();
+    }
+
     public IPlayerInputReceiver GetInput()
     {
         return _currentPlayerInputReceiver;

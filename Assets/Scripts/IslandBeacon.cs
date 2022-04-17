@@ -30,13 +30,13 @@ public class IslandBeacon : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (islandTag != IslandTag.Home)
-        {
+        // if (islandTag != IslandTag.Home)
+        // {
             if (other.CompareTag("Player"))
             {
                 IslandWelcomeScreenController.Instance.Show(GetIslandName());
             }
-        }
+        // }
     }
 
     private string GetIslandName()

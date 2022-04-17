@@ -123,8 +123,9 @@ public class DeadTree : MonoBehaviour
 
                     if (_killWhenDone)
                     {
-                        Instantiate(TemplateLibrary.Instance.saplingTemplate, transform.position, transform.rotation,
-                            transform.parent);
+                        // Grow sapling instead of dead tree
+                        // Instantiate(TemplateLibrary.Instance.saplingTemplate, transform.position, transform.rotation,
+                        //     transform.parent);
 
                         Destroy(gameObject);
                     }

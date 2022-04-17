@@ -1,5 +1,5 @@
 {
-    "name": "StarterAssets",
+    "name": "MainActionMap",
     "maps": [
         {
             "name": "Player",
@@ -63,6 +63,15 @@
                     "name": "Menu",
                     "type": "Button",
                     "id": "1ddb40c5-1051-47b5-af5b-9c4956ee0cbe",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "GameMenu",
+                    "type": "Button",
+                    "id": "9c184a1d-4091-43d1-92a7-7f650c8a789f",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -397,6 +406,28 @@
                     "processors": "",
                     "groups": "Xbox Controller",
                     "action": "Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bf368e54-c328-4d28-a405-f1549fb4c306",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "GameMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8e61a28a-246a-4173-8c49-8db57b3006fa",
+                    "path": "<Gamepad>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "GameMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

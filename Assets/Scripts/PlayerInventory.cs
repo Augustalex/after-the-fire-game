@@ -11,10 +11,28 @@ public class PlayerInventory : MonoBehaviour
 
     [SerializeField] private int _worms = 0;
     public TextMeshProUGUI wormsText;
+
+    private int _logs;
+
     private string _cheat;
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            RegisterPickedUpLog();
+        }
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            RegisterPickedUpWorm();
+        }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            RegisterPickedUpSeed();
+        }
+
         if (CheatEngine.Instance.Cheating())
         {
             if (Input.GetKeyDown(KeyCode.Q))
@@ -65,6 +83,15 @@ public class PlayerInventory : MonoBehaviour
         return _seeds;
     }
 
+    public int GetLogs()
+    {
+        return _logs;
+    }
+
+    public void RegisterPickedUpLog()
+    {
+        _logs += 1;
+    }
 
     public void RegisterPickedUpSeed()
     {
@@ -96,5 +123,13 @@ public class PlayerInventory : MonoBehaviour
     public int GetWorms()
     {
         return _worms;
+    }
+
+    public int ConsumeWoodUpToAmount(int amount)
+    {
+        var toTake = Math.Min(_logs, amount);
+        _logs -= toTake;
+
+        return toTake;
     }
 }
