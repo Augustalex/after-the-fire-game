@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 
 public class IslandWelcomeScreen : MonoBehaviour
@@ -13,14 +14,15 @@ public class IslandWelcomeScreen : MonoBehaviour
     private bool _liftUp;
     private float _liftUpUntil;
     private TMP_Text _text;
-    private Joint2D _joint;
+    private RectTransform _rectTransform;
 
     public event Action Done;
 
     private void Awake()
     {
-        _joint = GetComponentInChildren<Joint2D>();
-        _originalPosition = welcomeScreen.transform.position;
+        _rectTransform = welcomeScreen.GetComponent<RectTransform>();
+        _originalPosition = _rectTransform.anchoredPosition;
+
         _rigidbody = welcomeScreen.GetComponent<Rigidbody2D>();
 
         _text = GetComponentInChildren<TMP_Text>();
@@ -38,7 +40,7 @@ public class IslandWelcomeScreen : MonoBehaviour
             else
             {
                 _rigidbody.simulated = false;
-                welcomeScreen.transform.position += Vector3.up * Time.deltaTime * 300f;
+                _rectTransform.anchoredPosition += Vector2.up * Time.deltaTime * 300f;
             }
         }
         else if (Time.time > _showUntil)
@@ -53,8 +55,7 @@ public class IslandWelcomeScreen : MonoBehaviour
         _rigidbody.simulated = true;
         _liftUp = false;
         _showUntil = Time.time + 4;
-        welcomeScreen.transform.position = _originalPosition + Vector3.up;
-
+        _rectTransform.anchoredPosition = _originalPosition;
         _text.text = text;
     }
 }
