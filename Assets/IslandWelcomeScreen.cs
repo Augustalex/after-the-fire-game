@@ -44,7 +44,7 @@ public class IslandWelcomeScreen : MonoBehaviour
         else if (Time.time > _showUntil)
         {
             _liftUp = true;
-            _liftUpUntil = Time.time + 10;
+            _liftUpUntil = Time.time + 4;
         }
     }
 
@@ -53,7 +53,7 @@ public class IslandWelcomeScreen : MonoBehaviour
         _rigidbody.simulated = true;
         _liftUp = false;
         _showUntil = Time.time + 4;
-        welcomeScreen.transform.position = _originalPosition;
+        welcomeScreen.transform.position = _originalPosition + Vector3.up;
 
         _text.text = text;
     }

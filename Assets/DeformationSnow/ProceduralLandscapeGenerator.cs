@@ -28,15 +28,14 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
     void Start()
     {
         CreateNewPlane(Vector3.zero);
-        // _doneGenerating = true;
-        StartCoroutine(GenerateInitialPlanes());
+        _doneGenerating = true;
+        // StartCoroutine(GenerateInitialPlanes());
     }
 
     void Update()
     {
         if (_generatingInitialPlane) return;
 
-        
         var followTargetPosition = followTarget.position;
         var alignedPosition = AlignToGrid(followTargetPosition);
         var lookAhead = 8;
