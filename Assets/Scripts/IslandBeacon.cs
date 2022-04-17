@@ -10,6 +10,7 @@ public class IslandBeacon : MonoBehaviour
     {
         Home,
         Island_1,
+        ArtistIsland,
         Island_2,
         Island_3
     }
@@ -43,7 +44,9 @@ public class IslandBeacon : MonoBehaviour
         switch (islandTag)
         {
             case IslandTag.Island_1:
-                return "Carpenter\nIsland";
+                return "Carpenter's hill";
+            case IslandTag.ArtistIsland:
+                return "The Gallery";
             case IslandTag.Island_2:
                 return "Island 2";
             case IslandTag.Island_3:
