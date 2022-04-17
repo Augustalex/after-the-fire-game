@@ -8556,11 +8556,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 475443255}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!224 &479994387 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 479994387, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
-  m_PrefabInstance: {fileID: 1891676854}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &489404634
 GameObject:
   m_ObjectHideFlags: 0
@@ -9888,6 +9883,18 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 3000
       objectReference: {fileID: 0}
+    - target: {fileID: 1717224835466795858, guid: 5303748a2123669418314e7f25ef0669, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 42
+      objectReference: {fileID: 0}
+    - target: {fileID: 1717224835466795858, guid: 5303748a2123669418314e7f25ef0669, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1717224835466795858, guid: 5303748a2123669418314e7f25ef0669, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 1926051456368350320, guid: 5303748a2123669418314e7f25ef0669, type: 3}
       propertyPath: m_Name
       value: Island_4
@@ -9963,6 +9970,18 @@ PrefabInstance:
     - target: {fileID: 5765919425349672211, guid: 5303748a2123669418314e7f25ef0669, type: 3}
       propertyPath: m_Size.z
       value: 11.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 7414610899912386788, guid: 5303748a2123669418314e7f25ef0669, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 42.000023
+      objectReference: {fileID: 0}
+    - target: {fileID: 7414610899912386788, guid: 5303748a2123669418314e7f25ef0669, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -4.802552
+      objectReference: {fileID: 0}
+    - target: {fileID: 7414610899912386788, guid: 5303748a2123669418314e7f25ef0669, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -4.7896996
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5303748a2123669418314e7f25ef0669, type: 3}
@@ -22178,41 +22197,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1476067496}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1480349203
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1480349204}
-  m_Layer: 5
-  m_Name: IslandWelcomeScreenController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1480349204
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1480349203}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 479994387}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1481339001
 GameObject:
   m_ObjectHideFlags: 0

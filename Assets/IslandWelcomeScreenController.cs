@@ -1,23 +1,32 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Core;
 using UnityEngine;
 
-public class IslandWelcomeScreenController : MonoBehaviour
+public class IslandWelcomeScreenController : MonoSingleton<IslandWelcomeScreenController>
 {
     public GameObject welcomeScreen;
+    private IslandWelcomeScreen _welcomeScreen;
 
     void Start()
     {
-        
+        _welcomeScreen = welcomeScreen.GetComponent<IslandWelcomeScreen>();
+        _welcomeScreen.Done += HideWelcomeScreen;
+
+        welcomeScreen.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void HideWelcomeScreen()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            
-        }
+        welcomeScreen.SetActive(false);
+    }
+
+    public void Show(string text)
+    {
+        if (welcomeScreen.activeSelf) return;
+
+        welcomeScreen.SetActive(true);
+        _welcomeScreen.Play(text);
     }
 }

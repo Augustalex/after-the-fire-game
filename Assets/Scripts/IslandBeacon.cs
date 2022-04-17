@@ -26,4 +26,30 @@ public class IslandBeacon : MonoBehaviour
     {
         return _beacons.FirstOrDefault(b => b != null && b.islandTag == islandTag)?.gameObject;
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // if (islandTag != IslandTag.Home)
+        // {
+            if (other.CompareTag("Player"))
+            {
+                IslandWelcomeScreenController.Instance.Show(GetIslandName());
+            }
+        // }
+    }
+
+    private string GetIslandName()
+    {
+        switch (islandTag)
+        {
+            case IslandTag.Island_1:
+                return "Carpenter\nIsland";
+            case IslandTag.Island_2:
+                return "Island 2";
+            case IslandTag.Island_3:
+                return "Island 3";
+            default:
+                return "Island ???";
+        }
+    }
 }
