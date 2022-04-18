@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerInventory : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class PlayerInventory : MonoBehaviour
     private int _logs;
 
     private string _cheat;
+    private bool _hasGottenFirstSeed;
 
     private void Update()
     {
@@ -95,13 +97,19 @@ public class PlayerInventory : MonoBehaviour
 
     public void RegisterPickedUpSeed()
     {
+        if (!_hasGottenFirstSeed)
+        {
+            _hasGottenFirstSeed = true;
+
+            UIManager.Instance.ShowTemporarySubtitle("~ Press I/SELECT to open inventory ~");
+        }
+
         _seeds += 1;
         seedText.text = _seeds.ToString();
     }
 
     public void RegisterPickedUpWorm()
     {
-        Debug.Log("PICKED UP WORM");
         UIManager.Instance.GetABug();
         SfxManager.Instance.PlaySfx("gettingBug");
     }

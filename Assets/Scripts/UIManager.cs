@@ -9,7 +9,9 @@ using UnityEngine.EventSystems;
 public class UIManager : MonoSingleton<UIManager>
 {
     public GameObject startView;
+
     public GameObject settingsView;
+
     // public GameObject creditsView;
     public GameObject startButton;
     [SerializeField] private TextMeshProUGUI subtitleText;
@@ -20,7 +22,7 @@ public class UIManager : MonoSingleton<UIManager>
     private void Update()
     {
         if (!_closing) return;
-        
+
         if (_closeDialogueCooldown > 0f)
         {
             _closeDialogueCooldown -= Time.deltaTime;
@@ -43,6 +45,13 @@ public class UIManager : MonoSingleton<UIManager>
         subtitleText.text = text;
     }
 
+    public void ShowTemporarySubtitle(string text)
+    {
+        subtitleText.text = text;
+        _closing = true;
+        _closeDialogueCooldown = 6;
+    }
+
 
     public void ClearSubtitle()
     {
@@ -54,7 +63,7 @@ public class UIManager : MonoSingleton<UIManager>
     {
         bugAnim.SetActive(true);
     }
-    
+
     public void InactivateGetABug()
     {
         bugAnim.SetActive(false);
@@ -67,5 +76,5 @@ public class UIManager : MonoSingleton<UIManager>
         settingsView.SetActive(false);
         // creditsView.SetActive(false);
         eventSystem.SetSelectedGameObject(startButton);
-    } 
+    }
 }

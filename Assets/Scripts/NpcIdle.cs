@@ -13,7 +13,7 @@ public class NpcIdle : MonoBehaviour
         if (other.CompareTag("Player") && _firstTime)
         {
             _firstTime = false;
-            UIManager.Instance.SetSubtitle("~ Press E to talk ~");
+            UIManager.Instance.SetSubtitle("~ Press E/B/○ to talk ~");
         }
         
         if (other.CompareTag("PlayerHog"))
