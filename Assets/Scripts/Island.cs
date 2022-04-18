@@ -95,4 +95,9 @@ public class Island : MonoBehaviour
     {
         return _treesGrown;
     }
+
+    public int GetNumberOfReceivedBeetles()
+    {
+        return npc.GetNumberOfCompletedQuests();
+    }
 }

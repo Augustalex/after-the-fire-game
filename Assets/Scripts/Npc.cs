@@ -19,7 +19,7 @@ public class Npc : MonoBehaviour
     }
 
     [HideInInspector] public Island island; // Set's in Island onEnable
-    
+
     private State _currentState = State.IslandOnFire;
 
     private Animator _animator;
@@ -65,12 +65,12 @@ public class Npc : MonoBehaviour
             if (!_collectedReward)
             {
                 _collectedReward = true;
-                
+
                 var playerInventory = other.GetComponentInParent<PlayerInventory>();
                 playerInventory.RegisterPickedUpWorm();
                 GameManager.Instance.OnIslandCompleted();
             }
-            
+
             var text = allCompletedText.Replace("#", numberOfConesToFetch.ToString());
             UIManager.Instance.SetSubtitle(text);
         }
@@ -84,7 +84,7 @@ public class Npc : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!islandNpc) return;
-        
+
         if (other.CompareTag("Player") && _currentState == State.IslandOnFire)
         {
             if (_currentState == State.IslandOnFire)
@@ -106,7 +106,7 @@ public class Npc : MonoBehaviour
     private void OnTriggerStay(Collider other)
     {
         if (!islandNpc) return;
-        
+
         if (other.CompareTag("Player") || other.CompareTag("PlayerHog"))
         {
             other.GetComponentInParent<PlayerModeController>().CloseToNpc();
@@ -121,10 +121,15 @@ public class Npc : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         if (!islandNpc) return;
-        
+
         if (other.CompareTag("Player") || other.CompareTag("PlayerHog"))
         {
             UIManager.Instance.ClearSubtitle();
         }
+    }
+
+    public int GetNumberOfCompletedQuests()
+    {
+        return _collectedReward ? 1 : 0;
     }
 }

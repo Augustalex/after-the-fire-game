@@ -22,11 +22,11 @@ public class IslandWelcomeScreenController : MonoSingleton<IslandWelcomeScreenCo
         welcomeScreen.SetActive(false);
     }
 
-    public void Show(string text)
+    public void Show(IslandInfo island)
     {
         if (welcomeScreen.activeSelf) return;
 
         welcomeScreen.SetActive(true);
-        _welcomeScreen.Play(text);
+        _welcomeScreen.Play(island);
     }
 }

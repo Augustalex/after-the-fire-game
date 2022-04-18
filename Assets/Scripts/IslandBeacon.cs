@@ -17,10 +17,12 @@ public class IslandBeacon : MonoBehaviour
 
     public IslandTag islandTag;
     private static List<IslandBeacon> _beacons = new List<IslandBeacon>();
+    private IslandInfo _islandInfo;
 
     private void Awake()
     {
         _beacons.Add(this);
+        _islandInfo = GetComponentInParent<IslandInfo>();
     }
 
     public static GameObject GetWithTag(IslandTag islandTag)
@@ -32,27 +34,11 @@ public class IslandBeacon : MonoBehaviour
     {
         // if (islandTag != IslandTag.Home)
         // {
-            if (other.CompareTag("Player"))
-            {
-                IslandWelcomeScreenController.Instance.Show(GetIslandName());
-            }
-        // }
-    }
-
-    private string GetIslandName()
-    {
-        switch (islandTag)
+        if (other.CompareTag("Player"))
         {
-            case IslandTag.Island_1:
-                return "Carpenter's\nhill";
-            case IslandTag.ArtistIsland:
-                return "The Gallery";
-            case IslandTag.Island_2:
-                return "Island 2";
-            case IslandTag.Island_3:
-                return "Island 3";
-            default:
-                return "Island ???";
+            IslandWelcomeScreenController.Instance.Show(_islandInfo);
         }
+
+        // }
     }
 }

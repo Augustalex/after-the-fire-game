@@ -68,7 +68,7 @@ public class PlayerInventory : MonoBehaviour
             _seeds = newSeeds;
         }
 
-        seedText.text = _seeds.ToString();
+        // seedText.text = _seeds.ToString();
         return seedsToReturn;
     }
 

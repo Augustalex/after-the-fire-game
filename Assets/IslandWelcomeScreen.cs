@@ -13,7 +13,6 @@ public class IslandWelcomeScreen : MonoBehaviour
     private Rigidbody2D _rigidbody;
     private bool _liftUp;
     private float _liftUpUntil;
-    private TMP_Text _text;
     private RectTransform _rectTransform;
 
     public event Action Done;
@@ -24,8 +23,6 @@ public class IslandWelcomeScreen : MonoBehaviour
         _originalPosition = _rectTransform.anchoredPosition;
 
         _rigidbody = welcomeScreen.GetComponent<Rigidbody2D>();
-
-        _text = GetComponentInChildren<TMP_Text>();
     }
 
     void Update()
@@ -50,12 +47,13 @@ public class IslandWelcomeScreen : MonoBehaviour
         }
     }
 
-    public void Play(string text)
+    public void Play(IslandInfo island)
     {
         _rigidbody.simulated = true;
         _liftUp = false;
         _showUntil = Time.time + 4;
         _rectTransform.anchoredPosition = _originalPosition;
-        _text.text = text;
+        
+        GetComponentInChildren<IslandSign>().Refresh(island);
     }
 }
