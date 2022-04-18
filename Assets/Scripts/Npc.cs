@@ -99,6 +99,7 @@ public class Npc : MonoBehaviour
 
         if (other.CompareTag("PlayerHog"))
         {
+            NpcCamera.Instance.FocusOnNpc(transform);
             UpdateStateMachine(other);
         }
     }
@@ -124,6 +125,7 @@ public class Npc : MonoBehaviour
 
         if (other.CompareTag("Player") || other.CompareTag("PlayerHog"))
         {
+            NpcCamera.Instance.Reset();
             UIManager.Instance.ClearSubtitle();
         }
     }

@@ -12,16 +12,23 @@ public class CameraModeController : MonoSingleton<CameraModeController>
 
     [SerializeField] private CinemachineVirtualCamera telescopeCamera;
 
+    [SerializeField] private CinemachineVirtualCamera npcCamera;
+
     public void SetToPlayerCamera()
     {
+        if (introCamera)
+        {
+            introCamera.Priority = 0;
+        }
+
         if (telescopeCamera)
         {
             telescopeCamera.Priority = 0;
         }
 
-        if (introCamera)
+        if (npcCamera)
         {
-            introCamera.Priority = 0;
+            npcCamera.Priority = 0;
         }
 
         playerCamera.Priority = 1;
@@ -39,6 +46,31 @@ public class CameraModeController : MonoSingleton<CameraModeController>
             playerCamera.Priority = 0;
         }
 
+        if (npcCamera)
+        {
+            npcCamera.Priority = 0;
+        }
+
         telescopeCamera.Priority = 1;
+    }
+
+    public void SetToNpcCamera()
+    {
+        if (introCamera)
+        {
+            introCamera.Priority = 0;
+        }
+
+        if (playerCamera)
+        {
+            playerCamera.Priority = 0;
+        }
+
+        if (telescopeCamera)
+        {
+            telescopeCamera.Priority = 0;
+        }
+
+        npcCamera.Priority = 1;
     }
 }
