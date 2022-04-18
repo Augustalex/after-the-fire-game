@@ -16,7 +16,7 @@ public class PlayerInventory : MonoBehaviour
     private int _logs;
 
     private string _cheat;
-    private bool _hasGottenFirstSeed;
+    private bool _hasGottenFirstItem;
 
     private void Update()
     {
@@ -92,20 +92,27 @@ public class PlayerInventory : MonoBehaviour
 
     public void RegisterPickedUpLog()
     {
+        TryTriggerInventoryGuide();
+        
         _logs += 1;
     }
 
     public void RegisterPickedUpSeed()
     {
-        if (!_hasGottenFirstSeed)
+        TryTriggerInventoryGuide();
+        
+        _seeds += 1;
+        seedText.text = _seeds.ToString();
+    }
+
+    private void TryTriggerInventoryGuide()
+    {
+        if (!_hasGottenFirstItem)
         {
-            _hasGottenFirstSeed = true;
+            _hasGottenFirstItem = true;
 
             UIManager.Instance.ShowTemporarySubtitle("~ Press I/SELECT to open inventory ~");
         }
-
-        _seeds += 1;
-        seedText.text = _seeds.ToString();
     }
 
     public void RegisterPickedUpWorm()
