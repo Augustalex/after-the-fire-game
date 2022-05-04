@@ -278,9 +278,6 @@
             "m_Id": "c186c8e7e6004e7b8c99a4c0605a7ee7"
         },
         {
-            "m_Id": "966846e285554d4f98c5cc97f417a7e5"
-        },
-        {
             "m_Id": "bf9aae5c5cde4f7c8a58113f809f967a"
         },
         {
@@ -973,9 +970,6 @@
             },
             {
                 "m_Id": "c186c8e7e6004e7b8c99a4c0605a7ee7"
-            },
-            {
-                "m_Id": "966846e285554d4f98c5cc97f417a7e5"
             },
             {
                 "m_Id": "bf9aae5c5cde4f7c8a58113f809f967a"
@@ -4038,39 +4032,6 @@
 
 {
     "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.BlockNode",
-    "m_ObjectId": "966846e285554d4f98c5cc97f417a7e5",
-    "m_Group": {
-        "m_Id": ""
-    },
-    "m_Name": "SurfaceDescription.Alpha",
-    "m_DrawState": {
-        "m_Expanded": true,
-        "m_Position": {
-            "serializedVersion": "2",
-            "x": 0.0,
-            "y": 0.0,
-            "width": 0.0,
-            "height": 0.0
-        }
-    },
-    "m_Slots": [
-        {
-            "m_Id": "c2ecc0cca1024de4b16da29976b90289"
-        }
-    ],
-    "synonyms": [],
-    "m_Precision": 0,
-    "m_PreviewExpanded": true,
-    "m_PreviewMode": 0,
-    "m_CustomColors": {
-        "m_SerializableColors": []
-    },
-    "m_SerializedDescriptor": "SurfaceDescription.Alpha"
-}
-
-{
-    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.DynamicValueMaterialSlot",
     "m_ObjectId": "96cd07fb960fa38b888ad583f58a9b0b",
     "m_Id": 0,
@@ -5120,21 +5081,6 @@
 
 {
     "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
-    "m_ObjectId": "c2ecc0cca1024de4b16da29976b90289",
-    "m_Id": 0,
-    "m_DisplayName": "Alpha",
-    "m_SlotType": 0,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "Alpha",
-    "m_StageCapability": 2,
-    "m_Value": 1.0,
-    "m_DefaultValue": 1.0,
-    "m_Labels": []
-}
-
-{
-    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Internal.Texture2DShaderProperty",
     "m_ObjectId": "c32f7699ab81c9818fa6f0f89746ef40",
     "m_Guid": {
@@ -5329,7 +5275,7 @@
     },
     "m_SurfaceType": 0,
     "m_AlphaMode": 0,
-    "m_TwoSided": false,
+    "m_TwoSided": true,
     "m_AlphaClip": false,
     "m_CustomEditorGUI": "LuxToonShaderGUI"
 }
