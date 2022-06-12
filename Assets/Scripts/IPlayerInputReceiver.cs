@@ -26,4 +26,6 @@ public interface IPlayerInputReceiver
     public void SyncMove(IPlayerInputReceiver receiver);
 
     public Vector2 GetMove();
+    
+    void OnRelease(InputValue value);
 }

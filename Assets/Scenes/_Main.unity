@@ -33470,6 +33470,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerFull
       objectReference: {fileID: 0}
+    - target: {fileID: 605548265613843310, guid: 0cbcd0f3566f6b1488e0fcf057b035f2, type: 3}
+      propertyPath: InitialModule.maxNumParticles
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 605548265613843310, guid: 0cbcd0f3566f6b1488e0fcf057b035f2, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 3959439489612392025, guid: 0cbcd0f3566f6b1488e0fcf057b035f2, type: 3}
       propertyPath: seedText
       value: 

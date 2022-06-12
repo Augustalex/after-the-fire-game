@@ -177,6 +177,11 @@ public class ThirdPersonController : MonoBehaviour, IPlayerInputReceiver
         return _move;
     }
 
+    public void OnRelease(InputValue value)
+    {
+        // When in walk mode - cannot release any snow
+    }
+
     private void AddExtraGravityIfOnIsland()
     {
         if (Physics.OverlapSphere(transform.position, 2f).Any(hit => hit.CompareTag("Island")))

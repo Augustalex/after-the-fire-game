@@ -45,6 +45,10 @@ public class PlayerInputMediator : MonoBehaviour
         _currentPlayerInputReceiver.OnSprint(value);
     }
 
+    public void OnRelease(InputValue value)
+    {
+        _currentPlayerInputReceiver.OnRelease(value);
+    }
 
     public void OnSprintStartTouch()
     {

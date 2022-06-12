@@ -4,47 +4,43 @@ using System.Collections.Generic;
 using System.Linq;
 using DeformationSnow;
 using UnityEngine;
-using Random = UnityEngine.Random;
-using Unity.Mathematics;
-using static Unity.Mathematics.math;
 
 public class ProceduralSnow : MonoBehaviour
 {
-    public bool recalculateNormals = false;
-
-    private bool _started;
-    private MeshFilter _meshFilter;
-    private Mesh _mesh;
-    private Mesh _virtualMesh;
-
-    private Queue<Vector3[]> _meshPasses = new Queue<Vector3[]>();
-
-    private Rigidbody _playerRigidbody;
-
-    public float snowHeight = .9f;
-
-    private PlayerController _player;
-
-    private Vector3[] _originalVertices;
-    private MeshCollider _meshCollider;
-    private bool _doneGenerating;
-    private PlayerGrower _playerGrower;
-    private bool _setup;
-    private PlayerModeController _playerModeController;
-    public GenerationData generationData;
-    public SnowDeformationData snowDeformationData;
-
     private const int VectorRowCount = 42;
 
     private const float GridCullingMargin = .5f;
     private const float LocalCullingDistance = 5f;
+    public bool recalculateNormals;
+
+    public float snowHeight = .9f;
+    public GenerationData generationData;
+    public SnowDeformationData snowDeformationData;
+    private bool _doneGenerating;
+    private Mesh _mesh;
+    private MeshCollider _meshCollider;
+    private MeshFilter _meshFilter;
+
+    private readonly Queue<Vector3[]> _meshPasses = new Queue<Vector3[]>();
+
+    private Vector3[] _originalVertices;
+
+    private PlayerController _player;
+    private PlayerGrower _playerGrower;
+    private PlayerModeController _playerModeController;
+
+    private Rigidbody _playerRigidbody;
+    private bool _setup;
+
+    private bool _started;
+    private Mesh _virtualMesh;
 
     private void Awake()
     {
         _meshFilter = GetComponent<MeshFilter>();
         _meshCollider = GetComponent<MeshCollider>();
         _mesh = _meshFilter.mesh;
-        _virtualMesh = (Mesh) Instantiate(_mesh);
+        _virtualMesh = Instantiate(_mesh);
         _virtualMesh.vertices = _mesh.vertices;
     }
 
@@ -66,15 +62,13 @@ public class ProceduralSnow : MonoBehaviour
         }
 
         if (Vector3.Distance(_player.transform.position, transform.position) <
-       
-            (ProceduralLandscapeGenerator.GridSize) + GridCullingMargin) {
+            ProceduralLandscapeGenerator.GridSize + GridCullingMargin)
             DeformVerticies();
-        }
     }
 
     public void SetStartHeight()
     {
-        Matrix4x4 localToWorld = transform.localToWorldMatrix;
+        var localToWorld = transform.localToWorldMatrix;
 
         var originalVertices = _mesh.vertices;
         var vertices = new Vector3[originalVertices.Length];
@@ -85,7 +79,7 @@ public class ProceduralSnow : MonoBehaviour
         {
             var vertex = originalVertices[i];
 
-            Vector3 worldVertex = localToWorld.MultiplyPoint3x4(vertex);
+            var worldVertex = localToWorld.MultiplyPoint3x4(vertex);
 
             vertex.y = MultipliedMixedNoiseHeight(worldVertex, noise);
 
@@ -119,7 +113,7 @@ public class ProceduralSnow : MonoBehaviour
     {
         var cellNoiseScale = generationData.cellNoiseScale;
         var cellNoiseAmplitude = generationData.cellNoiseAmplitude;
-        FastNoiseLite cellNoise = new FastNoiseLite();
+        var cellNoise = new FastNoiseLite();
         cellNoise.SetNoiseType(FastNoiseLite.NoiseType.Cellular);
         var cellNoiseResult = cellNoise.GetNoise(worldVertex.x * cellNoiseScale, worldVertex.z * cellNoiseScale) *
                               cellNoiseAmplitude;
@@ -128,15 +122,15 @@ public class ProceduralSnow : MonoBehaviour
         var noiseAmplitude = generationData.perlinNoiseAmplitude;
         var perlinNoise = noise.BrownianMotion(worldVertex.x * noiseScale, worldVertex.z * noiseScale) * noiseAmplitude;
 
-        var totalNoise = Mathf.Min((-cellNoiseResult + generationData.cellNoiseOffset),
-            (perlinNoise + generationData.perlinNoiseOffset));
+        var totalNoise = Mathf.Min(-cellNoiseResult + generationData.cellNoiseOffset,
+            perlinNoise + generationData.perlinNoiseOffset);
 
         return generationData.heightOffset - totalNoise;
     }
 
     private float MultipliedMixedNoiseHeight(Vector3 worldVertex, FractalNoise noise)
     {
-        FastNoiseLite cellNoise = new FastNoiseLite();
+        var cellNoise = new FastNoiseLite();
         cellNoise.SetNoiseType(FastNoiseLite.NoiseType.Cellular);
 
         var cellNoiseScale = generationData.cellNoiseScale;
@@ -146,7 +140,7 @@ public class ProceduralSnow : MonoBehaviour
         var perlinNoise = noise.BrownianMotion(worldVertex.x * noiseScale, worldVertex.z * noiseScale);
 
         var noiseAmplitude = generationData.perlinNoiseAmplitude;
-        var totalNoise = ((1 - cellNoiseResult) * perlinNoise) * noiseAmplitude + generationData.perlinNoiseOffset;
+        var totalNoise = (1 - cellNoiseResult) * perlinNoise * noiseAmplitude + generationData.perlinNoiseOffset;
 
         return generationData.heightOffset - totalNoise;
     }
@@ -162,7 +156,7 @@ public class ProceduralSnow : MonoBehaviour
         var stepSize = length / steps;
 
         var vertexY = vertex.y;
-        for (int i = 0; i < steps; i++)
+        for (var i = 0; i < steps; i++)
         {
             var morphPoint = previousPosition + direction * ((i + 1) * stepSize);
             vertexY = DeformAtPoint(
@@ -183,7 +177,7 @@ public class ProceduralSnow : MonoBehaviour
             worldVertex);
 
         var baseHoleSize = .5f; //.45f
-        var boostHoleSize = baseHoleSize + (boostFactor * .05f);
+        var boostHoleSize = baseHoleSize + boostFactor * .05f;
         var holeSize = playerScaleX *
                        (playerFalling ? .7f : playerBoosting ? boostHoleSize : baseHoleSize);
         var t = Mathf.Clamp(pointDistance, 0f, holeSize);
@@ -193,12 +187,12 @@ public class ProceduralSnow : MonoBehaviour
         var originalHeight = originalVertex.y;
 
         var currentDepth = originalHeight - vertex.y;
-        var progress = ((currentDepth) / snowHeight);
+        var progress = currentDepth / snowHeight;
         var digSpeed = Mathf.Max(0, staticDigSpeed * InExpo(1 - progress)) * height;
 
         var maxDepth = originalHeight - snowHeight;
 
-        vertex.y = Mathf.Clamp(vertex.y - (digSpeed * Time.fixedDeltaTime), maxDepth, originalHeight);
+        vertex.y = Mathf.Clamp(vertex.y - digSpeed * Time.fixedDeltaTime, maxDepth, originalHeight);
 
         return vertex.y;
     }
@@ -222,7 +216,7 @@ public class ProceduralSnow : MonoBehaviour
         var playerFalling = false; //velocityVector.y < -4f;
         var playerPreviousPosition = _player.GetPreviousPosition();
 
-        Matrix4x4 localToWorld = transform.localToWorldMatrix;
+        var localToWorld = transform.localToWorldMatrix;
 
         var currentVerticies = _virtualMesh.vertices;
         var vertices = new Vector3[currentVerticies.Length];
@@ -242,11 +236,14 @@ public class ProceduralSnow : MonoBehaviour
 
         var speedScale = .5f;
 
+        var playerRelease = _player.Releasing();
+        var playerReleasing = playerRelease > 0f && _playerGrower.GrowthProgress() > 0.01f;
+
         for (var i = 0; i < currentVerticies.Length; i++)
         {
             var vertex = currentVerticies[i];
-            Vector3 worldVertex = localToWorld.MultiplyPoint3x4(vertex);
-            
+            var worldVertex = localToWorld.MultiplyPoint3x4(vertex);
+
             if (passUntil <= i)
             {
                 float staticSpeed;
@@ -271,18 +268,18 @@ public class ProceduralSnow : MonoBehaviour
                 // }
                 // else
                 // {
-                    playerMorphPoint = playerPosition + velocityVector * Time.fixedDeltaTime * snowDeformationData.interpolationVelocityMultiplier;
+                playerMorphPoint = playerPosition + velocityVector * (Time.fixedDeltaTime * snowDeformationData.interpolationVelocityMultiplier);
 
-                    if (maxSizeReached)
-                    {
-                        var moveTimeFactorSpeed = .3f + (moveTimeFactor * .2f);
-                        staticSpeed = playerScaleX * velocity * moveTimeFactorSpeed;
-                    }
-                    else
-                    {
-                        var moveTimeFactorSpeed = .3f + (moveTimeFactor * .3f);
-                        staticSpeed = playerScaleX * velocity * moveTimeFactorSpeed;
-                    }
+                if (maxSizeReached)
+                {
+                    var moveTimeFactorSpeed = .3f + moveTimeFactor * .2f;
+                    staticSpeed = playerScaleX * velocity * moveTimeFactorSpeed;
+                }
+                else
+                {
+                    var moveTimeFactorSpeed = .3f + moveTimeFactor * .3f;
+                    staticSpeed = playerScaleX * velocity * moveTimeFactorSpeed;
+                }
                 // }
 
                 staticSpeed *= speedScale;
@@ -294,9 +291,7 @@ public class ProceduralSnow : MonoBehaviour
 
                 var rowDistance = playerMorphPoint.x - worldVertex.x;
                 if (rowDistance < 0 && Mathf.Abs(rowDistance) > LocalCullingDistance)
-                {
-                    passUntil = i + VectorRowCount - (i % VectorRowCount) + 1;
-                }
+                    passUntil = i + VectorRowCount - i % VectorRowCount + 1;
 
                 if (Mathf.Abs(rowDistance) > LocalCullingDistance)
                 {
@@ -306,8 +301,27 @@ public class ProceduralSnow : MonoBehaviour
                     passUntil = i + edges;
                 }
 
-                if (pointDistance < LocalCullingDistance &&
-                    (playerMorphPoint.y - worldVertex.y) < playerScaleX * .9f)
+                if (playerReleasing && pointDistance < LocalCullingDistance)
+                {
+                    var holeSize = playerScaleX * 1.5f;
+                                   var t = Mathf.Clamp(pointDistance, 0f, holeSize);
+                    var distanceFactorFromHoleCenter = Mathf.Clamp(t / holeSize, 0f, 1f);
+
+
+                    var speeed = OutExpo((distanceFactorFromHoleCenter < .35f ? 1 : (1 - distanceFactorFromHoleCenter))) * playerRelease * 1.5f;
+                    
+                    // center: 1
+                    // rim: 0
+                    // middle: .5
+                    // output = r * releaseSpeed
+                    // var digSpeed = Mathf.Max(0, Mathf.Min(.1f, staticSpeed * OutExpo((1 - distanceFactorFromHoleCenter)));
+                    
+                    vertex.y += speeed * Time.fixedDeltaTime;
+                    // vertex.y += playerRelease * Time.fixedDeltaTime;
+                    _originalVertices[i].y = Math.Max(_originalVertices[i].y, vertex.y);
+                }
+                else if (pointDistance < LocalCullingDistance &&
+                         playerMorphPoint.y - worldVertex.y < playerScaleX * .9f)
                 {
                     vertex.y = InterpolatedDeform(playerPreviousPosition, playerMorphPoint, _originalVertices[i],
                         vertex, worldVertex, staticSpeed, playerScaleX, playerBoosting, playerFalling, boostFactor);
@@ -336,7 +350,8 @@ public class ProceduralSnow : MonoBehaviour
 
         // Debug.Log("PASS TOTAL: " + passTotal);
 
-        if (_meshPasses.Count > snowDeformationData.renderFrameLag) // Rendered mesh is a few frames behind - this enables us to precalculate the collision, and corresponding rigidbody events, while rendering a smooth output
+        if (_meshPasses.Count > snowDeformationData.renderFrameLag
+        ) // Rendered mesh is a few frames behind - this enables us to precalculate the collision, and corresponding rigidbody events, while rendering a smooth output
         {
             _mesh.vertices = _meshPasses.Dequeue();
 
@@ -353,15 +368,30 @@ public class ProceduralSnow : MonoBehaviour
     }
 
 
-    public static float OutSine(float t) => (float) Math.Sin(t * Math.PI / 2);
+    public static float OutSine(float t)
+    {
+        return (float) Math.Sin(t * Math.PI / 2);
+    }
 
-    public static float InExpo(float t) => (float) Math.Pow(2, 10 * (t - 1));
+    public static float InExpo(float t)
+    {
+        return (float) Math.Pow(2, 10 * (t - 1));
+    }
 
-    public static float OutExpo(float t) => 1 - InExpo(1 - t);
+    public static float OutExpo(float t)
+    {
+        return 1 - InExpo(1 - t);
+    }
 
-    public static float InCirc(float t) => -((float) Math.Sqrt(1 - t * t) - 1);
+    public static float InCirc(float t)
+    {
+        return -((float) Math.Sqrt(1 - t * t) - 1);
+    }
 
-    public static float OutCirc(float t) => 1 - InCirc(1 - t);
+    public static float OutCirc(float t)
+    {
+        return 1 - InCirc(1 - t);
+    }
 
     public static float EaseInExpo(float x)
     {
@@ -370,8 +400,8 @@ public class ProceduralSnow : MonoBehaviour
 
     public static float EaseOutBack(float x)
     {
-        float c1 = 1.70158f;
-        float c3 = c1 + 1;
+        var c1 = 1.70158f;
+        var c3 = c1 + 1;
 
         return c3 * x * x * x - c1 * x * x;
         // return 1 + c3 * Mathf.Pow(x - 1, 3) + c1 * Mathf.Pow(x - 1, 2);
@@ -379,11 +409,14 @@ public class ProceduralSnow : MonoBehaviour
 
     public static float InBack(float t)
     {
-        float s = 1.70158f;
+        var s = 1.70158f;
         return t * t * ((s + 1) * t - s);
     }
 
-    public static float OutBack(float t) => 1 - InBack(1 - t);
+    public static float OutBack(float t)
+    {
+        return 1 - InBack(1 - t);
+    }
 
     public static float InOutBack(float t)
     {
@@ -393,57 +426,52 @@ public class ProceduralSnow : MonoBehaviour
 
     public static float OutBounce(float t)
     {
-        float div = 2.75f;
-        float mult = 7.5625f;
+        var div = 2.75f;
+        var mult = 7.5625f;
 
-        if (t < 1 / div)
-        {
-            return mult * t * t;
-        }
-        else if (t < 2 / div)
+        if (t < 1 / div) return mult * t * t;
+
+        if (t < 2 / div)
         {
             t -= 1.5f / div;
             return mult * t * t + 0.75f;
         }
-        else if (t < 2.5 / div)
+
+        if (t < 2.5 / div)
         {
             t -= 2.25f / div;
             return mult * t * t + 0.9375f;
         }
-        else
-        {
-            t -= 2.625f / div;
-            return mult * t * t + 0.984375f;
-        }
+
+        t -= 2.625f / div;
+        return mult * t * t + 0.984375f;
     }
 
     public IEnumerator GeneratePlane()
     {
         var gridSize = ProceduralLandscapeGenerator.GridSize;
         var vectorsRowCount = VectorRowCount;
-        var densityFactor = ((gridSize) / (vectorsRowCount - 1));
+        var densityFactor = gridSize / (vectorsRowCount - 1);
         var offset = (gridSize + 1) / 2f;
 
-        int width = vectorsRowCount - 1;
-        int depth = vectorsRowCount - 1;
+        var width = vectorsRowCount - 1;
+        var depth = vectorsRowCount - 1;
 
         // Defining triangles.
-        int[] triangles = new int[width * depth * 2 * 3]; // 2 - polygon per quad, 3 - corners per polygon
-        for (int d = 0; d < depth; d++)
+        var triangles = new int[width * depth * 2 * 3]; // 2 - polygon per quad, 3 - corners per polygon
+        for (var d = 0; d < depth; d++)
+        for (var w = 0; w < width; w++)
         {
-            for (int w = 0; w < width; w++)
-            {
-                // quad triangles index.
-                int ti = (d * (width) + w) * 6; // 6 - polygons per quad * corners per polygon
-                // First tringle
-                triangles[ti] = (d * (width + 1)) + w;
-                triangles[ti + 1] = ((d + 1) * (width + 1)) + w;
-                triangles[ti + 2] = ((d + 1) * (width + 1)) + w + 1;
-                // Second triangle
-                triangles[ti + 3] = (d * (width + 1)) + w;
-                triangles[ti + 4] = ((d + 1) * (width + 1)) + w + 1;
-                triangles[ti + 5] = (d * (width + 1)) + w + 1;
-            }
+            // quad triangles index.
+            var ti = (d * width + w) * 6; // 6 - polygons per quad * corners per polygon
+            // First tringle
+            triangles[ti] = d * (width + 1) + w;
+            triangles[ti + 1] = (d + 1) * (width + 1) + w;
+            triangles[ti + 2] = (d + 1) * (width + 1) + w + 1;
+            // Second triangle
+            triangles[ti + 3] = d * (width + 1) + w;
+            triangles[ti + 4] = (d + 1) * (width + 1) + w + 1;
+            triangles[ti + 5] = d * (width + 1) + w + 1;
         }
 
         yield return new WaitForEndOfFrame();
@@ -451,11 +479,11 @@ public class ProceduralSnow : MonoBehaviour
         var gridRadius = ProceduralLandscapeGenerator.GridSize * .5f;
 
         // Defining vertices.
-        Vector3[] vertices = new Vector3[(vectorsRowCount) * (vectorsRowCount)];
-        int i = 0;
-        for (int d = 0; d < vectorsRowCount; d++)
+        var vertices = new Vector3[vectorsRowCount * vectorsRowCount];
+        var i = 0;
+        for (var d = 0; d < vectorsRowCount; d++)
         {
-            for (int w = 0; w < vectorsRowCount; w++)
+            for (var w = 0; w < vectorsRowCount; w++)
             {
                 var scaleW = w * densityFactor;
                 var scaleD = d * densityFactor;
@@ -469,7 +497,7 @@ public class ProceduralSnow : MonoBehaviour
         }
 
         // Defining UV.
-        Vector2[] uv = new Vector2[vertices.Length];
+        var uv = new Vector2[vertices.Length];
         for (var i1 = 0; i1 < vertices.Length; i1++)
         {
             var vertex = vertices[i1];
@@ -481,7 +509,7 @@ public class ProceduralSnow : MonoBehaviour
         _originalVertices = vertices;
 
         // Creating a mesh object.
-        Mesh mesh = new Mesh();
+        var mesh = new Mesh();
 
         // Assigning vertices, triangles and UV to the mesh.
         mesh.vertices = vertices;
@@ -495,7 +523,7 @@ public class ProceduralSnow : MonoBehaviour
         _mesh.RecalculateNormals();
         _mesh.RecalculateBounds();
 
-        _virtualMesh = (Mesh) Instantiate(_mesh);
+        _virtualMesh = Instantiate(_mesh);
         _virtualMesh.vertices = _mesh.vertices;
         _virtualMesh.triangles = _mesh.triangles;
         _virtualMesh.uv = _mesh.uv;
@@ -513,7 +541,7 @@ public class ProceduralSnow : MonoBehaviour
     {
         //random proportion -1, 1
         var e = (n * m * 31.78694f + m) % 1;
-        return (e * e * 137.21321f) % 1;
+        return e * e * 137.21321f % 1;
     }
 
     private float voronoi2(Vector3 vtx)
@@ -539,62 +567,62 @@ public class ProceduralSnow : MonoBehaviour
 
     public class FractalNoise
     {
-        private float[] m_Exponent;
-        private int m_IntOctaves;
-        private float m_Octaves;
-        private float m_Lacunarity;
+        private readonly float[] m_Exponent;
+        private readonly int m_IntOctaves;
+        private readonly float m_Lacunarity;
+        private readonly float m_Octaves;
 
         public FractalNoise(float inH, float inLacunarity, float inOctaves)
         {
-            this.m_Lacunarity = inLacunarity;
-            this.m_Octaves = inOctaves;
-            this.m_IntOctaves = (int) inOctaves;
-            this.m_Exponent = new float[this.m_IntOctaves + 1];
-            float num = 1f;
-            for (int index = 0; index < this.m_IntOctaves + 1; ++index)
+            m_Lacunarity = inLacunarity;
+            m_Octaves = inOctaves;
+            m_IntOctaves = (int) inOctaves;
+            m_Exponent = new float[m_IntOctaves + 1];
+            var num = 1f;
+            for (var index = 0; index < m_IntOctaves + 1; ++index)
             {
-                this.m_Exponent[index] = (float) Math.Pow((double) this.m_Lacunarity, -(double) inH);
-                num *= this.m_Lacunarity;
+                m_Exponent[index] = (float) Math.Pow(m_Lacunarity, -(double) inH);
+                num *= m_Lacunarity;
             }
         }
 
         public float HybridMultifractal(float x, float y, float offset)
         {
-            float num1 = (Mathf.PerlinNoise(x, y) + offset) * this.m_Exponent[0];
-            float num2 = num1;
-            x *= this.m_Lacunarity;
-            y *= this.m_Lacunarity;
+            var num1 = (Mathf.PerlinNoise(x, y) + offset) * m_Exponent[0];
+            var num2 = num1;
+            x *= m_Lacunarity;
+            y *= m_Lacunarity;
             int index;
-            for (index = 1; index < this.m_IntOctaves; ++index)
+            for (index = 1; index < m_IntOctaves; ++index)
             {
-                if ((double) num2 > 1.0)
+                if (num2 > 1.0)
                     num2 = 1f;
-                float num3 = (Mathf.PerlinNoise(x, y) + offset) * this.m_Exponent[index];
+                var num3 = (Mathf.PerlinNoise(x, y) + offset) * m_Exponent[index];
                 num1 += num2 * num3;
                 num2 *= num3;
-                x *= this.m_Lacunarity;
-                y *= this.m_Lacunarity;
+                x *= m_Lacunarity;
+                y *= m_Lacunarity;
             }
 
-            float num4 = this.m_Octaves - (float) this.m_IntOctaves;
-            return num1 + num4 * Mathf.PerlinNoise(x, y) * this.m_Exponent[index];
+            var num4 = m_Octaves - m_IntOctaves;
+            return num1 + num4 * Mathf.PerlinNoise(x, y) * m_Exponent[index];
         }
 
         public float RidgedMultifractal(float x, float y, float offset, float gain)
         {
-            float num1 = Mathf.Abs(Mathf.PerlinNoise(x, y));
-            float num2 = offset - num1;
-            float num3 = num2 * num2;
-            float num4 = num3;
-            for (int index = 1; index < this.m_IntOctaves; ++index)
+            var num1 = Mathf.Abs(Mathf.PerlinNoise(x, y));
+            var num2 = offset - num1;
+            var num3 = num2 * num2;
+            var num4 = num3;
+            for (var index = 1; index < m_IntOctaves; ++index)
             {
-                x *= this.m_Lacunarity;
-                y *= this.m_Lacunarity;
-                float num5 = Mathf.Clamp01(num3 * gain);
-                float num6 = Mathf.Abs(Mathf.PerlinNoise(x, y));
-                float num7 = offset - num6;
+                x *= m_Lacunarity;
+                y *= m_Lacunarity;
+                var num5 = Mathf.Clamp01(num3 * gain);
+                var num6 = Mathf.Abs(Mathf.PerlinNoise(x, y));
+                var num7 = offset - num6;
                 num3 = num7 * num7 * num5;
-                num4 += num3 * this.m_Exponent[index];
+                num4 += num3 * m_Exponent[index];
             }
 
             return num4;
@@ -602,17 +630,17 @@ public class ProceduralSnow : MonoBehaviour
 
         public float BrownianMotion(float x, float y)
         {
-            float num1 = 0.0f;
+            var num1 = 0.0f;
             long index;
-            for (index = 0L; index < (long) this.m_IntOctaves; ++index)
+            for (index = 0L; index < (long) m_IntOctaves; ++index)
             {
-                num1 = Mathf.PerlinNoise(x, y) * this.m_Exponent[index];
-                x *= this.m_Lacunarity;
-                y *= this.m_Lacunarity;
+                num1 = Mathf.PerlinNoise(x, y) * m_Exponent[index];
+                x *= m_Lacunarity;
+                y *= m_Lacunarity;
             }
 
-            float num2 = this.m_Octaves - (float) this.m_IntOctaves;
-            return num1 + num2 * Mathf.PerlinNoise(x, y) * this.m_Exponent[index];
+            var num2 = m_Octaves - m_IntOctaves;
+            return num1 + num2 * Mathf.PerlinNoise(x, y) * m_Exponent[index];
         }
     }
 }

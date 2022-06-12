@@ -4,19 +4,18 @@ using UnityEngine;
 
 public class PlayerGrower : MonoBehaviour
 {
-    private Rigidbody _rigidbody;
-    private PlayerController _controller;
-    private bool _maxSizeReached;
-    private Vector3 _originalSize;
-    private bool _visible;
-    private bool _onIsland;
-    private bool _onSnow;
-    
-    private MeshRenderer _ballMeshRenderer;
-
     private const float MaxSize = 2f;
 
-    void Start()
+    private MeshRenderer _ballMeshRenderer;
+    private PlayerController _controller;
+    private bool _maxSizeReached;
+    private bool _onIsland;
+    private bool _onSnow;
+    private Vector3 _originalSize;
+    private Rigidbody _rigidbody;
+    private bool _visible;
+
+    private void Start()
     {
         _rigidbody = GetComponent<SphereCollider>().attachedRigidbody;
         _controller = GetComponentInParent<PlayerController>();
@@ -26,45 +25,42 @@ public class PlayerGrower : MonoBehaviour
         _ballMeshRenderer = FindObjectOfType<PlayerFakeBall>().GetComponent<MeshRenderer>();
     }
 
-    void Update()
+    private void Update()
     {
         _onIsland = OnIsland();
         _onSnow = OnSnow();
 
         if (transform.localScale.x > _originalSize.x)
-        {
             SetVisible();
-        }
-        else if (_onIsland)
-        {
-            SetInvisible();
-        }
+        else if (_onIsland) SetInvisible();
 
         if (_controller.Stunned()) return;
 
-        if (_onSnow && !_onIsland)
+        var releasing = _controller.Releasing();
+        if (releasing > 0f)
+        {
+            if (GrowthProgress() > 0.001f)
+            {
+                // _controller.TriggerHitGroundParticles();
+            }
+            ReleaseSomeSnow(releasing * Time.deltaTime * .5f);
+        }
+        else if (_onSnow && !_onIsland)
         {
             if (_rigidbody.velocity.magnitude > 1f)
             {
                 var moveTime = Mathf.Clamp(Mathf.Max(_controller.TimeMoving() - .5f, 0f) / 12f, 0f, 1f);
-                var growthRate = _controller.Boosting() ? (.004f + .8f * moveTime) : .004f + 4f * moveTime;
-        
+                var growthRate = _controller.Boosting() ? .004f + 4f * moveTime : .004f + .8f * moveTime;
+
                 var toGrow = growthRate * SizeToMaxSize() * Time.deltaTime;
-        
+
                 if (transform.localScale.x >= MaxSize * .98f)
-                {
                     _maxSizeReached = true;
-                }
                 else
-                {
                     _maxSizeReached = false;
-                }
-        
+
                 transform.localScale += Vector3.one * toGrow;
-                if (transform.localScale.x > MaxSize)
-                {
-                    SetToMaxSize();
-                }
+                if (transform.localScale.x > MaxSize) SetToMaxSize();
             }
         }
     }
@@ -89,17 +85,21 @@ public class PlayerGrower : MonoBehaviour
         return progress;
     }
 
-    public static float InSine(float t) => (float) -Math.Cos(t * Math.PI / 2);
-    public static float OutSine(float t) => (float) Math.Sin(t * Math.PI / 2);
+    public static float InSine(float t)
+    {
+        return (float) -Math.Cos(t * Math.PI / 2);
+    }
+
+    public static float OutSine(float t)
+    {
+        return (float) Math.Sin(t * Math.PI / 2);
+    }
 
     private void SetVisible()
     {
         _ballMeshRenderer.enabled = true;
 
-        if (!_visible)
-        {
-            transform.localScale = _originalSize;
-        }
+        if (!_visible) transform.localScale = _originalSize;
 
         _visible = true;
     }
@@ -137,10 +137,7 @@ public class PlayerGrower : MonoBehaviour
         var finalSizeFactor = Mathf.Clamp(transform.localScale.x - sizeFactor, _originalSize.x, MaxSize);
         transform.localScale = Vector3.one * finalSizeFactor;
 
-        if (finalSizeFactor < .2f)
-        {
-            ReleaseSnow();
-        }
+        if (finalSizeFactor < .2f) ReleaseSnow();
     }
 
     public float GetRadius()
@@ -148,7 +145,10 @@ public class PlayerGrower : MonoBehaviour
         return transform.lossyScale.x * .5f;
     }
 
-    public static float InCirc(float t) => -((float) Math.Sqrt(1 - t * t) - 1);
+    public static float InCirc(float t)
+    {
+        return -((float) Math.Sqrt(1 - t * t) - 1);
+    }
 
     public void PrepareForWalkingMode()
     {
@@ -158,5 +158,13 @@ public class PlayerGrower : MonoBehaviour
     public void PrepareForBallMode()
     {
         // SetVisible();
+    }
+
+    public void ReleaseSomeSnow(float amount)
+    {
+        var finalSizeFactor = Mathf.Clamp(transform.localScale.x - amount, _originalSize.x, MaxSize);
+        transform.localScale = Vector3.one * finalSizeFactor;
+
+        if (finalSizeFactor < .2f) ReleaseSnow();
     }
 }
