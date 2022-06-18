@@ -98,7 +98,7 @@ public class WaySign : MonoBehaviour
             SfxManager.Instance.PlaySfx("collideWithTree", other.rigidbody.velocity.magnitude * 0.05f, true);
             var grower = other.collider.GetComponentInChildren<PlayerGrower>();
             Shake();
-            other.collider.GetComponentInChildren<PlayerController>().HitTree();
+            other.collider.GetComponentInChildren<PlayerBallMover>().HitTree();
             grower.ReleaseSnow();
         }
     }

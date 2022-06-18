@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using DeformationSnow;
+using Player;
 using UnityEngine;
 
 public class ProceduralSnow : MonoBehaviour
@@ -25,8 +26,9 @@ public class ProceduralSnow : MonoBehaviour
 
     private Vector3[] _originalVertices;
 
-    private PlayerController _player;
+    private PlayerBallMover _ballMover;
     private PlayerGrower _playerGrower;
+    private PlayerSize _playerSize;
     private PlayerModeController _playerModeController;
 
     private Rigidbody _playerRigidbody;
@@ -55,13 +57,14 @@ public class ProceduralSnow : MonoBehaviour
         if (!_playerModeController.IsSnowBall()) return;
         if (!_setup)
         {
-            _player = PlayerController.Instance;
-            _playerGrower = _player.GetComponentInChildren<PlayerGrower>();
+            _ballMover = _playerModeController.GetComponentInChildren<PlayerBallMover>();
+            _playerGrower = _playerModeController.GetComponentInChildren<PlayerGrower>();
+            _playerSize = _playerModeController.GetComponentInChildren<PlayerSize>();
             _playerRigidbody = _playerGrower.GetComponent<SphereCollider>().attachedRigidbody;
             _setup = true;
         }
 
-        if (Vector3.Distance(_player.transform.position, transform.position) <
+        if (Vector3.Distance(_ballMover.transform.position, transform.position) <
             ProceduralLandscapeGenerator.GridSize + GridCullingMargin)
             DeformVerticies();
     }
@@ -202,19 +205,19 @@ public class ProceduralSnow : MonoBehaviour
         var velocityVector = _playerRigidbody.velocity;
         var velocity = velocityVector.magnitude;
 
-        var playerMoving = _player.Moving();
-        var playerBoosting = _player.Boosting();
+        var playerMoving = _ballMover.Moving();
+        var playerBoosting = _ballMover.Boosting();
 
         // Deforming force based on boost
         // var boostFactor = Mathf.Clamp(_player.BoostJuice() / 3f, 0f, 1f);
 
         // Deforming force based on time spent continuously on the move
-        var moveTimeFactor = Mathf.Clamp(_player.TimeMoving() / 6f, 0f, 1f);
-        var boostFactor = Mathf.Clamp(_player.BoostJuice() / 3f, 0f, 1f);
+        var moveTimeFactor = Mathf.Clamp(_ballMover.TimeMoving() / 6f, 0f, 1f);
+        var boostFactor = Mathf.Clamp(_ballMover.BoostJuice() / 3f, 0f, 1f);
 
         var maxSizeReached = _playerGrower.MaxSizeReached();
         var playerFalling = false; //velocityVector.y < -4f;
-        var playerPreviousPosition = _player.GetPreviousPosition();
+        var playerPreviousPosition = _ballMover.GetPreviousPosition();
 
         var localToWorld = transform.localToWorldMatrix;
 
@@ -224,7 +227,7 @@ public class ProceduralSnow : MonoBehaviour
 
         var passUntil = -1;
 
-        var playerTransform = _player.transform;
+        var playerTransform = _ballMover.transform;
         var playerPosition = playerTransform.position;
         var playerScaleX = playerTransform.localScale.x;
 
@@ -236,8 +239,8 @@ public class ProceduralSnow : MonoBehaviour
 
         var speedScale = .5f;
 
-        var playerRelease = _player.Releasing();
-        var playerReleasing = playerRelease > 0f && _playerGrower.GrowthProgress() > 0.01f;
+        var playerRelease = _ballMover.Releasing();
+        var playerReleasing = playerRelease > 0f && _playerSize.HasSnow();
 
         for (var i = 0; i < currentVerticies.Length; i++)
         {
@@ -301,7 +304,7 @@ public class ProceduralSnow : MonoBehaviour
                     passUntil = i + edges;
                 }
 
-                if (playerReleasing && pointDistance < LocalCullingDistance)
+                if (playerReleasing && pointDistance < LocalCullingDistance && _ballMover.TouchingSnow())
                 {
                     var holeSize = playerScaleX * 1.5f;
                                    var t = Mathf.Clamp(pointDistance, 0f, holeSize);

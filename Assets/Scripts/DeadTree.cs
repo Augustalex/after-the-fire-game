@@ -53,8 +53,8 @@ public class DeadTree : MonoBehaviour
             {
                 // Check if player has enough snow
                 var playerGrower = other.GetComponent<PlayerGrower>();
-                var playerController = other.GetComponent<PlayerController>();
-                playerController.ZeroBoostJuice();
+                var ballMover = other.GetComponent<PlayerBallMover>();
+                ballMover.ZeroBoostJuice();
                 if (playerGrower.GrowthProgress() > 0.2f || CheatEngine.Instance.Cheating())
                 {
                     playerGrower.ReleaseThirdOfSnow();
@@ -64,7 +64,7 @@ public class DeadTree : MonoBehaviour
                     SfxManager.Instance.PlaySfx("collideWithTreeFire", 1f, true);
                     island.OnExstuinguishTree();
 
-                    other.GetComponentInChildren<PlayerController>().TriggerHitGroundParticles();
+                    ballMover.TriggerHitGroundParticles();
                 }
                 else
                 {
@@ -74,7 +74,7 @@ public class DeadTree : MonoBehaviour
                 }
 
                 Shake();
-                other.GetComponentInChildren<PlayerController>().HitDeadTree();
+                ballMover.HitDeadTree();
             }
             else if (currentState == State.Dead)
             {
@@ -84,7 +84,7 @@ public class DeadTree : MonoBehaviour
                     true);
 
                 Shake();
-                other.GetComponentInChildren<PlayerController>().HitDeadTree();
+                other.GetComponentInChildren<PlayerBallMover>().HitDeadTree();
             }
         }
     }

@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Player;
 using UnityEngine;
 
 public class PlayerGrower : MonoBehaviour
@@ -7,18 +8,18 @@ public class PlayerGrower : MonoBehaviour
     private const float MaxSize = 2f;
 
     private MeshRenderer _ballMeshRenderer;
-    private PlayerController _controller;
+    private PlayerBallMover _ballMover;
     private bool _maxSizeReached;
-    private bool _onIsland;
-    private bool _onSnow;
     private Vector3 _originalSize;
     private Rigidbody _rigidbody;
     private bool _visible;
+    private PlayerSize _playerSize;
 
     private void Start()
     {
         _rigidbody = GetComponent<SphereCollider>().attachedRigidbody;
-        _controller = GetComponentInParent<PlayerController>();
+        _ballMover = GetComponentInParent<PlayerBallMover>();
+        _playerSize = GetComponentInParent<PlayerSize>();
 
         _originalSize = transform.localScale;
 
@@ -27,30 +28,31 @@ public class PlayerGrower : MonoBehaviour
 
     private void Update()
     {
-        _onIsland = OnIsland();
-        _onSnow = OnSnow();
+        var onIsland = _ballMover.OnIsland();
+        var onSnow = _ballMover.TouchingSnow();
 
         if (transform.localScale.x > _originalSize.x)
             SetVisible();
-        else if (_onIsland) SetInvisible();
+        else if (onIsland) SetInvisible();
 
-        if (_controller.Stunned()) return;
+        if (_ballMover.Stunned()) return;
 
-        var releasing = _controller.Releasing();
+        var releasing = _ballMover.Releasing();
         if (releasing > 0f)
         {
             if (GrowthProgress() > 0.001f)
             {
                 // _controller.TriggerHitGroundParticles();
             }
+
             ReleaseSomeSnow(releasing * Time.deltaTime * .5f);
         }
-        else if (_onSnow && !_onIsland)
+        else if (onSnow && !onIsland)
         {
             if (_rigidbody.velocity.magnitude > 1f)
             {
-                var moveTime = Mathf.Clamp(Mathf.Max(_controller.TimeMoving() - .5f, 0f) / 12f, 0f, 1f);
-                var growthRate = _controller.Boosting() ? .004f + 4f * moveTime : .004f + .8f * moveTime;
+                var moveTime = Mathf.Clamp(Mathf.Max(_ballMover.TimeMoving() - .5f, 0f) / 12f, 0f, 1f);
+                var growthRate = _ballMover.Boosting() ? .004f + 4f * moveTime : .004f + .8f * moveTime;
 
                 var toGrow = growthRate * SizeToMaxSize() * Time.deltaTime;
 
@@ -63,6 +65,8 @@ public class PlayerGrower : MonoBehaviour
                 if (transform.localScale.x > MaxSize) SetToMaxSize();
             }
         }
+
+        _playerSize.Change(GrowthProgress());
     }
 
     private void SetToMaxSize()
@@ -110,19 +114,9 @@ public class PlayerGrower : MonoBehaviour
         _ballMeshRenderer.enabled = false;
     }
 
-    private bool OnIsland()
-    {
-        return Physics.OverlapSphere(transform.position, transform.localScale.x).Any(hit => hit.CompareTag("Island"));
-    }
-
-    private bool OnSnow()
-    {
-        return Physics.OverlapSphere(transform.position, transform.localScale.x).Any(hit => hit.CompareTag("Terrain"));
-    }
-
     public void ReleaseSnow()
     {
-        _controller.ZeroBoostJuice(); // TODO: Fix circular depedency
+        _ballMover.ZeroBoostJuice(); // TODO: Fix circular depedency
         transform.localScale = _originalSize;
     }
 

@@ -38,10 +38,11 @@ public class PlayerModeController : MonoBehaviour
         _hogThirdPersonController = hogRoot.GetComponent<ThirdPersonController>();
         _hogCollider = hogRoot.GetComponent<BoxCollider>();
 
-        _ballController = ballRoot.GetComponentInChildren<PlayerController>();
-        _ballRigidbody = ballRoot.GetComponentInChildren<Rigidbody>();
-        _ballCollider = ballRoot.GetComponentInChildren<SphereCollider>();
-        _ballGrower = ballRoot.GetComponentInChildren<PlayerGrower>();
+        _ballController = ballRoot.GetComponent<PlayerController>();
+        _ballMover = ballRoot.GetComponent<PlayerBallMover>();
+        _ballRigidbody = ballRoot.GetComponent<Rigidbody>();
+        _ballCollider = ballRoot.GetComponent<SphereCollider>();
+        _ballGrower = ballRoot.GetComponent<PlayerGrower>();
 
         _playerInputMediator = GetComponent<PlayerInputMediator>();
 
@@ -49,7 +50,7 @@ public class PlayerModeController : MonoBehaviour
 
         if (intro)
         {
-            _ballController.IntroStun();
+            _ballMover.IntroStun();
 
             StartCoroutine(ExitIntroScene());
         }
@@ -75,6 +76,7 @@ public class PlayerModeController : MonoBehaviour
     private bool _switchedMode = false;
     private bool _sprinting = false;
     private Vector2 _startTouch;
+    private PlayerBallMover _ballMover;
 
     void Update()
     {
@@ -150,6 +152,7 @@ public class PlayerModeController : MonoBehaviour
         // hogRoot.SetActive(false);
 
         _ballController.enabled = true;
+        _ballMover.enabled = true;
         // _ballRigidbody.isKinematic = false;
         _ballCollider.enabled = true;
         ballRoot.SetActive(true);
@@ -169,6 +172,7 @@ public class PlayerModeController : MonoBehaviour
         _ballController.PrepareForStopRolling();
 
         _ballController.enabled = false;
+        _ballMover.enabled = false;
         _ballCollider.enabled = false;
         // _ballRigidbody.isKinematic = true;
         ballRoot.SetActive(false);
@@ -238,7 +242,7 @@ public class PlayerModeController : MonoBehaviour
     {
         if (_isBall)
         {
-            var position = _ballController.transform.position;
+            var position = _ballMover.transform.position;
             return new Vector3(
                 position.x,
                 position.y - _ballGrower.GetRadius(),

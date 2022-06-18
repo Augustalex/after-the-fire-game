@@ -23,7 +23,6 @@ public class IslandSign : MonoBehaviour
         if (questIsland)
         {
             var completedQuests = questIsland.GetNumberOfReceivedBeetles();
-            Debug.Log("completedQuests: " + completedQuests);
             for (int i = 0; i < _toggles.Length; i++)
             {
                 var toggleGameObject = _toggles[i];
@@ -32,12 +31,10 @@ public class IslandSign : MonoBehaviour
                 var toggle = toggleGameObject.GetComponent<BeetleToggle>();
                 if (i < completedQuests)
                 {
-                    Debug.Log("DONE");
                     toggle.IsDone();
                 }
                 else
                 {
-                    Debug.Log("NOT DONE");
                     toggle.IsNotDone();
                 }
             }

@@ -106,7 +106,7 @@ public class WildTree : MonoBehaviour
             if (grower.SizeToMaxSize() < .2f)
             {
                 Shake();
-                other.collider.GetComponentInChildren<PlayerController>().HitTree();
+                other.collider.GetComponentInChildren<PlayerBallMover>().HitTree();
                 grower.ReleaseSnow();
 
                 if (ReadyToHarvest())
