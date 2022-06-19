@@ -317,8 +317,8 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
     {
         if (_releasing > 0f && _inAir && _playerSize.HasSnow())
         {
-            var force = Vector3.up * (data.jumpForce * .75f);
-            _rigidbody.AddForce(force, ForceMode.Acceleration);
+            var force = Vector3.up * 2000f * Time.deltaTime;
+            _rigidbody.AddForce(force, ForceMode.Force);
         }
     }
     
