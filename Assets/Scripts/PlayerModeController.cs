@@ -6,6 +6,8 @@ using TouchPhase = UnityEngine.TouchPhase;
 
 public class PlayerModeController : MonoBehaviour
 {
+    public static float IntroLength = 4f;
+    
     public GameObject ballRoot;
     public GameObject hogRoot;
     private bool _isBall;
@@ -31,7 +33,14 @@ public class PlayerModeController : MonoBehaviour
 
     // Enable when building for iOS
     private const bool EnableTouchControls = false;
-
+    
+    private Vector2 _move;
+    private bool _jumping = false;
+    private bool _switchedMode = false;
+    private bool _sprinting = false;
+    private Vector2 _startTouch;
+    private PlayerBallMover _ballMover;
+    
     private void Awake()
     {
         _hogCharacterController = hogRoot.GetComponent<CharacterController>();
@@ -48,35 +57,28 @@ public class PlayerModeController : MonoBehaviour
 
         SetToBallMode();
 
-        if (intro)
-        {
-            _ballMover.IntroStun();
-
-            StartCoroutine(ExitIntroScene());
-        }
+        if (intro) StartCoroutine(DoIntroScene());
 
         _fakeBallFollower = FindObjectOfType<PlayerFakeBall>().gameObject;
     }
 
-    private IEnumerator ExitIntroScene()
+    private IEnumerator DoIntroScene()
     {
         _intro = true;
-        yield return new WaitForSeconds(6f);
+        _hogThirdPersonController.Stun();
+        _ballMover.Stun();
+
+        yield return new WaitForSeconds(IntroLength * .9f);
 
         SetToWalkingMode();
-        _hogThirdPersonController.IntroStun();
 
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(IntroLength * .1f);
         CameraModeController.Instance.SetToPlayerCamera();
+        
         _intro = false;
+        _hogThirdPersonController.ClearStun();
+        _ballMover.ClearStun();
     }
-
-    private Vector2 _move;
-    private bool _jumping = false;
-    private bool _switchedMode = false;
-    private bool _sprinting = false;
-    private Vector2 _startTouch;
-    private PlayerBallMover _ballMover;
 
     void Update()
     {
@@ -197,10 +199,6 @@ public class PlayerModeController : MonoBehaviour
 
     private bool HogNotOnIsland()
     {
-        var onIsland = Physics.OverlapSphere(hogRoot.transform.position, 2f).Any(hit => hit.CompareTag("Island"));
-
-        // return onIsland;
-
         return HogOnSnow() || HogInAir();
     }
 

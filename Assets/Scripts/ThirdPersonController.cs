@@ -46,9 +46,9 @@ public class ThirdPersonController : MonoBehaviour, IPlayerInputReceiver
     private GameObject _mainCamera;
 
     private bool _hasAnimator;
-    private float _stunnedCooldown;
     private FollowSphere _followPlayer;
     private PlayerCameraLookController _lookController;
+    private bool _stunned;
 
     private void Awake()
     {
@@ -59,9 +59,14 @@ public class ThirdPersonController : MonoBehaviour, IPlayerInputReceiver
         }
     }
 
-    public void IntroStun()
+    public void Stun()
     {
-        _stunnedCooldown = 6f;
+        _stunned = true;
+    }
+    
+    public void ClearStun()
+    {        
+        _stunned = false;
     }
 
     private void Start()
@@ -208,12 +213,7 @@ public class ThirdPersonController : MonoBehaviour, IPlayerInputReceiver
         Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
         _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
                          new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
-
-        if (_stunnedCooldown > 0f)
-        {
-            _stunnedCooldown -= Time.deltaTime;
-        }
-        else
+        if(!_stunned)
         {
             if (_move.magnitude > .1f)
             {

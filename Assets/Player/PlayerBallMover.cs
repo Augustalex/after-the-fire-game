@@ -4,7 +4,6 @@ using Core;
 using DeformationSnow;
 using Player;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerBallMover : MonoSingleton<PlayerBallMover>
 {
@@ -45,6 +44,7 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
     private float _worldLoadCooldown;
     private bool _jumpActionActive;
     private PlayerSize _playerSize;
+    private bool _stunned;
 
     private void Awake()
     {
@@ -63,11 +63,11 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
         TrackIsTouchingSnow();
         TrackIsInAir();
 
-        if (_worldLoadCooldown > 0f)
-        {
-            _worldLoadCooldown -= Time.deltaTime;
-            return;
-        }
+        // if (_worldLoadCooldown > 0f)
+        // {
+        //     _worldLoadCooldown -= Time.deltaTime;
+        //     return;
+        // }
 
         _onIce = CheckIfOnIce();
 
@@ -78,7 +78,7 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
         else
             AdjustDrag();
 
-        if (Stunned()) _stunnedCooldown -= Time.deltaTime;
+        if (HasStunnedCooldown()) _stunnedCooldown -= Time.deltaTime;
 
         if (!Stunned())
         {
@@ -113,10 +113,14 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
         _islandNormal = other.GetContact(0).normal;
     }
 
-    public void IntroStun()
+    public void Stun()
     {
-        _stunnedCooldown =
-            10f; // Tweak to aprox. fit the time the player should be unable to move (before entering walk mode) in the intro sequence
+        _stunned = true;
+    }
+    
+    public void ClearStun()
+    {
+        _stunned = false;
     }
 
     private void TrackIsTouchingSnow()
@@ -380,6 +384,11 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
     }
 
     public bool Stunned()
+    {
+        return HasStunnedCooldown() || _stunned;
+    }
+
+    public bool HasStunnedCooldown()
     {
         return _stunnedCooldown > 0f;
     }

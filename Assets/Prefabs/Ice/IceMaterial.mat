@@ -21,14 +21,13 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: IceMaterial
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 09809cde4f47d5e43b7bcea0350f5edc, type: 3}
   m_ShaderKeywords: _NORMALMAP _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A _SPECULAR_SETUP
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
-  stringTagMap:
-    RenderType: Opaque
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -73,8 +72,60 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _ParallaxMapping_1b1e1c89a0a0428bb604839ac8e60cdd_Heightmap_1:
+        m_Texture: {fileID: 2800000, guid: 7e7f682ec07689144b141c895447c258, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxOcclusionMapping_58701f7cd50b47449755da53538579b8_Heightmap_2:
+        m_Texture: {fileID: 2800000, guid: 7e7f682ec07689144b141c895447c258, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_0adcfed96c1d47238ea0a5a00897ae10_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 8fa296f26fc7b7f43978f2653613054d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_1b1d83c6e79942329cdae40b5f6ece4e_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 8fa296f26fc7b7f43978f2653613054d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_2c1cb45916e7472f84dcde6d7bc1dafc_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 8fa296f26fc7b7f43978f2653613054d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_6427bc0ff9384502889131afea0d8dab_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 8fa296f26fc7b7f43978f2653613054d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_944f0513a4614ac894a9464f72b2980e_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 8fa296f26fc7b7f43978f2653613054d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_c61382e05a354d59afe9f9ba46d82038_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 8fa296f26fc7b7f43978f2653613054d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_db05b8dadb464464a7f3b48d4823fb37_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 8fa296f26fc7b7f43978f2653613054d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_fd6b861892e64cb6ad355e4f4d8bb87f_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 8fa296f26fc7b7f43978f2653613054d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_fe0d3a7312e8421ba7c432a86c429e78_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 7e7f682ec07689144b141c895447c258, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_0f951b9c41c347c4b7ba01d2bc53bb3b_Out_0:
+        m_Texture: {fileID: 2800000, guid: 05538d63ab7721e4e8bdaf95c6ac4ab6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_7a84793be91f4d57a59c54b7d1c17434_Out_0:
+        m_Texture: {fileID: 2800000, guid: 8fa296f26fc7b7f43978f2653613054d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -90,11 +141,13 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Vector1_58ba31ab1fa944e5a770baa3bfee78ca: 0
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: -0.32
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
+    - _CrackLevel: 0
     - _Cull: 2
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
