@@ -25,7 +25,6 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
     private Vector2 _move;
     private float _moveTime;
     private bool _moving;
-    private bool _onIce;
     private bool _onIsland;
     private Vector3 _previousPosition;
     private float _releasing;
@@ -35,10 +34,8 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
     private bool _startedJumpMotion;
     private double _stillMovingCooldown;
     private float _stunnedCooldown;
-    private bool _touchingSnow;
     private ParticleSystem.EmissionModule _trailParticles;
 
-    private float _worldLoadCooldown;
     private bool _jumpActionActive;
     private PlayerSize _playerSize;
     private bool _stunned;
@@ -54,17 +51,12 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
     
     private void Start()
     {
-        _worldLoadCooldown = 1.5f;
         _trailParticles = snowParticles.emission;
     }
 
     private void Update()
     {
-        TrackIsTouchingSnow();
         TrackIsInAir();
-
-        _onIce = CheckIfOnIce();
-
         AddExtraGravityIfOnIsland();
 
         if (CheckInAir())
@@ -84,7 +76,7 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
         }
 
         var showSnowReleaseParticleEffect = _releasing > 0f && _playerSize.HasSnow();
-        if (showSnowReleaseParticleEffect || (_touchingSnow && !_onIsland && Grounded()))
+        if (showSnowReleaseParticleEffect || (_groundCheck.TouchingGroundType(GroundCheck.GroundType.Snow) && !_onIsland))
             EnableTrailParticles();
         else
             DisableTrailParticles();
@@ -114,22 +106,6 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
         _stunned = false;
     }
 
-    private void TrackIsTouchingSnow()
-    {
-        _touchingSnow = TouchingSnow();
-    }
-
-    public bool CheckIfOnIce()
-    {
-        RaycastHit hit;
-        var dir = Vector3.down;
-
-        if (Physics.Raycast(transform.position, dir, out hit, transform.lossyScale.x * .6f))
-            return hit.collider.CompareTag("Ice");
-
-        return false;
-    }
-
     private void EnableTrailParticles()
     {
         _trailParticles.enabled = true;
@@ -153,21 +129,11 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
         movementSfx.volume = 0f;
     }
 
-    private bool NotTouchingSnow()
-    {
-        return _groundCheck.OffGround() || _onIsland || _onIce || !_touchingSnow;
-    }
-
-    public bool TouchingSnow()
-    {
-        return Physics.OverlapSphere(transform.position, transform.localScale.x).Any(hit => hit.CompareTag("Terrain"));
-    }
-
     private void AdjustDrag()
     {
-        if (_onIce)
+        if (_groundCheck.TouchingGroundType(GroundCheck.GroundType.Ice))
             _rigidbody.drag = data.onIceDrag;
-        else if (_touchingSnow && _rigidbody.velocity.magnitude > data.highSpeedDragVelocityThreshold)
+        else if (_groundCheck.TouchingGroundType(GroundCheck.GroundType.Ice) && _rigidbody.velocity.magnitude > data.highSpeedDragVelocityThreshold)
             _rigidbody.drag = data.highSpeedDrag;
         else if (Boosting())
             _rigidbody.drag = data.boostDrag;
@@ -252,7 +218,7 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
 
     private Vector3 IceMovement(Vector3 currentMovement)
     {
-        if (_onIce)
+        if (_groundCheck.TouchingGroundType(GroundCheck.GroundType.Ice))
             return currentMovement * data.onIceMovementMultiplier + Random.insideUnitSphere *
                 Random.Range(data.onIceMinRandomMotion, data.onIceMaxRandomMotion);
         return currentMovement;
@@ -326,6 +292,11 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
         return _groundCheck.Grounded();
     }
 
+    public bool TouchingSnow()
+    {
+        return _groundCheck.TouchingGroundType(GroundCheck.GroundType.Snow);
+    }
+
     public bool Moving()
     {
         return _moving;
@@ -376,15 +347,9 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
         HitTree();
     }
 
-    public bool InAir()
-    {
-        return CheckInAir();
-    }
-
     public bool OnIsland()
     {
-        // todo: Maybe check _onIsland?
-        return _onIce;
+        return _onIsland;
     }
 
     public float Releasing()

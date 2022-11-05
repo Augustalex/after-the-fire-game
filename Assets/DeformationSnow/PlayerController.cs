@@ -136,8 +136,7 @@ public class PlayerController : MonoSingleton<PlayerController>, IPlayerInputRec
     public void SwitchModeAction()
     {
         var onIsland = _playerBallMover.OnIsland();
-        var grounded = _playerBallMover.TouchingSnow() || onIsland;
-        if (!_playerBallMover.Boosting() && grounded)
+        if (!_playerBallMover.Boosting() && _playerBallMover.Grounded())
         {
             if (!onIsland)
             {
