@@ -15,13 +15,11 @@ public class IceCracker : MonoBehaviour
     {
         if (other.collider.CompareTag("Player"))
         {
-            var inAir = other.collider.GetComponentInParent<PlayerModeController>().ballRoot
-                .GetComponentInChildren<PlayerBallMover>().InAir();
-            if (inAir)
+            if (other.relativeVelocity.y < -15f)
             {
                 _crackLevel = Mathf.Min(1f, _crackLevel + .1f);
                 _material.SetFloat(CrackLevel, _crackLevel);
-            }   
+            }
         }
     }
 }

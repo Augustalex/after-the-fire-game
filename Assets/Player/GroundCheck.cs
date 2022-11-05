@@ -7,7 +7,7 @@ namespace Player
     public class GroundCheck : MonoBehaviour
     {
         private const float TimeOffGroundBeforeCountAsHit = .25f;
-        private const float CheckDistanceFactor = 3.5f;
+        private const float CheckDistanceFactor = 3.8f;
         private SphereCollider _collider;
         private bool _grounded = true;
         private bool _lastGrounded = true;

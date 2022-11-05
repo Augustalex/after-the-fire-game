@@ -63,12 +63,6 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
         TrackIsTouchingSnow();
         TrackIsInAir();
 
-        // if (_worldLoadCooldown > 0f)
-        // {
-        //     _worldLoadCooldown -= Time.deltaTime;
-        //     return;
-        // }
-
         _onIce = CheckIfOnIce();
 
         AddExtraGravityIfOnIsland();
