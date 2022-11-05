@@ -5,6 +5,7 @@ using DeformationSnow;
 using Player;
 using UnityEngine;
 
+[RequireComponent(typeof(GroundCheck))]
 public class PlayerBallMover : MonoSingleton<PlayerBallMover>
 {
     public PlayerData data;
@@ -14,9 +15,7 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
     public CinemachineImpulseSource _impulseSource;
     public AudioSource movementSfx;
     private float _boostMeter;
-    private bool _inAir;
     private float _inAirCooldown;
-    private bool _inAirLastFrame;
     private bool _inputJump;
     private bool _inputMove;
     private Vector3 _islandNormal;
@@ -39,15 +38,16 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
     private bool _touchingSnow;
     private ParticleSystem.EmissionModule _trailParticles;
 
-    private float _wentInAirAt;
-
     private float _worldLoadCooldown;
     private bool _jumpActionActive;
     private PlayerSize _playerSize;
     private bool _stunned;
 
+    private GroundCheck _groundCheck;
+
     private void Awake()
     {
+        _groundCheck = GetComponent<GroundCheck>();
         _rigidbody = GetComponent<Rigidbody>();
         _playerSize = GetComponent<PlayerSize>();
     }
@@ -73,7 +73,7 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
 
         AddExtraGravityIfOnIsland();
 
-        if (_inAir)
+        if (CheckInAir())
             ApplyInAirEffects();
         else
             AdjustDrag();
@@ -82,7 +82,7 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
 
         if (!Stunned())
         {
-            if (!_inAir) HandleBoosting();
+            if (Grounded()) HandleBoosting();
 
             HandleJump();
             HandleHovering();
@@ -90,14 +90,12 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
         }
 
         var showSnowReleaseParticleEffect = _releasing > 0f && _playerSize.HasSnow();
-        if (showSnowReleaseParticleEffect || (_touchingSnow && !_onIsland && !_inAir))
+        if (showSnowReleaseParticleEffect || (_touchingSnow && !_onIsland && Grounded()))
             EnableTrailParticles();
         else
             DisableTrailParticles();
 
-        // else if (_touchingSnow && !_onIsland && !_inAir) EnableTrailParticles();
-
-        if (TouchedGroundThisFrame())
+        if (_groundCheck.HitGroundThisFrame())
         {
             if (!_onIsland) TriggerHitGroundParticles();
 
@@ -105,7 +103,6 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
         }
 
         _previousPosition = transform.position;
-        if (!_inAir && _inAirLastFrame) _inAirLastFrame = false;
     }
 
     private void OnCollisionStay(Collision other)
@@ -137,9 +134,6 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
             return hit.collider.CompareTag("Ice");
 
         return false;
-        // return (RuntimeUtility.RaycastIgnoreTag(new Ray(transform.position, Vector3.down),
-        // out RaycastHit hitInfo, 2f, new LayerMask(), "Terrain"));
-        // return Physics.OverlapSphere(transform.position, 2f).Any(hit => hit.CompareTag("Ice"));
     }
 
     private void EnableTrailParticles()
@@ -167,7 +161,7 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
 
     private bool NotTouchingSnow()
     {
-        return _inAir || _onIsland || _onIce || !_touchingSnow;
+        return _groundCheck.OffGround() || _onIsland || _onIce || !_touchingSnow;
     }
 
     public bool TouchingSnow()
@@ -189,31 +183,22 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
             _rigidbody.drag = data.stillDrag;
     }
 
-    private bool TouchedGroundThisFrame()
-    {
-        return _inAirLastFrame && !_inAir;
-    }
-
     private void TrackIsInAir()
     {
         if (_inAirCooldown > 0)
         {
             _inAirCooldown -= Time.deltaTime;
         }
-        else
-        {
-            var hitGround = Physics.Raycast(transform.position, Vector3.down, transform.localScale.x * .75f);
-            _inAir = !hitGround;
-
-            if (_inAir && !_inAirLastFrame) _wentInAirAt = Time.time;
-        }
-
-        if (_inAir) _inAirLastFrame = true;
     }
 
+    private bool CheckInAir()
+    {
+        return _groundCheck.OffGround();
+    }
+    
     private void ApplyInAirEffects()
     {
-        var inAirDuration = Time.time - _wentInAirAt;
+        var inAirDuration = _groundCheck.TimeOffGround();
         var inAirTimeMultiplier =
             Mathf.Clamp(1 + Mathf.Pow(inAirDuration * data.gravityMultiplierBase, data.gravityMultiplierGrowthExponent),
                 1, data.gravityMultiplierMax);
@@ -241,7 +226,7 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
             var shiftBoost = Boosting() ? data.shiftBoost * islandBoostMultiplier : 0f;
             var minSpeed = data.minSpeed;
             var startBoost = Mathf.Max(0, minSpeed - _rigidbody.velocity.magnitude) / minSpeed * data.startBoost;
-            var inAirPenalty = _inAir ? .3f : 1f;
+            var inAirPenalty = _groundCheck.OffGround() ? .3f : 1f;
 
             _rigidbody.AddForce(
                 IceMovement(direction.normalized * (data.speed + startBoost + shiftBoost)) * (Time.deltaTime * inAirPenalty),
@@ -290,21 +275,20 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
 
         var timeJumping = Time.time - _jumpTriggeredAt;
         if (JumpingActionActive() && !_startedJumpMotion && _inAirCooldown <= 0f && timeJumping < .4f)
-            if (!_inAir)
+        {
+            if (Grounded())
             {
                 _startedJumpMotion = true;
 
                 var force = Vector3.up * (data.jumpForce * .75f) + direction * (.25f * data.jumpDirectionalPush);
                 _rigidbody.AddForce(force, ForceMode.Impulse);
             }
+        }
 
         if (_startedJumpMotion)
         {
             if (timeJumping < .3f)
             {
-                _inAir = true;
-                _wentInAirAt = Time.time;
-
                 var force = (Vector3.up * (data.jumpForce * 100f) + direction * (200f * data.jumpDirectionalPush)) *
                             Time.deltaTime;
                 _rigidbody.AddForce(force, ForceMode.Acceleration);
@@ -319,7 +303,7 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
 
     private void HandleHovering()
     {
-        if (_releasing > 0f && _inAir && _playerSize.HasSnow())
+        if (_releasing > 0f && _groundCheck.OffGround() && _playerSize.HasSnow())
         {
             var force = Vector3.up * 2000f * Time.deltaTime;
             _rigidbody.AddForce(force, ForceMode.Force);
@@ -345,7 +329,7 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
 
     public bool Grounded()
     {
-        return !_inAir;
+        return _groundCheck.Grounded();
     }
 
     public bool Moving()
@@ -400,16 +384,12 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
 
     public bool InAir()
     {
-        return _inAir;
+        return CheckInAir();
     }
 
     public bool OnIsland()
     {
-        return _onIce;
-    }
-
-    public bool OnIce()
-    {
+        // todo: Maybe check _onIsland?
         return _onIce;
     }
 

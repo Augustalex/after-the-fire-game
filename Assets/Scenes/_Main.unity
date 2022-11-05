@@ -11020,11 +11020,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 109717370, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
       propertyPath: m_Pan
-      value: -0.002926807
+      value: 0.0006457006
       objectReference: {fileID: 0}
     - target: {fileID: 109717370, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
       propertyPath: m_Tilt
-      value: -0.007782643
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 327137769, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
       propertyPath: m_LocalPosition.x
