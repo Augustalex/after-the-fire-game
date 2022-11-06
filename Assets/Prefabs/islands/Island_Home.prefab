@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &69882493
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 69882494}
+  m_Layer: 0
+  m_Name: HomeBeacon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &69882494
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 69882493}
+  m_LocalRotation: {x: -0, y: -0.88982505, z: -0, w: 0.45630187}
+  m_LocalPosition: {x: -9.43434, y: 1001, z: -13.860673}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1926051456368350321}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1926051456368350320
 GameObject:
   m_ObjectHideFlags: 0
@@ -9,6 +39,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1926051456368350321}
+  - component: {fileID: 520912041}
   m_Layer: 0
   m_Name: Island_Home
   m_TagString: Untagged
@@ -40,9 +71,23 @@ Transform:
   - {fileID: 2466051569511589879}
   - {fileID: 6721610399106608059}
   - {fileID: 3330507863033757635}
+  - {fileID: 69882494}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &520912041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1926051456368350320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c57a5a7e477bfac48b250da07e4c639f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  islandName: Home
 --- !u!1 &6402583014857189336
 GameObject:
   m_ObjectHideFlags: 0
@@ -577,21 +622,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 6.2871857, y: 5.25319, z: 9.398943}
   m_Center: {x: 0.11172527, y: 1.6927676, z: -1.9849867}
---- !u!114 &9100851840875514122
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6876596471524591058}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8193359a0e5c426e80ef27aaa7c78d65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  quest1Instructions: We need # beetles to finish our stew! Maybe check with our
-    neighbours?
-  quest1Success: Look! Everyone came to our party to thank you for helping them!
 --- !u!1001 &5399777382514565330
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -658,6 +688,10 @@ PrefabInstance:
     - target: {fileID: 5276461002553832055, guid: f85b21c231026f946a972d1ed6a41cf7, type: 3}
       propertyPath: m_Name
       value: Island_home
+      objectReference: {fileID: 0}
+    - target: {fileID: 5276461002553832055, guid: f85b21c231026f946a972d1ed6a41cf7, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5276461002553832055, guid: f85b21c231026f946a972d1ed6a41cf7, type: 3}
       propertyPath: m_TagString
@@ -1030,6 +1064,39 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 876135482955246816, guid: 95d8053ef24a0684aa426cecdd5f5d5e, type: 3}
   m_PrefabInstance: {fileID: 5868011781028022107}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6200372186304377089 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 532401367002248794, guid: 95d8053ef24a0684aa426cecdd5f5d5e, type: 3}
+  m_PrefabInstance: {fileID: 5868011781028022107}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1872731865
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6200372186304377089}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 6.441925, y: 9.218923, z: 8.172491}
+  m_Center: {x: -0.055918876, y: 4.1094613, z: 3.5862427}
+--- !u!114 &1872731866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6200372186304377089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8193359a0e5c426e80ef27aaa7c78d65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  quest1Instructions: We need # beetles to finish our stew! Maybe check with our
+    neighbours?
+  quest1Success: Look! Everyone came to our party to thank you for helping them!
 --- !u!1001 &6451118204058069172
 PrefabInstance:
   m_ObjectHideFlags: 0
