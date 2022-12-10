@@ -3400,6 +3400,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1956145531}
     m_Modifications:
+    - target: {fileID: 511822241, guid: 9f3cfde4fdc2a1b4fb44acc39f62e2cf, type: 3}
+      propertyPath: npcBridgeQuest
+      value: 
+      objectReference: {fileID: 1861633792}
     - target: {fileID: 1926051456368350320, guid: 9f3cfde4fdc2a1b4fb44acc39f62e2cf, type: 3}
       propertyPath: m_Name
       value: Island_1
@@ -3447,6 +3451,11 @@ PrefabInstance:
     - target: {fileID: 1926051456368350321, guid: 9f3cfde4fdc2a1b4fb44acc39f62e2cf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5317304338560099329, guid: 9f3cfde4fdc2a1b4fb44acc39f62e2cf, type: 3}
+      propertyPath: part1CompletedText
+      value: I thought that was it for me! Could you lend me a hand and plant some
+        new trees?
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f3cfde4fdc2a1b4fb44acc39f62e2cf, type: 3}
@@ -10525,6 +10534,29 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5126072899399698250, guid: 99ad619a03058e2478882522b5521a17, type: 3}
   m_PrefabInstance: {fileID: 1859562026}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1861633791 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6615938576042280408, guid: 9f3cfde4fdc2a1b4fb44acc39f62e2cf, type: 3}
+  m_PrefabInstance: {fileID: 511822236}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1861633792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1861633791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7596762cf95c4b2694c7a854eef280c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  woodNeeded: 9
+  introText: We could use some firewood to finish the brigde to the other island.
+    Care to help me knock some down?
+  progressMadeText: Thanks these will help. Just need a few more!
+  completedText: Wow, thanks a bunch! Take these logs to the bridge down the hill,
+    and let's build that bridge.
 --- !u!1001 &1890815028
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10596,11 +10628,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 109717370, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
       propertyPath: m_Pan
-      value: 0.001758108
+      value: -0.01309706
       objectReference: {fileID: 0}
     - target: {fileID: 109717370, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
       propertyPath: m_Tilt
-      value: -0.007532835
+      value: -0.007030827
       objectReference: {fileID: 0}
     - target: {fileID: 327137772, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
       propertyPath: m_Follow
@@ -10610,14 +10642,6 @@ PrefabInstance:
       propertyPath: m_LookAt
       value: 
       objectReference: {fileID: 248246001}
-    - target: {fileID: 341565457, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 341565457, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 78
-      objectReference: {fileID: 0}
     - target: {fileID: 671083119, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
       propertyPath: npcCamera
       value: 
@@ -10688,28 +10712,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
---- !u!114 &1891676857 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1448574140290059618, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
-  m_PrefabInstance: {fileID: 1891676854}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1891676858 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6707339881894108149, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
-  m_PrefabInstance: {fileID: 1891676854}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &1909126108 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5126072899399698250, guid: 99ad619a03058e2478882522b5521a17, type: 3}
@@ -12151,11 +12153,11 @@ PrefabInstance:
     - target: {fileID: 3959439489612392025, guid: 0cbcd0f3566f6b1488e0fcf057b035f2, type: 3}
       propertyPath: seedText
       value: 
-      objectReference: {fileID: 1891676857}
+      objectReference: {fileID: 0}
     - target: {fileID: 3959439489612392025, guid: 0cbcd0f3566f6b1488e0fcf057b035f2, type: 3}
       propertyPath: wormsText
       value: 
-      objectReference: {fileID: 1891676858}
+      objectReference: {fileID: 0}
     - target: {fileID: 4028223291079337957, guid: 0cbcd0f3566f6b1488e0fcf057b035f2, type: 3}
       propertyPath: m_Layer
       value: 10

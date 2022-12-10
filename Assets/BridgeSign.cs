@@ -1,16 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using quests;
 using TMPro;
 using UnityEngine;
 
 public class BridgeSign : MonoBehaviour
 {
-    private Bridge _bridge;
-
+    public BridgeQuestComponent npcBridgeQuest;
+    
     public TMP_Text count;
-
-    private int _woodNeeded = 9;
+    
+    private Bridge _bridge;
     
     void Start()
     {
@@ -19,18 +20,16 @@ public class BridgeSign : MonoBehaviour
 
     void Update()
     {
-        count.text = $"x{_woodNeeded}";
+        count.text = $"x{npcBridgeQuest.WoodNeeded()}";
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("PlayerHog"))
+        if (other.CompareTag("PlayerHog") || other.CompareTag("Player"))
         {
-            var woodGotten = other.GetComponentInParent<PlayerInventory>().ConsumeWoodUpToAmount(_woodNeeded);
-            _woodNeeded -= woodGotten;
-            SfxManager.Instance.PlaySfx("seedPickup", 0.6f);
-            if (_woodNeeded == 0)
+            if (npcBridgeQuest.Completed())
             {
+                SfxManager.Instance.PlaySfx("seedPickup", 0.6f);
                 _bridge.Toggle();
                 SfxManager.Instance.PlaySfx("splash", 0.6f);
                 Destroy(gameObject);

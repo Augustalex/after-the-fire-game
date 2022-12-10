@@ -1,7 +1,8 @@
 ﻿using System;
+using quests;
 using UnityEngine;
 
-
+[RequireComponent(typeof(IslandQuests))]
 public class Npc : MonoBehaviour
 {
     public string part1CompletedText = "Nice! Now fetch me # cones";
@@ -9,7 +10,7 @@ public class Npc : MonoBehaviour
     public int numberOfConesToFetch = 5;
 
     public bool islandNpc = true;
-
+    
     [Serializable]
     private enum State
     {
@@ -24,14 +25,73 @@ public class Npc : MonoBehaviour
 
     private Animator _animator;
     private bool _collectedReward;
+    private IslandQuests _islandQuests;
+
+    private const string WhimperingFireText = "[whimpering] Fire, fire!! We need snow!";
 
     void Awake()
     {
         _animator = GetComponent<Animator>();
+        _islandQuests = GetComponent<IslandQuests>();
 
         if (islandNpc)
         {
             _animator.SetBool("IsBall", true);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!islandNpc) return;
+
+        if (_currentState == State.IslandOnFire)
+        {
+            if (other.CompareTag("Player"))
+            {
+                if (_currentState == State.IslandOnFire)
+                {
+                    UIManager.Instance.SetSubtitle(WhimperingFireText);
+                }
+            }
+        }
+        else
+        {
+            if (other.CompareTag("PlayerHog"))
+            {
+                NpcCamera.Instance.FocusOnNpc(transform);
+                UpdateStateMachine(other);
+            }
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (!islandNpc) return;
+
+        if (other.CompareTag("Player") || other.CompareTag("PlayerHog"))
+        {
+            other.GetComponentInParent<PlayerModeController>().CloseToNpc();
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (!islandNpc) return;
+
+        
+        if (_currentState == State.IslandOnFire)
+        {
+            if (other.CompareTag("Player") || other.CompareTag("PlayerHog"))
+            {
+                ExitDialog();
+            }   
+        }
+        else
+        {
+            if (other.CompareTag("PlayerHog"))
+            {
+                ExitDialog();
+            }  
         }
     }
 
@@ -41,7 +101,7 @@ public class Npc : MonoBehaviour
 
         _animator.SetBool("IsBall", false);
     }
-
+    
     private void CheckIfQuestIsCompleted()
     {
         if (_currentState == State.NeedMoreTrees && LeftToCollect() == 0)
@@ -59,79 +119,55 @@ public class Npc : MonoBehaviour
             var text = part1CompletedText.Replace("#", LeftToCollect().ToString());
             UIManager.Instance.SetSubtitle(text);
         }
-
-        if (_currentState == State.AllCompleted)
+        else if (_currentState == State.AllCompleted && !_collectedReward)
         {
-            if (!_collectedReward)
-            {
-                _collectedReward = true;
-
-                var playerInventory = other.GetComponentInParent<PlayerInventory>();
-                playerInventory.RegisterPickedUpWorm();
-                GameManager.Instance.OnIslandCompleted();
-            }
-
-            var text = allCompletedText.Replace("#", numberOfConesToFetch.ToString());
-            UIManager.Instance.SetSubtitle(text);
+            var playerInventory = other.GetComponentInParent<PlayerInventory>();
+            CollectReward(playerInventory);
+            
+            ShowAllQuestsCompletedText();
         }
+        else if (_islandQuests.HasQuest())
+        {
+            var playerInventory = other.GetComponentInParent<PlayerInventory>();
+            _islandQuests.InteractWithOngoingQuest(playerInventory);
+        }
+        else
+        {
+            ShowAllQuestsCompletedText();
+        }
+    }
+
+    private void CollectReward(PlayerInventory playerInventory)
+    {
+        _collectedReward = true;
+        playerInventory.RegisterPickedUpWorm();
+        GameManager.Instance.OnIslandCompleted();
+    }
+
+    private void ShowAllQuestsCompletedText()
+    {
+        var text = allCompletedText.Replace("#", numberOfConesToFetch.ToString());
+        UIManager.Instance.SetSubtitle(text);
     }
 
     private int LeftToCollect()
     {
         return Mathf.Max(0, numberOfConesToFetch - island.TreesGrown());
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!islandNpc) return;
-
-        if (other.CompareTag("Player") && _currentState == State.IslandOnFire)
-        {
-            if (_currentState == State.IslandOnFire)
-            {
-                UIManager.Instance.SetSubtitle("[whimpering] Fire, fire!! We need snow!");
-            }
-            else
-            {
-                UIManager.Instance.ClearSubtitle();
-            }
-        }
-
-        if (other.CompareTag("PlayerHog"))
-        {
-            NpcCamera.Instance.FocusOnNpc(transform);
-            UpdateStateMachine(other);
-        }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (!islandNpc) return;
-
-        if (other.CompareTag("Player") || other.CompareTag("PlayerHog"))
-        {
-            other.GetComponentInParent<PlayerModeController>().CloseToNpc();
-        }
-
-        if (other.CompareTag("PlayerHog"))
-        {
-            UpdateStateMachine(other);
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (!islandNpc) return;
-
-        if (other.CompareTag("Player") || other.CompareTag("PlayerHog"))
-        {
-            NpcCamera.Instance.Reset();
-            UIManager.Instance.ClearSubtitle();
-        }
-    }
-
+    
     public int GetNumberOfCompletedQuests()
     {
         return _collectedReward ? 1 : 0;
+    }
+
+    public void ForceExitDialog()
+    {
+        ExitDialog();    
+    }
+
+    private void ExitDialog()
+    {
+        NpcCamera.Instance.Reset();
+        UIManager.Instance.ClearSubtitle();
     }
 }

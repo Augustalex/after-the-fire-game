@@ -165,6 +165,8 @@ public class PlayerModeController : MonoBehaviour
         _playerInputMediator.SetInputReceiver(_ballController);
 
         _isBall = true;
+
+        ForceExitAnyDialog();
     }
 
     public void SetToWalkingMode()
@@ -317,5 +319,18 @@ public class PlayerModeController : MonoBehaviour
 
         var text = $"Move: {_move} - Jumping: {_jumping} - switch: {_switchedMode} - sprinting: {_sprinting}";
         UIManager.Instance.SetSubtitle(text);
+    }
+
+    private void ForceExitAnyDialog()
+    {
+        var hits = Physics.OverlapSphere(ballRoot.transform.position, 5f);
+        foreach (var hit in hits)
+        {
+            var npc = hit.GetComponent<Npc>();
+            if (npc)
+            {
+                npc.ForceExitDialog();
+            }
+        }
     }
 }
