@@ -276,7 +276,6 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
         if (Physics.OverlapSphere(transform.position, transform.localScale.x * .75f)
             .Any(hit => hit.CompareTag("Island")))
         {
-            Debug.Log("ON IsLAND");
             _onIsland = true;
             _rigidbody.AddForce(-_islandNormal * (data.extraDownwardForceOnIsland * Time.deltaTime),
                 ForceMode.Acceleration);

@@ -3,23 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour
+public class InGameInventory : MonoBehaviour
 {
     public PlayerInventory playerInventory;
     public GameObject inventorySlotTemplate;
 
-    private const float RowOffset = 25f;
-    private const float ColumnOffset = 25f;
     private const int MaxSlots = 8;
-    private const int ColumnCount = 2;
 
     private readonly List<GameObject> _items = new List<GameObject>();
-    private RectTransform _rect;
 
     void Start()
     {
-        _rect = GetComponent<RectTransform>();
         playerInventory = FindObjectOfType<PlayerInventory>();
+
+        playerInventory.Updated += Refresh;
+        Refresh();
     }
 
     public void Refresh()
@@ -64,19 +62,7 @@ public class Inventory : MonoBehaviour
 
     private InventorySlot CreateSlot()
     {
-        var index = _items.Count();
         var newItem = Instantiate(inventorySlotTemplate, Vector3.zero, Quaternion.identity, transform);
-        var rect = newItem.GetComponent<RectTransform>();
-        //
-        // var rowCount = (float) MaxSlots / (float) ColumnCount;
-        // var newHeight = (_rect.rect.height / rowCount) - RowOffset * 2f;
-        // rect.sizeDelta = new Vector2(-newHeight, -newHeight);
-        //
-        // var x = ((newHeight + ColumnOffset) * (index % ColumnCount));
-        // var y = (newHeight * index + RowOffset * index);
-        // Debug.Log($"x: {x}, y: {y}");
-        // rect.anchoredPosition = new Vector2(x, y);
-
         var slot = newItem.GetComponent<InventorySlot>();
 
         _items.Add(newItem);

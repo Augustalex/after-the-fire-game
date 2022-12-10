@@ -7,14 +7,23 @@ using UnityEngine.InputSystem;
 
 public class PlayerInventory : MonoBehaviour
 {
-    [SerializeField] private int _seeds = 0;
-    public TextMeshProUGUI seedText;
-
-    [SerializeField] private int _worms = 0;
-    public TextMeshProUGUI wormsText;
-
-    private int _logs;
-
+    [Serializable]
+    public struct InventoryState
+    {
+        public int pineCones;
+        public int beetles;
+        public int logs;
+    }
+    
+    private InventoryState _inventoryState = new InventoryState
+    {
+        pineCones = 0,
+        beetles = 0,
+        logs = 0,
+    };
+    
+    public event Action Updated;
+    
     private string _cheat;
     private bool _hasGottenFirstItem;
 
@@ -50,101 +59,134 @@ public class PlayerInventory : MonoBehaviour
         }
     }
 
-    public int GetCones()
-    {
-        return _seeds;
-    }
-
     public int TryGetCones(int n)
     {
         int seedsToReturn = n;
 
-        int newSeeds = _seeds - n;
+        int cones = GetCones();
+        int newSeeds = cones - n;
         if (newSeeds <= 0)
         {
-            seedsToReturn = _seeds;
-            _seeds = 0;
+            seedsToReturn = cones;
+            _inventoryState.pineCones = 0;
         }
         else
         {
-            _seeds = newSeeds;
+            UpdatePineConeCount(newSeeds);
         }
 
-        // seedText.text = _seeds.ToString();
         return seedsToReturn;
     }
 
     public int RemoveCones(int n)
     {
-        _seeds -= n;
-        if (_seeds <= 0)
+        var newSeeds = GetCones() - n;
+        if (newSeeds <= 0)
         {
-            _seeds = 0;
+            newSeeds = 0;
         }
-
-        return _seeds;
-    }
-
-    public int GetLogs()
-    {
-        return _logs;
+        UpdatePineConeCount(newSeeds);
+        
+        return newSeeds;
     }
 
     public void RegisterPickedUpLog()
     {
         TryTriggerInventoryGuide();
-        
-        _logs += 1;
+        UpdateLogCount(GetLogs() + 1);
     }
 
     public void RegisterPickedUpSeed()
     {
         TryTriggerInventoryGuide();
-        
-        _seeds += 1;
-        seedText.text = _seeds.ToString();
-    }
-
-    private void TryTriggerInventoryGuide()
-    {
-        if (!_hasGottenFirstItem)
-        {
-            _hasGottenFirstItem = true;
-
-            UIManager.Instance.ShowTemporarySubtitle("~ Press I/SELECT to open inventory ~");
-        }
+        UpdatePineConeCount(GetCones() + 1);
     }
 
     public void RegisterPickedUpWorm()
     {
+        // This will trigger an animation that in the end triggers the method "IncreaseBugWithOne"
         UIManager.Instance.GetABug();
         SfxManager.Instance.PlaySfx("gettingBug");
     }
 
-    // This is called by the GetABug animation
-    public void IncreaseBugWithOne()
+    public void IncreaseBugWithOne() // This is called by the GetABug animation
     {
-        _worms += 1;
-        wormsText.text = _worms.ToString();
+        UpdateBeetleCount(GetWorms() + 1);
     }
 
     public void ConsumeWorm()
     {
-        Debug.Log("ConsumeWorm");
-        _worms -= 1;
-        wormsText.text = _worms.ToString();
-    }
-
-    public int GetWorms()
-    {
-        return _worms;
+        UpdateBeetleCount(GetWorms() - 1);
     }
 
     public int ConsumeWoodUpToAmount(int amount)
     {
-        var toTake = Math.Min(_logs, amount);
-        _logs -= toTake;
+        var currentLogCount = GetLogs();
+        var toTake = Math.Min(currentLogCount, amount);
+        UpdateLogCount(currentLogCount - toTake);
 
         return toTake;
+    }
+    
+    public int GetCones()
+    {
+        return _inventoryState.pineCones;
+    }
+
+    public int GetLogs()
+    {
+        return _inventoryState.logs;
+    }
+    
+    public int GetWorms()
+    {
+        return _inventoryState.beetles;
+    }
+
+    private void TryTriggerInventoryGuide()
+    {
+        // UNCOMMENTED BECAUSE WE ARE DEPRECATING THE INVENTORY MENU IN FAVOR OF IN GAME INVENTORY
+        // if (!_hasGottenFirstItem)
+        // {
+        //     _hasGottenFirstItem = true;
+        //
+        //     UIManager.Instance.ShowTemporarySubtitle("~ Press I/SELECT to open inventory ~");
+        // }
+    }
+    
+    private void UpdatePineConeCount(int newCount)
+    {
+        _inventoryState = new InventoryState
+        {
+            pineCones = newCount,
+            beetles = _inventoryState.beetles,
+            logs = _inventoryState.logs
+        };
+        TriggerUpdateEvent();
+    }
+    private void UpdateBeetleCount(int newCount)
+    {
+        _inventoryState = new InventoryState
+        {
+            pineCones = _inventoryState.pineCones,
+            beetles = newCount,
+            logs = _inventoryState.logs
+        };
+        TriggerUpdateEvent();
+    }
+    private void UpdateLogCount(int newCount)
+    {
+        _inventoryState = new InventoryState
+        {
+            pineCones = _inventoryState.pineCones,
+            beetles = _inventoryState.beetles,
+            logs = newCount
+        };
+        TriggerUpdateEvent();
+    }
+    
+    private void TriggerUpdateEvent()
+    {
+        Updated?.Invoke();
     }
 }
