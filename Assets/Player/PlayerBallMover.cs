@@ -1,9 +1,11 @@
+using System;
 using System.Linq;
 using Cinemachine;
 using Core;
 using DeformationSnow;
 using Player;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(GroundCheck))]
 public class PlayerBallMover : MonoSingleton<PlayerBallMover>
@@ -94,6 +96,16 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
     private void OnCollisionStay(Collision other)
     {
         _islandNormal = other.GetContact(0).normal;
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.relativeVelocity.y > 6f)
+        {
+            SfxManager.Instance.PlaySfxWithPitch("collideWithTree",
+                other.relativeVelocity.y * 0.01f,
+                .2f);
+        }
     }
 
     public void Stun()
