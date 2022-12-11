@@ -1,9 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Core;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 public class IslandWelcomeScreenController : MonoSingleton<IslandWelcomeScreenController>
 {
@@ -27,6 +23,7 @@ public class IslandWelcomeScreenController : MonoSingleton<IslandWelcomeScreenCo
 
     public void Show(IslandInfo island)
     {
+        if (Time.time < 5) return;
         if (welcomeScreen.activeSelf) return;
         if (island == _lastVisitedIsland && Time.time < _sameIslandSignCooldownUntil) return;
 
@@ -34,6 +31,11 @@ public class IslandWelcomeScreenController : MonoSingleton<IslandWelcomeScreenCo
         _sameIslandSignCooldownUntil = Time.time + 60;
 
         welcomeScreen.SetActive(true);
+
+        var joint = GetComponentInChildren<SpringJoint2D>();
+        joint.distance = Screen.height - 80f;
+
+        _welcomeScreen.RefreshAnchor();
         _welcomeScreen.Play(island);
     }
 }

@@ -28,30 +28,21 @@ public class PlayerInventory : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            RegisterPickedUpLog();
-        }
-
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            RegisterPickedUpWorm();
-        }
-
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            RegisterPickedUpSeed();
-        }
-
         if (CheatEngine.Instance.Cheating())
         {
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (Input.GetKeyDown(KeyCode.F))
             {
-                RegisterPickedUpWorm();
                 GameManager.Instance.OnIslandCompleted();
             }
-
-            if (Input.GetKeyDown(KeyCode.R))
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                RegisterPickedUpWorm();
+            }
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                RegisterPickedUpLog();
+            }
+            if (Input.GetKeyDown(KeyCode.C))
             {
                 RegisterPickedUpSeed();
             }

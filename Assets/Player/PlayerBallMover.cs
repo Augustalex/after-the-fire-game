@@ -8,7 +8,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(GroundCheck))]
-public class PlayerBallMover : MonoSingleton<PlayerBallMover>
+public class PlayerBallMover : MonoBehaviour
 {
     public PlayerData data;
 

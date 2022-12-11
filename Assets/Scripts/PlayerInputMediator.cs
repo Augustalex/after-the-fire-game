@@ -78,7 +78,6 @@ public class PlayerInputMediator : MonoBehaviour
 
     public void OnGameMenu(InputValue value)
     {
-        // UNCOMMENT IF YOU WANT TO ENABLE INVENTORY SCREEN
         GameMenuController.Instance.ToggleGameMenu();
     }
 

@@ -61,7 +61,7 @@ public class DeadTree : MonoBehaviour
                     currentState = State.Dead;
                     treeMesh.material = deadMaterial;
                     fireParticles.Stop();
-                    SfxManager.Instance.PlaySfx("collideWithTreeFire", 1f, true);
+                    SfxManager.Instance.PlaySfx("collideWithTreeFire", .6f, true);
                     island.OnExstuinguishTree();
 
                     ballMover.TriggerHitGroundParticles();

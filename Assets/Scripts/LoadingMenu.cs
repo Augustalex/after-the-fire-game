@@ -41,7 +41,7 @@ public class LoadingMenu : MonoBehaviour
     {
         if (_landscapeGenerator.IsReady())
         {
-            startMenu.SetActive(true);
+            startMenu.SetActive(false);
             gameObject.SetActive(false);
         }
     }

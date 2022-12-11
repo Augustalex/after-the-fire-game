@@ -1,6 +1,4 @@
 using System;
-using UnityEditor.Compilation;
-using UnityEngine;
 
 namespace quests
 {

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -9,7 +7,7 @@ public class IslandSign : MonoBehaviour
     private TMP_Text _text;
     private GameObject[] _toggles;
 
-    void Start()
+    void Awake()
     {
         _text = GetComponentInChildren<TMP_Text>();
         _toggles = GetComponentsInChildren<BeetleToggle>().Select(b => b.gameObject).ToArray();
