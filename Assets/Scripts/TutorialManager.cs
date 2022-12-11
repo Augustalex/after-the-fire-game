@@ -8,6 +8,7 @@ public class TutorialManager : MonoSingleton<TutorialManager>
     private bool _pickedUpPineCone;
     private bool _collectedLogs;
     private bool _shookTree;
+    private bool _noMorePineCones;
 
     public void HitTree()
     {
@@ -32,6 +33,13 @@ public class TutorialManager : MonoSingleton<TutorialManager>
         UIManager.Instance.ShowTemporarySubtitle("~ The tree dropped a pine cone ~");
     }
     
+    public void AlreadyCollectedPineCone()
+    {
+        if (_noMorePineCones) return;
+        _noMorePineCones = true;
+        UIManager.Instance.ShowTemporarySubtitle("~ No more pine cones in this tree ~");
+    }
+
     public void CollectedLogs()
     {
         if (_collectedLogs) return;

@@ -120,6 +120,7 @@ public class WildTree : MonoBehaviour
                 else
                 {
                     SfxManager.Instance.PlaySfx("collideWithTree", other.rigidbody.velocity.magnitude * 0.05f, true);
+                    TutorialManager.Instance.AlreadyCollectedPineCone();
                 }
             }
             else
