@@ -12,13 +12,16 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
     public GameObject wildNpcTemplate;
     public GameObject waySignTemplate;
     public GameObject terrainTemplate;
+    public GameObject iceTemplate;
     public GameObject tinyIslandTemplate;
     public Transform followTarget;
 
     public const float GridSize = 10f;
     public const float ItemGridSize = 80f;
     public const float ForrestGridSize = 40f;
-
+    public const float IceLevel = -4.5f;
+    
+    private readonly HashSet<Vector3> _icePlaneExistsByPosition = new HashSet<Vector3>();
     private readonly HashSet<Vector3> _planeExistsByPosition = new HashSet<Vector3>();
     private readonly HashSet<Vector3> _itemExistsByPosition = new HashSet<Vector3>();
     private readonly HashSet<Vector3> _forrestExistsByPosition = new HashSet<Vector3>();
@@ -28,6 +31,7 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
     void Start()
     {
         CreateNewPlane(Vector3.zero);
+        CreateNewIcePlane(Vector3.zero);
         _doneGenerating = true;
         // StartCoroutine(GenerateInitialPlanes());
     }
@@ -44,6 +48,65 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
             _generatingInitialPlane = true;
             StartCoroutine(GeneratePlanes(lookAhead, alignedPosition));
         }
+        
+        var iceAlignedPosition = AlignToIceGrid(followTargetPosition);
+        if (!CheckHasGeneratedIcePlanes(lookAhead, iceAlignedPosition))
+        {
+            StartCoroutine(GenerateIcePlanes(lookAhead, iceAlignedPosition));
+        }
+    }
+    
+    private bool CheckHasGeneratedIcePlanes(int lookAhead, Vector3 alignedPosition)
+    {
+        for (var y = -lookAhead; y <= lookAhead; y++)
+        {
+            for (var x = -lookAhead; x <= lookAhead; x++)
+            {
+                var newPosition = new Vector3(alignedPosition.x - IceGridSize() * x, 0, alignedPosition.z - IceGridSize() * y);
+                var existingPlane =
+                    _icePlaneExistsByPosition.Contains(newPosition);
+
+                if (!existingPlane)
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private IEnumerator GenerateIcePlanes(int lookAhead, Vector3 alignedPosition)
+    {
+        for (var y = -lookAhead; y <= lookAhead; y++)
+        {
+            for (var x = -lookAhead; x <= lookAhead; x++)
+            {
+                var newPosition = new Vector3(alignedPosition.x - IceGridSize() * x, 0, alignedPosition.z - IceGridSize() * y);
+                var existingPlane =
+                    _icePlaneExistsByPosition.Contains(newPosition);
+
+                if (!existingPlane)
+                {
+                    CreateNewIcePlane(newPosition);
+                }
+
+                if (Mathf.Abs(x) % 5 == 0)
+                {
+                    yield return new WaitForEndOfFrame();
+                }
+            }
+            
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    private void CreateNewIcePlane(Vector3 nextPlanePosition)
+    {
+        var icePlane = Instantiate(iceTemplate);
+        nextPlanePosition.y = IceLevel;
+        icePlane.transform.position = nextPlanePosition;
+        _icePlaneExistsByPosition.Add(AlignToGrid(nextPlanePosition));
     }
 
     private bool CheckHasGeneratedPlanes(int lookAhead, Vector3 alignedPosition)
@@ -209,6 +272,19 @@ public class ProceduralLandscapeGenerator : MonoBehaviour
             position.x - (position.x % GridSize),
             0f,
             position.z - (position.z % GridSize));
+    }
+
+    private static Vector3 AlignToIceGrid(Vector3 position)
+    {
+        return new Vector3(
+            position.x - (position.x % IceGridSize()),
+            0f,
+            position.z - (position.z % IceGridSize()));
+    }
+
+    private static float IceGridSize()
+    {
+        return GridSize * 10f;
     }
 
     private static Vector3 AlignToItemGrid(Vector3 position)
