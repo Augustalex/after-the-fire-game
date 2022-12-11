@@ -5724,6 +5724,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5126072899399698250, guid: 99ad619a03058e2478882522b5521a17, type: 3}
   m_PrefabInstance: {fileID: 1034329745}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1040281051 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1040281051, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
+  m_PrefabInstance: {fileID: 1891676854}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1056626391
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10628,11 +10633,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 109717370, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
       propertyPath: m_Pan
-      value: 0.007459805
+      value: -0.001744863
       objectReference: {fileID: 0}
     - target: {fileID: 109717370, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
       propertyPath: m_Tilt
-      value: -0.01454668
+      value: -0.01175403
       objectReference: {fileID: 0}
     - target: {fileID: 327137772, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
       propertyPath: m_Follow
@@ -10650,10 +10655,62 @@ PrefabInstance:
       propertyPath: telescopeCamera
       value: 
       objectReference: {fileID: 1989358992}
+    - target: {fileID: 872114119, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
+      propertyPath: m_text
+      value: 'Move
+
+        Look
+
+        Jump
+
+        Gather snow
+
+        Release
+        snow
+
+        Talk/Stand up
+
+        Plant pine cone'
+      objectReference: {fileID: 0}
+    - target: {fileID: 1040281051, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1232047312, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
       propertyPath: follow
       value: 
       objectReference: {fileID: 248246001}
+    - target: {fileID: 1791276765, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
+      propertyPath: m_text
+      value: 'LS
+
+        RS
+
+        A
+
+        RT
+
+        LT
+
+        B
+
+        X'
+      objectReference: {fileID: 0}
+    - target: {fileID: 2126908064, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
+      propertyPath: m_text
+      value: 'WASD
+
+
+        SPACE
+
+        LSHIFT
+
+        LCTRL
+
+        E
+
+        Q'
+      objectReference: {fileID: 0}
     - target: {fileID: 3694235018270355257, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
       propertyPath: m_Follow
       value: 
@@ -10710,6 +10767,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7020516303821220126, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
+      propertyPath: views.Array.data[0]
+      value: 
+      objectReference: {fileID: 1040281051}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
 --- !u!4 &1909126108 stripped
