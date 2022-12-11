@@ -114,6 +114,8 @@ public class WildTree : MonoBehaviour
                     _harvestedAt = Time.time;
                     _readyToDrop = true;
                     SfxManager.Instance.PlaySfx("collideWithTreeSeedDrop");
+                    
+                    TutorialManager.Instance.ShookTree();
                 }
                 else
                 {
@@ -122,6 +124,7 @@ public class WildTree : MonoBehaviour
             }
             else
             {
+                TutorialManager.Instance.HitTree();
                 SfxManager.Instance.PlaySfx("collideWithTree", other.rigidbody.velocity.magnitude * 0.05f, true);
             }
         }

@@ -25,7 +25,6 @@ public class PlayerInventory : MonoBehaviour
     public event Action Updated;
     
     private string _cheat;
-    private bool _hasGottenFirstItem;
 
     private void Update()
     {
@@ -92,14 +91,14 @@ public class PlayerInventory : MonoBehaviour
 
     public void RegisterPickedUpLog()
     {
-        TryTriggerInventoryGuide();
         UpdateLogCount(GetLogs() + 1);
+        TutorialManager.Instance.CollectedLogs();
     }
 
     public void RegisterPickedUpSeed()
     {
-        TryTriggerInventoryGuide();
         UpdatePineConeCount(GetCones() + 1);
+        TutorialManager.Instance.PickedUpPineCone();
     }
 
     public void RegisterPickedUpWorm()
@@ -141,17 +140,6 @@ public class PlayerInventory : MonoBehaviour
     public int GetWorms()
     {
         return _inventoryState.beetles;
-    }
-
-    private void TryTriggerInventoryGuide()
-    {
-        // UNCOMMENTED BECAUSE WE ARE DEPRECATING THE INVENTORY MENU IN FAVOR OF IN GAME INVENTORY
-        // if (!_hasGottenFirstItem)
-        // {
-        //     _hasGottenFirstItem = true;
-        //
-        //     UIManager.Instance.ShowTemporarySubtitle("~ Press I/SELECT to open inventory ~");
-        // }
     }
     
     private void UpdatePineConeCount(int newCount)

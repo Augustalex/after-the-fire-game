@@ -8,14 +8,12 @@ public class NpcIdle : MonoBehaviour
         "We need # beetles to finish our stew! Maybe check with our neighbours?";
 
     [SerializeField] private string quest1Success = "Look! Everyone came to our party to thank you for helping them!";
-    private bool _firstTime = true;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && _firstTime)
+        if (other.CompareTag("Player"))
         {
-            _firstTime = false;
-            UIManager.Instance.SetSubtitle("~ Press E/B/○ to talk ~");
+            TutorialManager.Instance.ApproachedNpc();
         }
 
         if (other.CompareTag("PlayerHog"))

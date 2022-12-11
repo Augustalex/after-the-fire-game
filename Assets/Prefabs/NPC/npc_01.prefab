@@ -73,6 +73,7 @@ GameObject:
   - component: {fileID: 6425823399152393356}
   - component: {fileID: 1629376334484209045}
   - component: {fileID: 8130568322666052890}
+  - component: {fileID: 4378339933883019236}
   m_Layer: 0
   m_Name: npc_01
   m_TagString: NPC
@@ -130,9 +131,7 @@ MonoBehaviour:
   part1CompletedText: Nice! Now fetch me # cones
   allCompletedText: Thanks for the # cones! Here's a worm to your pot!
   numberOfConesToFetch: 5
-  collectedCones: 0
-  leftToCollect: 5
-  _currentState: 0
+  islandNpc: 1
   island: {fileID: 0}
 --- !u!65 &8130568322666052890
 BoxCollider:
@@ -145,8 +144,20 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 5, y: 7.5754275, z: 8.709286}
-  m_Center: {x: -0.000005519114, y: 4, z: 3.456599}
+  m_Size: {x: 8.326304, y: 7.5754275, z: 9.317034}
+  m_Center: {x: 0.1664567, y: 4, z: 2.4422336}
+--- !u!114 &4378339933883019236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 326194511607929932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b292e539bcd1455489eae7458d7942d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1053167498253857594
 GameObject:
   m_ObjectHideFlags: 0

@@ -4946,6 +4946,18 @@ MonoBehaviour:
   pineConeIcon: {fileID: 2800000, guid: 0f6ff0f1e6e71b24f969edbb170eff45, type: 3}
   logIcon: {fileID: 2800000, guid: 848ea9e711fc9e04d8c8c7fcf117e1b2, type: 3}
   beetleIcon: {fileID: 2800000, guid: 9dc25ca2e117b08418bd21ffa90662ed, type: 3}
+--- !u!114 &844158799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 844158796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1a470f3eff34260835f26b789ba67a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &849823629
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10633,11 +10645,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 109717370, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
       propertyPath: m_Pan
-      value: -0.001744863
+      value: 0.003915155
       objectReference: {fileID: 0}
     - target: {fileID: 109717370, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
       propertyPath: m_Tilt
-      value: -0.01175403
+      value: -0.0132308
       objectReference: {fileID: 0}
     - target: {fileID: 327137772, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
       propertyPath: m_Follow

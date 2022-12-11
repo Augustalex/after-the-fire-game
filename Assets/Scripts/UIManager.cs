@@ -21,16 +21,17 @@ public class UIManager : MonoSingleton<UIManager>
 
     private void Update()
     {
-        if (!_closing) return;
-
-        if (_closeDialogueCooldown > 0f)
+        if (_closing)
         {
-            _closeDialogueCooldown -= Time.deltaTime;
-        }
-        else
-        {
-            _closing = false;
-            subtitleText.text = "";
+            if (_closeDialogueCooldown > 0f)
+            {
+                _closeDialogueCooldown -= Time.deltaTime;
+            }
+            else
+            {
+                _closing = false;
+                subtitleText.text = "";
+            }
         }
     }
 
@@ -43,6 +44,7 @@ public class UIManager : MonoSingleton<UIManager>
     public void SetSubtitle(string text)
     {
         subtitleText.text = text;
+        _closing = false;
     }
 
     public void ShowTemporarySubtitle(string text)
