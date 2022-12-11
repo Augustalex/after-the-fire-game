@@ -67,7 +67,7 @@ public class PlayerInventory : MonoBehaviour
         if (newSeeds <= 0)
         {
             seedsToReturn = cones;
-            _inventoryState.pineCones = 0;
+            UpdatePineConeCount(0);
         }
         else
         {

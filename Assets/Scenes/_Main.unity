@@ -3404,6 +3404,30 @@ PrefabInstance:
       propertyPath: npcBridgeQuest
       value: 
       objectReference: {fileID: 1861633792}
+    - target: {fileID: 881177113847657940, guid: 9f3cfde4fdc2a1b4fb44acc39f62e2cf, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9999975
+      objectReference: {fileID: 0}
+    - target: {fileID: 881177113847657940, guid: 9f3cfde4fdc2a1b4fb44acc39f62e2cf, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.00024010506
+      objectReference: {fileID: 0}
+    - target: {fileID: 881177113847657940, guid: 9f3cfde4fdc2a1b4fb44acc39f62e2cf, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.000000029802319
+      objectReference: {fileID: 0}
+    - target: {fileID: 881177113847657940, guid: 9f3cfde4fdc2a1b4fb44acc39f62e2cf, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.0022246642
+      objectReference: {fileID: 0}
+    - target: {fileID: 881177113847657940, guid: 9f3cfde4fdc2a1b4fb44acc39f62e2cf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -0.028
+      objectReference: {fileID: 0}
+    - target: {fileID: 881177113847657940, guid: 9f3cfde4fdc2a1b4fb44acc39f62e2cf, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0.255
+      objectReference: {fileID: 0}
     - target: {fileID: 1926051456368350320, guid: 9f3cfde4fdc2a1b4fb44acc39f62e2cf, type: 3}
       propertyPath: m_Name
       value: Island_1
@@ -3454,8 +3478,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5317304338560099329, guid: 9f3cfde4fdc2a1b4fb44acc39f62e2cf, type: 3}
       propertyPath: part1CompletedText
-      value: I thought that was it for me! Could you lend me a hand and plant some
-        new trees?
+      value: Thank you! I saw life flashing before my eyes. Care to help me plant
+        some new trees?
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9f3cfde4fdc2a1b4fb44acc39f62e2cf, type: 3}
@@ -10571,9 +10595,10 @@ MonoBehaviour:
   woodNeeded: 9
   introText: We could use some firewood to finish the brigde to the other island.
     Care to help me knock some down?
-  progressMadeText: Thanks these will help. Just need a few more!
-  completedText: Wow, thanks a bunch! Take these logs to the bridge down the hill,
-    and let's build that bridge.
+  progressMadeText: Thanks for the logs, these will help with the bridge. Just need
+    a few more!
+  completedText: Wow, thanks for all these logs! We can finish building the bridge
+    now.
 --- !u!1001 &1890815028
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10645,11 +10670,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 109717370, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
       propertyPath: m_Pan
-      value: 0.003915155
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 109717370, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
       propertyPath: m_Tilt
-      value: -0.0132308
+      value: -0.0003189648
       objectReference: {fileID: 0}
     - target: {fileID: 327137772, guid: 94ba768b2a8a7c948bc7e8993e9cee70, type: 3}
       propertyPath: m_Follow
