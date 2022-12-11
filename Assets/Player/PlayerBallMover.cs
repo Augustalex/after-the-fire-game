@@ -265,7 +265,7 @@ public class PlayerBallMover : MonoSingleton<PlayerBallMover>
     {
         if (_releasing > 0f && _groundCheck.OffGround() && _playerSize.HasSnow())
         {
-            var force = Vector3.up * 2000f * Time.deltaTime;
+            var force = Vector3.up * 2700f * Time.deltaTime;
             _rigidbody.AddForce(force, ForceMode.Force);
         }
     }
