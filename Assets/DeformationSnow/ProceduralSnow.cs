@@ -86,7 +86,8 @@ public class ProceduralSnow : MonoBehaviour
 
             var distanceToCenter = new Vector2(worldVertex.x, worldVertex.z).magnitude;
             var noiseY = MultipliedMixedNoiseHeight(worldVertex, noise);
-            var newY = Mathf.Max(-10f, Mathf.Min(noiseY, 500f - distanceToCenter));
+            var slope = .15f;
+            var newY = Mathf.Max(-10f, Mathf.Min(noiseY, 500f * slope - distanceToCenter * slope));
             vertex.y = newY;
 
             vertices[i] = vertex;
