@@ -27,8 +27,34 @@ MonoBehaviour:
   gravityMultiplierBase: 4
   gravityMultiplierGrowthExponent: 1.5
   gravityMultiplierMax: 10
-  jumpForce: 20
-  jumpDirectionalPush: 7.5
+  initialJumpForce: 20
+  jumpTime: 0.3
+  jumpForce: 8
+  jumpForceOverTime:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.121987864
+      outSlope: -0.121987864
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.07901235
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  jumpDirectionalPush: 2
   extraDownwardForceOnIsland: 200
   onIceMovementMultiplier: 0.6
   onIceMinRandomMotion: 100

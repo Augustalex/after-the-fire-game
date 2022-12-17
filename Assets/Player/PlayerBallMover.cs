@@ -1,7 +1,5 @@
-using System;
 using System.Linq;
 using Cinemachine;
-using Core;
 using DeformationSnow;
 using Player;
 using UnityEngine;
@@ -58,8 +56,9 @@ public class PlayerBallMover : MonoBehaviour
 
     private void Update()
     {
+        _groundCheck.ManualUpdate();
+        
         TrackIsInAir();
-        AddExtraGravityIfOnIsland();
 
         if (CheckInAir())
             ApplyInAirEffects();
@@ -243,33 +242,46 @@ public class PlayerBallMover : MonoBehaviour
 
     private void HandleJump()
     {
-        var direction = GetMoveDirection();
-
         var timeJumping = Time.time - _jumpTriggeredAt;
-        if (JumpingActionActive() && !_startedJumpMotion && _inAirCooldown <= 0f && timeJumping < .4f)
+        var direction = GetMoveDirection();
+        var maxAirTime = data.jumpTime;
+        var maxHeight = 8f;
+
+        if (JumpingActionActive() && (_startedJumpMotion || Grounded()))
         {
-            if (Grounded())
+            if (!_startedJumpMotion && _groundCheck.TimeSinceDeGround() > data.minTimeBetweenJumps)
             {
                 _startedJumpMotion = true;
+                _groundCheck.DeGround();
 
-                var force = Vector3.up * (data.jumpForce * .75f) + direction * (.25f * data.jumpDirectionalPush);
+                var force = Vector3.up * (data.initialJumpForce) + direction * data.jumpDirectionalPush;
                 _rigidbody.AddForce(force, ForceMode.Impulse);
             }
-        }
+            else if(timeJumping < maxAirTime)
+            {
+                var upForce = 0f;
+                var groundDistance = _groundCheck.GroundStartHeight();
 
-        if (_startedJumpMotion)
+                var speed = data.jumpForceOverTime.Evaluate(Mathf.Clamp(timeJumping / maxAirTime, 0f, 1f)) * data.jumpForce;
+                
+                var height = (_rigidbody.position.y - groundDistance);
+                if (height > maxHeight)
+                {
+                    var diff = height - maxHeight;
+                    upForce = data.jumpForce * diff;
+                }
+                else
+                {
+                    upForce = speed;
+                }
+             
+                _rigidbody.AddForce(Vector3.up * upForce * Time.deltaTime, ForceMode.Acceleration);
+            }
+        }
+        else if (Grounded())
         {
-            if (timeJumping < .3f)
-            {
-                var force = (Vector3.up * (data.jumpForce * 100f) + direction * (200f * data.jumpDirectionalPush)) *
-                            Time.deltaTime;
-                _rigidbody.AddForce(force, ForceMode.Acceleration);
-            }
-            else
-            {
-                _inAirCooldown = 1f;
-                _startedJumpMotion = false;
-            }
+            _startedJumpMotion = false;
+            StopJump();
         }
     }
 
@@ -279,18 +291,6 @@ public class PlayerBallMover : MonoBehaviour
         {
             var force = Vector3.up * 2750f * Time.deltaTime;
             _rigidbody.AddForce(force, ForceMode.Force);
-        }
-    }
-    
-    private void AddExtraGravityIfOnIsland()
-    {
-        _onIsland = false;
-        if (Physics.OverlapSphere(transform.position, transform.localScale.x * .75f)
-            .Any(hit => hit.CompareTag("Island")))
-        {
-            _onIsland = true;
-            _rigidbody.AddForce(-_islandNormal * (data.extraDownwardForceOnIsland * Time.deltaTime),
-                ForceMode.Acceleration);
         }
     }
 
@@ -386,6 +386,7 @@ public class PlayerBallMover : MonoBehaviour
 
     public void StartJump()
     {
+        _groundCheck.DebugThing();
         _jumpTriggeredAt = Time.time;
         _jumpActionActive = true;
     }

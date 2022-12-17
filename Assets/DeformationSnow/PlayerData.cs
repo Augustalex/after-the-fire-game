@@ -26,10 +26,13 @@ namespace DeformationSnow
         public float gravityMultiplierMax = 10f;
         
         // Jump
-        public float jumpForce = 8f;
+        public float initialJumpForce = 20f;
+        public float jumpTime = .3f;
+        public float jumpForce = 200f;
+        public AnimationCurve jumpForceOverTime;
         public float jumpDirectionalPush = 5f;
-        
-        public float extraDownwardForceOnIsland = 200f;
+        public float minTimeBetweenJumps = .35f;
+        public float coyoteTime = .5f;
         
         // Ice
         public float onIceMovementMultiplier = .4f;
