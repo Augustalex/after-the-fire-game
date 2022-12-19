@@ -45,14 +45,14 @@ namespace Player
 
         public bool Grounded()
         {
-            if (_deGroundTriggeredAt > _lastTouchedDown && _deGroundTriggeredAt > _lastLeftGround)
+            if (_deGroundTriggeredAt > _lastLeftGround && _deGroundTriggeredAt > _lastTouchedDown)
             {
                 var timeSinceDeGround = Time.fixedTime - _deGroundTriggeredAt;
                 
                 if (Time.fixedTime >= timeSinceDeGround && Time.fixedTime < data.minTimeBetweenJumps) return false; 
             }
             
-            return _grounded || _lastGrounded || Time.fixedTime - _lastTouchedDown < data.coyoteTime;
+            return _grounded || _lastGrounded || Time.fixedTime - _lastLeftGround < data.coyoteTime;
         }
 
         public float GroundDistance()
@@ -133,7 +133,7 @@ namespace Player
                 }
                 _lastLeftGround = Time.fixedTime;
             }
-            else if (TouchedGroundThisFrame())
+            if (TouchedGroundThisFrame())
             {
                 _lastTouchedDown = Time.fixedTime;
             }
